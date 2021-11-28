@@ -46,7 +46,8 @@ const getChainId = async() => { return await signer.getChainId() };
 const maxInt = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 
 const getTranspondersOfAddress = async(address_) => {
-    const yourTransponders = await transponders.getTokensOfAddress(address_); 
+    const yourTransponders = await transponders.getTokensOfAddress(address_);
+    await loadTransponderSelect(yourTransponders);
     return `${Array.from(yourTransponders).join(' ')}`;
 };
 

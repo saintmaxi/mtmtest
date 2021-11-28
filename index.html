@@ -44,7 +44,9 @@
           <div>
             <h2 class="section-item">Transponders</h2>
             <div>
-              <div id="your-transponders" class="inside-text">[1234,4567]</div>
+              <div id="your-transponders" class="inside-text">
+                <h1 id="holder-count"><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1>
+              </div>
             </div>
           </div>
         </div>
@@ -52,7 +54,9 @@
           <div>
             <h2 class="section-item">Space Capsules</h2>
             <div>
-              <div id="your-space-capsules" class="inside-text">[1234,4567]</div>
+              <div id="your-space-capsules" class="inside-text">
+                <h1 id="holder-count"><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1>
+              </div>
             </div>
           </div>
         </div>
@@ -74,20 +78,21 @@
                   <div class="w-col w-col-6">
                     <div class="inside-text">Transponder ID</div>
                     <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="beam-character-transponder-ids" data-name="beam-character-transponder-ids" placeholder="Input your transponder ID " id="beam-character-transponder-ids"></form>
-                      <div class="w-form-done"></div>
-                      <div class="w-form-fail"></div>
+                      <select class="transponder-select mtm-number-field">
+                        <option value="" disabled selected>ID</option>
+                      </select>
                     </div>
                   </div>
                   <div class="w-col w-col-6">
                     <div class="inside-text">Space Capsule ID</div>
                     <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="beam-sc-ids" data-name="beam-sc-ids" placeholder="Input your Space Capsule ID " id="beam-sc-ids"></form>
-                      <div class="w-form-done"></div>
-                      <div class="w-form-fail"></div>
+                      <select class="capsule-select mtm-number-field">
+                        <option value="" disabled selected>ID</option>
+                      </select>
                     </div>
                   </div>
                 </div>
+                <button>BEAM</button>
               </div>
             </div>
           </div>
@@ -99,17 +104,17 @@
                   <div class="w-col w-col-3">
                     <div class="inside-text">Transponder ID</div>
                     <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Input your Space Capsule ID " id="upload-transponder-id"></form>
-                      <div class="w-form-done"></div>
-                      <div class="w-form-fail"></div>
+                      <select class="transponder-select mtm-number-field">
+                        <option value="" disabled selected>ID</option>
+                      </select>
                     </div>
                   </div>
                   <div class="w-col w-col-3">
                     <div class="inside-text">Space Capsule</div>
                     <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upload-sc-id" data-name="upload-sc-id" placeholder="Input your Space Capsule ID " id="upload-sc-id"></form>
-                      <div class="w-form-done"></div>
-                      <div class="w-form-fail"></div>
+                      <select class="capsule-select mtm-number-field">
+                        <option value="" disabled selected>ID</option>
+                      </select>
                     </div>
                   </div>
                   <div class="w-col w-col-3">
@@ -129,6 +134,8 @@
                     </div>
                   </div>
                 </div>
+                <button>BEAM</button>
+
               </div>
             </div>
           </div>
@@ -152,7 +159,12 @@
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-4">
-                  <div id="augment-wc-use-credits" class="inside-text">&lt;drop-down-here&gt;</div>
+                  <div id="augment-wc-use-credits" class="inside-text">
+                    <select>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="w-row">
@@ -188,7 +200,12 @@
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-4">
-                  <div id="augment-wm-use-credits" class="inside-text">&lt;drop-down-here&gt;</div>
+                  <div id="augment-wm-use-credits" class="inside-text">
+                    <select>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="w-row">
@@ -203,17 +220,17 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Transponder ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="augment-wm-transponder-ids" data-name="augment-wm-transponder-ids" placeholder="Input your Transponder IDs " id="augment-wm-transponder-ids"></form>
-                    <div class="w-form-done"></div>
-                    <div class="w-form-fail"></div>
+                    <select class="transponder-select mtm-number-field">
+                      <option value="" disabled selected>ID</option>
+                    </select>
                   </div>
                 </div>
                 <div class="w-col w-col-4">
                   <div class="inside-text">Space Capsule ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="augment-wm-sc-ids" data-name="augment-wm-sc-ids" placeholder="Input your Space Capsule IDs" id="augment-wm-sc-ids"></form>
-                    <div class="w-form-done"></div>
-                    <div class="w-form-fail"></div>
+                    <select class="capsule-select mtm-number-field">
+                      <option value="" disabled selected>ID</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -239,7 +256,12 @@
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-4">
-                  <div id="level-up-use-credits" class="inside-text">&lt;drop-down-here&gt;</div>
+                  <div id="level-up-use-credits" class="inside-text">
+                    <select>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="w-row">
@@ -275,7 +297,12 @@
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-4">
-                  <div class="inside-text">&lt;drop-down-here&gt;</div>
+                  <div class="inside-text">
+                    <select>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="w-row">
@@ -320,7 +347,8 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
   <!-- Ethers -->
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <script src="./scripts/utils.js"></script>     
   <!-- Ethers Implementation -->
-  <script src="./scripts/ethers.js"></script>     
+  <script src="./scripts/ethers.js"></script>
 </body>
 </html>
