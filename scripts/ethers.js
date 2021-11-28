@@ -53,6 +53,7 @@ const getTranspondersOfAddress = async(address_) => {
 
 const getSpaceCapsulesOfAddress = async(address_) => {
     const yourCapsules = await spaceCapsules.getTokensOfAddress(address_);
+    await loadCapsuleSelect(yourCapsules);
     return `${Array.from(yourCapsules).join(' ')}`;
 };
 
@@ -67,6 +68,33 @@ const getMESCredits = async(address_) => {
 const getMESYieldRate = async(address_) => {
     return formatEther( (await MES.getYieldRateOfAddress(address_)) );
 };
+
+//which function gets called for 'mtm original' part?
+
+const uploadCharacter = async() => {
+
+}
+
+const augmentCharacter = async() => {
+    const charID;//character
+    const charsToBurn;//array
+    const useCredits_;//bool
+    await charactersController.augmentCharacter(charID, charsToBurn, useCredits_).then( async(tx_) => {
+        await waitForTransaction(tx_)
+    });
+}
+
+const augmentCharacterWithMaterials = async() => {
+
+}
+
+const levelUpBasePoints = async() => {
+
+}
+
+const upgradeEquipment = async() => {
+
+}
 
 // After Tx Hook
 const waitForTransaction = async() => {
