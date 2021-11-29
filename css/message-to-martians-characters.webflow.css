@@ -2,6 +2,11 @@
   display: none;
 }
 
+*, input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  cursor: url("../images/spacecursor.png"), auto;
+}
+
 .w-layout-grid {
   display: -ms-grid;
   display: grid;
