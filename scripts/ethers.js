@@ -303,7 +303,7 @@ const updateInfo = async() => {
     
     if (_address === "Connect Wallet!") return;
 
-    $("#your-yield-rate").text(`Your Yield Rate: ${await getMESYieldRate(_address)} $MES per day`);
+    $("#your-yield-rate").text(`Your Yield Rate: ${await getMESYieldRate(_address)} $MES/day`);
     $("#your-mes").text(`Your $MES: ${await getMESBalance(_address)}`);
     $("#your-mes-credits").text(`Your $MES Credits: ${await getMESCredits(_address)}`);
     $("#your-transponders").text( (await getTranspondersOfAddress(_address)) );

@@ -24,7 +24,7 @@
     <div class="w-container">
       <div class="w-layout-grid grid">
         <a href="#" class="navbar-link w-inline-block">
-          <div id="your-yield-rate" class="navbar-text">Your Yield Rate: X $MES per day</div>
+          <div id="your-yield-rate" class="navbar-text">Your Yield Rate: X $MES/day</div>
         </a>
         <a href="#" class="navbar-link w-inline-block">
           <div id="your-mes" class="navbar-text">Your $MES: X</div>
@@ -117,7 +117,7 @@
                     <div class="inside-text">Transponder ID</div>
                     <div class="mtm-number-input w-form">
                       <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-transponder-id" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Transponder ">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-transponder-id" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Transponder ID">
                       </form>
                     </div>
                   </div>
@@ -125,7 +125,7 @@
                     <div class="inside-text">Space Capsule</div>
                     <div class="mtm-number-input w-form">
                       <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-capsule-id" name="upload-capsule-id" data-name="upload-capsule-id" placeholder="Capsule">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-capsule-id" name="upload-capsule-id" data-name="upload-capsule-id" placeholder="Capsule ID">
                       </form>
                     </div>
                   </div>
@@ -182,10 +182,10 @@
                 <div class="w-col w-col-6">
                   <div id="augment-wc-mes-price" class="inside-text">MES Required: X</div>
                 </div>
-                <div class="w-col w-col-2">
+                <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-2">
                   <div class="inside-text">
                     <select id="augment-wc-use-credits">
                       <option value="Yes">Yes</option>
@@ -195,7 +195,7 @@
                 </div>
               </div>
               <div class="w-row">
-                <div class="w-col w-col-6">
+                <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
                   <div class="mtm-number-input w-form">
                     <select class="character-select mtm-number-field" id="augment-char">
@@ -203,7 +203,9 @@
                     </select>
                   </div>
                 </div>
-                <div class="w-col w-col-6">
+                </div>
+                <div class="w-row">
+                <div class="w-col w-col-12">
                   <div class="inside-text">Character(s) to BURN</div>
                   <div class="mtm-number-input w-form">
                     <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
@@ -224,10 +226,10 @@
                 <div class="w-col w-col-6">
                   <div id="augment-wm-mes-price" class="inside-text">MES Required: X</div>
                 </div>
-                <div class="w-col w-col-2">
+                <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-2">
                   <div class="inside-text">
                     <select id="augment-wm-use-credits">
                       <option value="Yes">Yes</option>
@@ -237,7 +239,7 @@
                 </div>
               </div>
               <div class="w-row">
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
                   <div class="mtm-number-input w-form">
                     <select class="character-select mtm-number-field" id="augment-mats-char">
@@ -245,19 +247,21 @@
                     </select>
                   </div>
                 </div>
-                <div class="w-col w-col-4">
+                </div>
+              <div class="w-row">
+                <div class="w-col w-col-6">
                   <div class="inside-text">Transponder ID(s)</div>
                   <div class="mtm-number-input w-form">
                     <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-transponders" name="augment-transponders" data-name="augment-transponders" placeholder="ID(s)">
+                      <input type="text" class="mtm-number-field w-input" id="augment-transponders" name="augment-transponders" data-name="augment-transponders" placeholder="Transponder ID(s)">
                     </form>
                   </div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-6">
                   <div class="inside-text">Space Capsule ID(s)</div>
                   <div class="mtm-number-input w-form">
                     <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-capsules" name="augment-capsules" data-name="augment-capsules" placeholder="ID(s)">
+                      <input type="text" class="mtm-number-field w-input" id="augment-capsules" name="augment-capsules" data-name="augment-capsules" placeholder="Capsule ID(s)">
                     </form>
                   </div>
                 </div>
@@ -282,10 +286,10 @@
                 <div class="w-col w-col-6">
                   <div id="level-up-mes-price" class="inside-text">MES Required: X</div>
                 </div>
-                <div class="w-col w-col-2">
+                <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-2">
                   <div class="inside-text">
                     <select id="level-up-use-credits">
                       <option value="Yes">Yes</option>
@@ -307,7 +311,7 @@
                   <div class="inside-text">Amount of Base Points</div>
                   <div class="mtm-number-input w-form">
                     <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="number" min="0" class="mtm-number-field w-input" maxlength="256" name="level-up-amount" data-name="level-up-amount" placeholder="Level up amount" id="level-up-amount">
+                      <input type="number" min="1" step="1" class="mtm-number-field w-input" maxlength="256" name="level-up-amount" data-name="level-up-amount" placeholder="Level Up Amount" id="level-up-amount">
                     </form>
                     <div class="w-form-done"></div>
                     <div class="w-form-fail"></div>
@@ -326,10 +330,10 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">MES Required: X</div>
                 </div>
-                <div class="w-col w-col-2">
+                <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-2">
                   <div class="inside-text">
                     <select id="equipment-use-credits">
                       <option value="Yes">Yes</option>
@@ -350,7 +354,7 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Equipment Type</div>
                   <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upgrade-eq-type" data-name="upgrade-eq-type" placeholder="Input your Space Capsule ID " id="upgrade-eq-type"></form>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upgrade-eq-type" data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type"></form>
                     <div class="w-form-done"></div>
                     <div class="w-form-fail"></div>
                   </div>
@@ -358,7 +362,9 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Amount to Upgrade</div>
                   <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upgrade-eq-amount" data-name="upgrade-eq-amount" placeholder="Input your Space Capsule ID " id="upgrade-eq-amount"></form>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="number" min="1" step="1" class="mtm-number-field w-input" maxlength="256" name="upgrade-eq-amount" data-name="upgrade-eq-amount" placeholder="Amount" id="upgrade-eq-amount">
+                    </form>
                     <div class="w-form-done"></div>
                     <div class="w-form-fail"></div>
                   </div>
@@ -373,7 +379,7 @@
   </div>
   <div class="footer-section wf-section">
     <div class="inside-container w-container">
-      <div class="inside-text">I am waiting for SaintMaxi &lt;3<br>‍</div>
+      <div class="inside-text">Insert contract addresses, opensea, twitter?<br>‍</div>
     </div>
   </div>
   <div id="pending-transactions"></div>
