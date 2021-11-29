@@ -45,6 +45,84 @@ const getChainId = async() => { return await signer.getChainId() };
 // General Variables
 const maxInt = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 
+// Approval Functions
+
+const approveTPToCharacters = async() => {
+    await transponders.setApprovalForAll(charactersAddress, true).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const approveTPToCharControl = async() => {
+    await transponders.setApprovalForAll(charactersControllerAddress, true).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const approveSCToCharacters = async() => {
+    await spaceCapsules.setApprovalForAll(charactersAddress, true).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const approveSCToCharControl = async() => {
+    await spaceCapsules.setApprovalForAll(charactersControllerAddress, true).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const approveMESToCharControl = async() => {
+    await MES.approve(charactersControllerAddress, maxInt).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const approveCharsToCharControl = async() => {
+    await characters.setApprovalForAll(charactersControllerAddress, true).then ( async (tx_) => {
+        await waitForTransaction(tx_);
+    });
+};
+
+const checkApprovals = async() => {
+    const owner = await getAddress();
+    if (await transponders.isApprovedForAll(owner, charactersAddress)) {
+        $("#tp-to-chars-approval").addClass("hidden");
+    }
+    else {
+        $("#tp-to-chars-approval").removeClass("hidden");
+    }
+    if (await transponders.isApprovedForAll(owner, charactersControllerAddress)) {
+        $("#tp-to-chars-control-approval").addClass("hidden");
+    }
+    else {
+        $("#tp-to-chars-control-approval").removeClass("hidden");
+    }
+    if (await spaceCapsules.isApprovedForAll(owner, charactersAddress)) {
+        $("#sc-to-chars-approval").addClass("hidden");
+    }
+    else {
+        $("#sc-to-chars-approval").removeClass("hidden");
+    }
+    if (await spaceCapsules.isApprovedForAll(owner, charactersControllerAddress)) {
+        $("#sc-to-chars-control-approval").addClass("hidden");
+    }
+    else {
+        $("#sc-to-chars-control-approval").removeClass("hidden");
+    }
+    if ((await MES.allowance(owner, charactersControllerAddress)) >= maxInt) {
+        $("#mes-to-chars-control-approval").addClass("hidden");
+    }
+    else {
+        $("#mes-to-chars-control-approval").removeClass("hidden");
+    }
+    if (await characters.isApprovedForAll(owner, charactersControllerAddress)) {
+        $("#chars-to-chars-control-approval").addClass("hidden");
+    }
+    else {
+        $("#chars-to-chars-control-approval").removeClass("hidden");
+    }
+};
+
 const getTranspondersOfAddress = async(address_) => {
     const yourTransponders = await transponders.getTokensOfAddress(address_);
     const sortedTransponders = [...yourTransponders].sort();
@@ -219,6 +297,7 @@ const waitForTransaction = async(tx_) => {
 
 // Workers
 const updateInfo = async() => {
+    await checkApprovals();
     const _address = !(await getAddress()) ? "Connect Wallet!" : (await getAddress());
     $("#account").text(`${_address.substr(0,9)}...`);
     

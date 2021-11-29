@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .w-layout-grid {
   display: -ms-grid;
   display: grid;
@@ -124,6 +128,11 @@
   align-items: center;
 }
 
+#approval-buttons button {
+  width: 30%;
+  margin: 2px;
+}
+
 button {
   margin:auto;
   background-color: #00fff2;
@@ -132,60 +141,6 @@ button {
 
 button:hover {
   background-color: #9dfaf5;
-}
-
-#selected-for-burning, #transponders-for-augment, #capsules-for-augment {
-  color: #00d4ff;
-}
-
-/*Animation*/
-
-.one {
-  opacity: 0;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.0s;
-  animation: dot 1.3s infinite;
-  animation-delay: 0.0s;
-}
-
-.two {
-  opacity: 0;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.2s;
-  animation: dot 1.3s infinite;
-  animation-delay: 0.2s;
-}
-
-.three {
-  opacity: 0;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.3s;
-  animation: dot 1.3s infinite;
-  animation-delay: 0.3s;
-}
-
-@-webkit-keyframes dot {
-  0% {
-      opacity: 0;
-  }
-  50% {
-      opacity: 0;
-  }
-  100% {
-      opacity: 1;
-  }
-}
-
-@keyframes dot {
-  0% {
-      opacity: 0;
-  }
-  50% {
-      opacity: 0;
-  }
-  100% {
-      opacity: 1;
-  }
 }
 
 #pending-transactions {
@@ -235,6 +190,56 @@ button:hover {
   transform: translate(-50%, -50%);
 }
 
+/*Animation*/
+
+.one {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.0s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.0s;
+}
+
+.two {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.2s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.2s;
+}
+
+.three {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.3s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.3s;
+}
+
+
+@-webkit-keyframes dot {
+  0% {
+      opacity: 0;
+  }
+  50% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@keyframes dot {
+  0% {
+      opacity: 0;
+  }
+  50% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
 
 
 @media screen and (max-width: 767px) {
@@ -248,6 +253,11 @@ button:hover {
 
   .column {
     display: block;
+  }
+
+  #approval-buttons button {
+    width: 45%;
+    margin: 2px;
   }
 
   #pending-transactions {
