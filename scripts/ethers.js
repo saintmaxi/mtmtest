@@ -125,35 +125,50 @@ const checkApprovals = async() => {
 
 const getTranspondersOfAddress = async(address_) => {
     const yourTransponders = await transponders.getTokensOfAddress(address_);
-    const sortedTransponders = [...yourTransponders].sort();
-    let sortedTranspondersJSX = "";
-    for (let i = 0; i < sortedTransponders.length; i++) {
-        let transponderID = Number(sortedTransponders[i]);
-        sortedTranspondersJSX += `<span class="clickable" onclick="displayTransponder(${transponderID})">${transponderID} </span>`
+    if (yourTransponders.length == 0) {
+        return "None";
     }
-    return sortedTranspondersJSX;
+    else {
+        const sortedTransponders = [...yourTransponders].sort();
+        let sortedTranspondersJSX = "";
+        for (let i = 0; i < sortedTransponders.length; i++) {
+            let transponderID = Number(sortedTransponders[i]);
+            sortedTranspondersJSX += `<span class="clickable" onclick="displayTransponder(${transponderID})">${transponderID} </span>`
+        }
+        return sortedTranspondersJSX;
+    }
 };
 
 const getSpaceCapsulesOfAddress = async(address_) => {
     const yourCapsules = await spaceCapsules.getTokensOfAddress(address_);
-    const sortedCapsules = [...yourCapsules].sort();
-    let sortedCapsulesJSX = "";
-    for (let i = 0; i < sortedCapsules.length; i++) {
-        let capsuleID = Number(sortedCapsules[i]);
-        sortedCapsulesJSX += `<span class="clickable" onclick="displayCapsule(${capsuleID})">${capsuleID} </span>`
+    if (yourCapsules.length == 0) {
+        return "None";
     }
-    return sortedCapsulesJSX;
+    else {
+        const sortedCapsules = [...yourCapsules].sort();
+        let sortedCapsulesJSX = "";
+        for (let i = 0; i < sortedCapsules.length; i++) {
+            let capsuleID = Number(sortedCapsules[i]);
+            sortedCapsulesJSX += `<span class="clickable" onclick="displayCapsule(${capsuleID})">${capsuleID} </span>`
+        }
+        return sortedCapsulesJSX;
+    }
 };
 
 const getCharactersOfAddress = async(address_) => {
     const yourCharacters = await characters.walletOfOwner(address_);
-    const sortedCharacters = [...yourCharacters].sort();
-    let sortedCharactersJSX = "";
-    for (let i = 0; i < sortedCharacters.length; i++) {
-        let charID = Number(sortedCharacters[i]);
-        sortedCharactersJSX += `<span class="clickable" onclick="displayCharacter(${charID})">${charID} </span>`
+    if (yourCharacters.length == 0) {
+        return "None";
     }
-    return sortedCharactersJSX;
+    else {
+        const sortedCharacters = [...yourCharacters].sort();
+        let sortedCharactersJSX = "";
+        for (let i = 0; i < sortedCharacters.length; i++) {
+            let charID = Number(sortedCharacters[i]);
+            sortedCharactersJSX += `<span class="clickable" onclick="displayCharacter(${charID})">${charID} </span>`
+        }
+        return sortedCharactersJSX;
+    }
 };
 
 const getMESBalance = async(address_) => {
@@ -370,9 +385,9 @@ const updateInfo = async() => {
     
     if (_address === "Connect Wallet!") return;
 
-    $("#your-yield-rate").text(`Your Yield Rate: ${await getMESYieldRate(_address)} $MES/day`);
-    $("#your-mes").text(`Your $MES: ${await getMESBalance(_address)}`);
-    $("#your-mes-credits").text(`Your $MES Credits: ${await getMESCredits(_address)}`);
+    $("#your-yield-rate").html(`${await getMESYieldRate(_address)} <img src="./images/mes.png" width="30px">`);
+    $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);
+    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px">`);
     $("#your-transponders").html( (await getTranspondersOfAddress(_address)) );
     $("#your-space-capsules").html( (await getSpaceCapsulesOfAddress(_address)) );
     $("#your-characters").html( (await getCharactersOfAddress(_address)) );
