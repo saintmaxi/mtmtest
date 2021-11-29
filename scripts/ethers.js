@@ -159,20 +159,31 @@ const beamCharacter = async() => {
         await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
     }
     else {
-        if (transpondersArray.length == 1) {
-            const renderType = 1;
-            await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
-                await waitForTransaction(tx_);
-                await loadCharacterSelect();
-            });
+        try {
+            if (transpondersArray.length == 1) {
+                const renderType = 1;
+                await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
+                    await waitForTransaction(tx_);
+                    await loadCharacterSelect();
+                });
+            }
+            else if (transpondersArray.length > 1) {
+                const renderTypes = Array(transpondersArray.length).fill(1);
+                await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
+                    await waitForTransaction(tx_);
+                    await loadCharacterSelect();
+                });
+            }
         }
-        else if (transpondersArray.length > 1) {
-            const renderTypes = Array(transpondersArray.length).fill(1);
-            await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
-                await waitForTransaction(tx_);
-                await loadCharacterSelect();
-            });
+        catch (error) {
+            if ((error.message).includes("Unowned")) {
+                await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+            }
+            else {
+                console.log(error);
+            }
         }
+        
     }
 };
 
@@ -187,9 +198,19 @@ const uploadCharacter = async() => {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
-        await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
-            await waitForTransaction(tx_);
-        });
+        try {
+            await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
+                await waitForTransaction(tx_);
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Unowned")) {
+                await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
+            }
+            else {
+                console.log(error);
+            }
+        }
     }
 };
 
@@ -206,9 +227,19 @@ const augmentCharacter = async() => {
         await displayErrorMessage("Error: Select character(s) to burn.")
     }
     else {
-        await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
-            await waitForTransaction(tx_)
-        });
+        try {
+            await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_)
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Unowned")) {
+                await displayErrorMessage(`Error: Cannot burn unowned characters!`)
+            }
+            else {
+                console.log(error);
+            }
+        }
     }
 };
 
@@ -224,9 +255,19 @@ const augmentCharacterWithMaterials = async() => {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
-        await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
-            await waitForTransaction(tx_)
-        });
+        try {
+            await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_)
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Not owner")) {
+                await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+            }
+            else {
+                console.log(error);
+            }
+        }
     }
 };
 
