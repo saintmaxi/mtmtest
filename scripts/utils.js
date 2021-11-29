@@ -31,6 +31,63 @@ const loadCharacterSelect = async() => {
     }
 };
 
+var selectedForBurning = new Set();
+
+async function selectForBurning(id) {
+    id = Number(id);
+    if (!selectedForBurning.has(id)) {
+        selectedForBurning.add(id);
+    }
+    else {
+        selectedForBurning.delete(id);
+    }
+    if (selectedForBurning.size == 0) {
+        $("#selected-for-burning").text("Burning: None");
+    }
+    else {
+        let selectedString = `${Array.from(selectedForBurning).sort().join(' ')}`;
+        $("#selected-for-burning").text("Burning: " + selectedString);
+    }
+}
+
+var transpondersForAugment = new Set();
+
+async function selectAugmentTransponder(id) {
+    id = Number(id);
+    if (!transpondersForAugment.has(id)) {
+        transpondersForAugment.add(id);
+    }
+    else {
+        transpondersForAugment.delete(id);
+    }
+    if (transpondersForAugment.size == 0) {
+        $("#transponders-for-augment").text("Transponders: None");
+    }
+    else {
+        let selectedString = `${Array.from(transpondersForAugment).sort().join(' ')}`;
+        $("#transponders-for-augment").text("Transponders: " + selectedString);
+    }
+}
+
+var capsulesForAugment = new Set();
+
+async function selectAugmentCapsule(id) {
+    id = Number(id);
+    if (!capsulesForAugment.has(id)) {
+        capsulesForAugment.add(id);
+    }
+    else {
+        capsulesForAugment.delete(id);
+    }
+    if (capsulesForAugment.size == 0) {
+        $("#capsules-for-augment").text("Capsules: None");
+    }
+    else {
+        let selectedString = `${Array.from(capsulesForAugment).sort().join(' ')}`;
+        $("#capsules-for-augment").text("Capsules: " + selectedString);
+    }
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

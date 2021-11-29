@@ -93,8 +93,8 @@ const uploadCharacter = async() => {
 };
 
 const augmentCharacter = async() => {
-    const characterID = "";//character
-    const charsToBurn = "";//array
+    const characterID = Number($("#augment-char").val());
+    const charsToBurn = Array.from(selectedForBurning);
     const useCredits = "";//bool
     await charactersController.augmentCharacter(characterID, charsToBurn, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
@@ -102,18 +102,19 @@ const augmentCharacter = async() => {
 };
 
 const augmentCharacterWithMaterials = async() => {
-    const characterID = "";
-    const transponderIDs = ""; //array
-    const capsuleIDs = ""; //array
+    const characterID = Number($("#augment-mats-char").val());
+    const transponderIDs = Array.from(transpondersForAugment);
+    const capsuleIDs = Array.from(capsulesForAugment);
     const useCredits = "";//bool
+    console.log(characterID, transponderIDs, capsuleIDs)
     await charactersController.augmentCharacterWithMats(characterID, transponderIDs, capsuleIDs, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
 };
 
 const levelUpBasePoints = async() => {
-    const characterID = "";
-    const amount = "";
+    const characterID = Number($("#level-up-char").val());
+    const amount = Number($("#level-up-amount").val());
     const useCredits = "";//bool
     await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
@@ -121,9 +122,9 @@ const levelUpBasePoints = async() => {
 };
 
 const upgradeEquipment = async() => {
-    const characterID = "";
-    const amount = "";
-    const item = "";
+    const characterID = Number($("#upgrade-char").val());
+    const amount = Number($("#upgrade-eq-amount").val());
+    const item = Number($("#upgrade-eq-type").val());
     const useCredits = "";//bool
     await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)

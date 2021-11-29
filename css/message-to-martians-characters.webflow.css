@@ -134,6 +134,10 @@ button:hover {
   background-color: #9dfaf5;
 }
 
+#selected-for-burning, #transponders-for-augment, #capsules-for-augment {
+  color: #00d4ff;
+}
+
 /*Animation*/
 
 .one {

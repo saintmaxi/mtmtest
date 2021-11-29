@@ -194,14 +194,15 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">Character(s) to BURN</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-burn-chars">
+                    <select class="character-select mtm-number-field" id="augment-burn-chars" onchange="selectForBurning(this.value)">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
-            <button>AUGMENT</button>
+            <div id="selected-for-burning">Burning: None</div>
+            <button onclick="augmentCharacter()">AUGMENT</button>
           </div>
         </div>
         <div class="w-col w-col-6">
@@ -236,7 +237,7 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Transponder ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <select class="transponder-select mtm-number-field">
+                    <select class="transponder-select mtm-number-field" onchange="selectAugmentTransponder(this.value)">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
@@ -244,13 +245,15 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Space Capsule ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <select class="capsule-select mtm-number-field">
+                    <select class="capsule-select mtm-number-field" onchange="selectAugmentCapsule(this.value)">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
                 </div>
               </div>
-            <button>AUGMENT</button>
+            <div id="transponders-for-augment">Transponders: None</div>
+            <div id="capsules-for-augment">Capsules: None</div>
+            <button onclick="augmentCharacterWithMaterials()">AUGMENT</button>
 
             </div>
           </div>
@@ -301,7 +304,7 @@
                 </div>
               </div>
             </div>
-            <button>LEVEL UP</button>
+            <button onclick="levelUpBasePoints()">LEVEL UP</button>
           </div>
         </div>
         <div class="w-col w-col-6">
@@ -351,7 +354,7 @@
                 </div>
               </div>
             </div>
-            <button>UPGRADE</button>
+            <button onclick="upgradeEquipment()">UPGRADE</button>
           </div>
         </div>
       </div>
