@@ -18,8 +18,43 @@ const displayErrorMessage = async(message, timed=true) => {
         await sleep(2500);
         $("#error-popup").remove();
     }
-}
+};
+
+const displayTransponder = async(id) => {
+    console.log('displaying transponder ', id)
+    const uri = await transponders.tokenURI(id);
+    const svgStart = uri.indexOf('<svg');
+    const svgEnd = uri.indexOf('/svg>') + 5;
+    const svg = uri.substring(svgStart, svgEnd);
+    $("body").append(`<div id="displayed-transponder"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+};
+
+const displayCapsule = async(id) => {
+    console.log('displaying capsule ', id)
+    await closeDisplay();
+    const uri = await spaceCapsules.tokenURI(id);
+    const svgStart = uri.indexOf('<svg');
+    const svgEnd = uri.indexOf('/svg>') + 5;
+    const svg = uri.substring(svgStart, svgEnd);
+    $("body").append(`<div id="displayed-capsule"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+};
+
+const displayCharacter = async(id) => {
+    console.log('displaying char ', id)
+    await closeDisplay();
+    const uri = await characters.tokenURI(id);
+    const svgStart = uri.indexOf('<svg');
+    const svgEnd = uri.indexOf('/svg>') + 5;
+    const svg = uri.substring(svgStart, svgEnd);
+    $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+};
+
+const closeDisplay = async() => {
+    $(`#displayed-transponder`).remove();
+    $(`#displayed-capsule`).remove();
+    $(`#displayed-character`).remove();
+};
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
+};

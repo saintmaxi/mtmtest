@@ -126,13 +126,34 @@ const checkApprovals = async() => {
 const getTranspondersOfAddress = async(address_) => {
     const yourTransponders = await transponders.getTokensOfAddress(address_);
     const sortedTransponders = [...yourTransponders].sort();
-    return `${Array.from(sortedTransponders).join(' ')}`;
+    let sortedTranspondersJSX = "";
+    for (let i = 0; i < sortedTransponders.length; i++) {
+        let transponderID = Number(sortedTransponders[i]);
+        sortedTranspondersJSX += `<span class="clickable" onclick="displayTransponder(${transponderID})">${transponderID} </span>`
+    }
+    return sortedTranspondersJSX;
 };
 
 const getSpaceCapsulesOfAddress = async(address_) => {
     const yourCapsules = await spaceCapsules.getTokensOfAddress(address_);
     const sortedCapsules = [...yourCapsules].sort();
-    return `${Array.from(sortedCapsules).join(' ')}`;
+    let sortedCapsulesJSX = "";
+    for (let i = 0; i < sortedCapsules.length; i++) {
+        let capsuleID = Number(sortedCapsules[i]);
+        sortedCapsulesJSX += `<span class="clickable" onclick="displayCapsule(${capsuleID})">${capsuleID} </span>`
+    }
+    return sortedCapsulesJSX;
+};
+
+const getCharactersOfAddress = async(address_) => {
+    const yourCharacters = await characters.walletOfOwner(address_);
+    const sortedCharacters = [...yourCharacters].sort();
+    let sortedCharactersJSX = "";
+    for (let i = 0; i < sortedCharacters.length; i++) {
+        let charID = Number(sortedCharacters[i]);
+        sortedCharactersJSX += `<span class="clickable" onclick="displayCharacter(${charID})">${charID} </span>`
+    }
+    return sortedCharactersJSX;
 };
 
 const getMESBalance = async(address_) => {
@@ -255,17 +276,22 @@ const augmentCharacterWithMaterials = async() => {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
-        try {
-            await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
-                await waitForTransaction(tx_)
-            });
+        if (transpondersArray.length !== capsulesArray.length) {
+            await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
         }
-        catch (error) {
-            if ((error.message).includes("Not owner")) {
-                await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+        else {
+            try {
+                await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
+                    await waitForTransaction(tx_)
+                });
             }
-            else {
-                console.log(error);
+            catch (error) {
+                if ((error.message).includes("Not owner")) {
+                    await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+                }
+                else {
+                    console.log(error);
+                }
             }
         }
     }
@@ -347,8 +373,9 @@ const updateInfo = async() => {
     $("#your-yield-rate").text(`Your Yield Rate: ${await getMESYieldRate(_address)} $MES/day`);
     $("#your-mes").text(`Your $MES: ${await getMESBalance(_address)}`);
     $("#your-mes-credits").text(`Your $MES Credits: ${await getMESCredits(_address)}`);
-    $("#your-transponders").text( (await getTranspondersOfAddress(_address)) );
-    $("#your-space-capsules").text( (await getSpaceCapsulesOfAddress(_address)) );
+    $("#your-transponders").html( (await getTranspondersOfAddress(_address)) );
+    $("#your-space-capsules").html( (await getSpaceCapsulesOfAddress(_address)) );
+    $("#your-characters").html( (await getCharactersOfAddress(_address)) );
 };
 
 setInterval( async() => {
