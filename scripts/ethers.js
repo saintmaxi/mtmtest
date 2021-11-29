@@ -95,7 +95,7 @@ const uploadCharacter = async() => {
 const augmentCharacter = async() => {
     const characterID = Number($("#augment-char").val());
     const charsToBurn = Array.from(selectedForBurning);
-    const useCredits = "";//bool
+    const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
     await charactersController.augmentCharacter(characterID, charsToBurn, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
@@ -105,8 +105,7 @@ const augmentCharacterWithMaterials = async() => {
     const characterID = Number($("#augment-mats-char").val());
     const transponderIDs = Array.from(transpondersForAugment);
     const capsuleIDs = Array.from(capsulesForAugment);
-    const useCredits = "";//bool
-    console.log(characterID, transponderIDs, capsuleIDs)
+    const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
     await charactersController.augmentCharacterWithMats(characterID, transponderIDs, capsuleIDs, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
@@ -115,7 +114,7 @@ const augmentCharacterWithMaterials = async() => {
 const levelUpBasePoints = async() => {
     const characterID = Number($("#level-up-char").val());
     const amount = Number($("#level-up-amount").val());
-    const useCredits = "";//bool
+    const useCredits = $("#level-up-use-credits option:selected").val() === "Yes" ? true : false;
     await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
@@ -125,7 +124,7 @@ const upgradeEquipment = async() => {
     const characterID = Number($("#upgrade-char").val());
     const amount = Number($("#upgrade-eq-amount").val());
     const item = Number($("#upgrade-eq-type").val());
-    const useCredits = "";//bool
+    const useCredits = $("#equipment-use-credits option:selected").val() === "Yes" ? true : false;
     await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
