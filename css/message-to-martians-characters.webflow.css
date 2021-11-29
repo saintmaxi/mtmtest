@@ -130,6 +130,10 @@ button {
   width: 90%;
 }
 
+button:hover {
+  background-color: #9dfaf5;
+}
+
 /*Animation*/
 
 .one {
@@ -180,6 +184,29 @@ button {
   }
 }
 
+#pending-transactions {
+  text-align: center;
+  min-width: 20%;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+
+.loading-div {
+  width: 100%;
+  text-decoration: none;
+  height: 80px;
+  background-color: #00fff2;
+  border: solid black .3em;
+  color: black;
+  padding: 20px;
+  text-align: center;
+}
+
+.etherscan-link {
+  text-decoration: none;
+}
+
 
 
 @media screen and (max-width: 767px) {
@@ -193,6 +220,14 @@ button {
 
   .column {
     display: block;
+  }
+
+  #pending-transactions {
+    min-width: 85%;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 }
 

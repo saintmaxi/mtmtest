@@ -47,14 +47,14 @@ const maxInt = 11579208923731619542357098500868790785326998466564056403945758400
 
 const getTranspondersOfAddress = async(address_) => {
     const yourTransponders = await transponders.getTokensOfAddress(address_);
-    await loadTransponderSelect(yourTransponders);
-    return `${Array.from(yourTransponders).join(' ')}`;
+    const sortedTransponders = [...yourTransponders].sort();
+    return `${Array.from(sortedTransponders).join(' ')}`;
 };
 
 const getSpaceCapsulesOfAddress = async(address_) => {
     const yourCapsules = await spaceCapsules.getTokensOfAddress(address_);
-    await loadCapsuleSelect(yourCapsules);
-    return `${Array.from(yourCapsules).join(' ')}`;
+    const sortedCapsules = [...yourCapsules].sort();
+    return `${Array.from(sortedCapsules).join(' ')}`;
 };
 
 const getMESBalance = async(address_) => {
@@ -69,35 +69,99 @@ const getMESYieldRate = async(address_) => {
     return formatEther( (await MES.getYieldRateOfAddress(address_)) );
 };
 
-//which function gets called for 'mtm original' part?
+const beamCharacter = async() => {
+    const transponderID = Number($("#beam-selected-transponder option:selected").val());
+    const capsuleID = Number($("#beam-selected-capsule option:selected").val());
+    const renderType = 1;
+    await characters.beamCharacter(transponderID, capsuleID, renderType).then( async(tx_) => {
+        await waitForTransaction(tx_);
+        await updateSelectOptions();
+    });
+};
 
 const uploadCharacter = async() => {
-
-}
+    const transponderID = Number($("#upload-selected-transponder option:selected").val());
+    const capsuleID = Number($("#upload-selected-capsule option:selected").val());
+    const renderType = 1;
+    const contractAddress = $("#upload-char-type option:selected").val();
+    const uploadID = Number($("#upload-char-id").val());
+    console.log(transponderID, capsuleID, contractAddress, uploadID)
+    await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
+        await waitForTransaction(tx_);
+        await updateSelectOptions();
+    });
+};
 
 const augmentCharacter = async() => {
-    const charID;//character
-    const charsToBurn;//array
-    const useCredits_;//bool
-    await charactersController.augmentCharacter(charID, charsToBurn, useCredits_).then( async(tx_) => {
+    const characterID = "";//character
+    const charsToBurn = "";//array
+    const useCredits = "";//bool
+    await charactersController.augmentCharacter(characterID, charsToBurn, useCredits).then( async(tx_) => {
         await waitForTransaction(tx_)
     });
-}
+};
 
 const augmentCharacterWithMaterials = async() => {
-
-}
+    const characterID = "";
+    const transponderIDs = ""; //array
+    const capsuleIDs = ""; //array
+    const useCredits = "";//bool
+    await charactersController.augmentCharacterWithMats(characterID, transponderIDs, capsuleIDs, useCredits).then( async(tx_) => {
+        await waitForTransaction(tx_)
+    });
+};
 
 const levelUpBasePoints = async() => {
-
-}
+    const characterID = "";
+    const amount = "";
+    const useCredits = "";//bool
+    await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
+        await waitForTransaction(tx_)
+    });
+};
 
 const upgradeEquipment = async() => {
+    const characterID = "";
+    const amount = "";
+    const item = "";
+    const useCredits = "";//bool
+    await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
+        await waitForTransaction(tx_)
+    });
+};
 
+// Processing txs
+
+var pendingTransactions = new Set();
+
+function startLoading(tx) {
+    let txHash = tx.hash;
+    const etherscanLink = `https://rinkeby.etherscan.io/tx/${txHash}`;
+    const loadingDiv = `<a href="${etherscanLink}" class="etherscan-link" id="etherscan-link-${txHash}" target="_blank" rel="noopener noreferrer"><div class="loading-div" id="loading-div-${txHash}">PROCESSING<span class="one">.</span><span class="two">.</span><span class="three">.</span><br>CLICK FOR ETHERSCAN</div></a><br>`;
+    $("#pending-transactions").append(loadingDiv);
+
+    pendingTransactions.add(tx);
+}
+
+async function endLoading(tx, txStatus) {
+    let txHash = tx.hash;
+    $(`#loading-div-${txHash}`).html("");
+    let status = txStatus == 1 ? "SUCCESS" : "ERROR";
+    $(`#loading-div-${txHash}`).append(`TRANSACTION ${status}.<br>VIEW ON ETHERSCAN.`);
+    await sleep(2000);
+    $(`#etherscan-link-${txHash}`).remove();
+    pendingTransactions.delete(tx);
+    if (pendingTransactions.size == 0) {
+        await updateInfo();
+    }
 }
 
 // After Tx Hook
-const waitForTransaction = async() => {
+const waitForTransaction = async(tx_) => {
+    startLoading(tx_);
+    provider.once(tx_.hash, async (transaction_) => {
+        await endLoading(tx_, transaction_.status);
+    });
 };
 
 // Workers
@@ -113,6 +177,13 @@ const updateInfo = async() => {
     $("#your-transponders").text( (await getTranspondersOfAddress(_address)) );
     $("#your-space-capsules").text( (await getSpaceCapsulesOfAddress(_address)) );
 };
+
+const updateSelectOptions = async() => {
+    await loadTransponderSelect();
+    await loadCapsuleSelect();
+    await loadCharacterSelect();
+};
+
 setInterval( async() => {
     await updateInfo();
 }, 5000)
@@ -121,4 +192,5 @@ ethereum.on("accountsChanged", async (accounts_) => { await updateInfo() });
 
 window.onload = async() => {
     await updateInfo();
+    await updateSelectOptions();
 };
