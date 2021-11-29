@@ -76,21 +76,21 @@
               <div>
                 <div class="w-row">
                   <div class="w-col w-col-12">
-                    <div class="inside-text">Transponder ID</div>
+                    <div class="inside-text">Transponder ID(s)</div>
                     <div class="mtm-number-input w-form">
-                      <select class="transponder-select mtm-number-field" id="beam-selected-transponder">
-                        <option value="" disabled selected>ID</option>
-                      </select>
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="text" class="mtm-number-field w-input" id="beam-transponder-ids" name="beam-transponder-ids" data-name="beam-transponder-ids" placeholder="Transponder ID(s) ">
+                      </form>
                     </div>
                   </div>
                   </div>
                 <div class="w-row">
                   <div class="w-col w-col-12">
-                    <div class="inside-text">Space Capsule ID</div>
+                    <div class="inside-text">Space Capsule ID(s)</div>
                     <div class="mtm-number-input w-form">
-                      <select class="capsule-select mtm-number-field" id="beam-selected-capsule">
-                        <option value="" disabled selected>ID</option>
-                      </select>
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="text" class="mtm-number-field w-input" id="beam-capsule-ids" name="beam-capsule-ids" data-name="beam-capsule-ids" placeholder="Capsule ID(s) ">
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -106,17 +106,17 @@
                   <div class="w-col w-col-6">
                     <div class="inside-text">Transponder ID</div>
                     <div class="mtm-number-input w-form">
-                      <select class="transponder-select mtm-number-field" id="upload-selected-transponder">
-                        <option value="" disabled selected>ID</option>
-                      </select>
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-transponder-id" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Transponder ">
+                      </form>
                     </div>
                   </div>
                   <div class="w-col w-col-6">
                     <div class="inside-text">Space Capsule</div>
                     <div class="mtm-number-input w-form">
-                      <select class="capsule-select mtm-number-field" id="upload-selected-capsule">
-                        <option value="" disabled selected>ID</option>
-                      </select>
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-capsule-id" name="upload-capsule-id" data-name="upload-capsule-id" placeholder="Capsule">
+                      </form>
                     </div>
                   </div>
                   </div>
@@ -143,7 +143,9 @@
                   <div class="w-col w-col-6">
                     <div class="inside-text">Character ID</div>
                     <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" id="upload-character-id" name="upload-char-id" min="0" data-name="upload-character-id" placeholder="Input Character ID " id="upload-character-id"></form>
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" class="mtm-number-field w-input" maxlength="256" id="upload-character-id" name="upload-char-id" min="0" data-name="upload-character-id" placeholder="Character ID">
+                      </form>
                       <div class="w-form-done"></div>
                       <div class="w-form-fail"></div>
                     </div>
@@ -194,14 +196,13 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">Character(s) to BURN</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-burn-chars" onchange="selectForBurning(this.value)">
-                      <option value="" disabled selected>ID</option>
-                    </select>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="text" class="mtm-number-field w-input" id="augment-burn-chars" name="augment-burn-chars" data-name="augment-burn-chars" placeholder="Character ID(s)">
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-            <div id="selected-for-burning">Burning: None</div>
             <button onclick="augmentCharacter()">AUGMENT</button>
           </div>
         </div>
@@ -237,22 +238,20 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Transponder ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <select class="transponder-select mtm-number-field" onchange="selectAugmentTransponder(this.value)">
-                      <option value="" disabled selected>ID</option>
-                    </select>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="text" class="mtm-number-field w-input" id="augment-transponders" name="augment-transponders" data-name="augment-transponders" placeholder="ID(s)">
+                    </form>
                   </div>
                 </div>
                 <div class="w-col w-col-4">
                   <div class="inside-text">Space Capsule ID(s)</div>
                   <div class="mtm-number-input w-form">
-                    <select class="capsule-select mtm-number-field" onchange="selectAugmentCapsule(this.value)">
-                      <option value="" disabled selected>ID</option>
-                    </select>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="text" class="mtm-number-field w-input" id="augment-capsules" name="augment-capsules" data-name="augment-capsules" placeholder="ID(s)">
+                    </form>
                   </div>
                 </div>
               </div>
-            <div id="transponders-for-augment">Transponders: None</div>
-            <div id="capsules-for-augment">Capsules: None</div>
             <button onclick="augmentCharacterWithMaterials()">AUGMENT</button>
 
             </div>
@@ -297,7 +296,9 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">Amount of Base Points</div>
                   <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="level-up-amount" data-name="level-up-amount" placeholder="Input level up amount" id="level-up-amount"></form>
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="number" min="0" class="mtm-number-field w-input" maxlength="256" name="level-up-amount" data-name="level-up-amount" placeholder="Level up amount" id="level-up-amount">
+                    </form>
                     <div class="w-form-done"></div>
                     <div class="w-form-fail"></div>
                   </div>

@@ -70,54 +70,101 @@ const getMESYieldRate = async(address_) => {
 };
 
 const beamCharacter = async() => {
-    const transponderID = Number($("#beam-selected-transponder option:selected").val());
-    const capsuleID = Number($("#beam-selected-capsule option:selected").val());
-    const renderType = 1;
-    await characters.beamCharacter(transponderID, capsuleID, renderType).then( async(tx_) => {
-        await waitForTransaction(tx_);
-        await updateSelectOptions();
-    });
+    const transpondersInput = $("#beam-transponder-ids").val();
+    const transpondersArray = transpondersInput.split(",");
+    const capsulesInput = $("#beam-capsule-ids").val();
+    const capsulesArray = capsulesInput.split(",");
+
+    if (!transpondersInput || !capsulesInput) return;
+
+    if (transpondersArray.length !== capsulesArray.length) {
+        await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
+    }
+    else {
+        if (transpondersArray.length == 1) {
+            const renderType = 1;
+            await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                await loadCharacterSelect();
+            });
+        }
+        else if (transpondersArray.length > 1) {
+            const renderTypes = Array(transpondersArray.length).fill(1);
+            await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                await loadCharacterSelect();
+            });
+        }
+    }
 };
 
 const uploadCharacter = async() => {
-    const transponderID = Number($("#upload-selected-transponder option:selected").val());
-    const capsuleID = Number($("#upload-selected-capsule option:selected").val());
+    const transponderID = $("#upload-transponder-id").val();
+    const capsuleID = $("#upload-capsule-id").val();
     const renderType = 1;
     const contractAddress = $("#upload-char-type option:selected").val();
-    const uploadID = Number($("#upload-char-id").val());
-    console.log(transponderID, capsuleID, contractAddress, uploadID)
-    await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
-        await waitForTransaction(tx_);
-        await updateSelectOptions();
-    });
+    const uploadID = $("#upload-character-id").val();
+
+    if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
+        await displayErrorMessage("Error: Enter all required fields.")
+    }
+    else {
+        await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
+            await waitForTransaction(tx_);
+        });
+    }
 };
 
 const augmentCharacter = async() => {
     const characterID = Number($("#augment-char").val());
-    const charsToBurn = Array.from(selectedForBurning);
+    const charsToBurnInput = $("#augment-burn-chars").val();
+    const charsToBurnArray = charsToBurnInput.split(",");
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
-    await charactersController.augmentCharacter(characterID, charsToBurn, useCredits).then( async(tx_) => {
-        await waitForTransaction(tx_)
-    });
+
+    if (!characterID) {
+        await displayErrorMessage("Error: Select a character to augment.")
+    }
+    else if (!charsToBurnInput) {
+        await displayErrorMessage("Error: Select character(s) to burn.")
+    }
+    else {
+        await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
+            await waitForTransaction(tx_)
+        });
+    }
 };
 
 const augmentCharacterWithMaterials = async() => {
     const characterID = Number($("#augment-mats-char").val());
-    const transponderIDs = Array.from(transpondersForAugment);
-    const capsuleIDs = Array.from(capsulesForAugment);
+    const transpondersInput = $("#augment-transponders").val();
+    const transpondersArray = transpondersInput.split(",");
+    const capsulesInput = $("#augment-capsules").val();
+    const capsulesArray = capsulesInput.split(",");
     const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
-    await charactersController.augmentCharacterWithMats(characterID, transponderIDs, capsuleIDs, useCredits).then( async(tx_) => {
-        await waitForTransaction(tx_)
-    });
+
+    if (!characterID || !transpondersInput || !capsulesInput) {
+        await displayErrorMessage("Error: Enter all required fields.")
+    }
+    else {
+        await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
+            await waitForTransaction(tx_)
+        });
+    }
 };
 
 const levelUpBasePoints = async() => {
     const characterID = Number($("#level-up-char").val());
     const amount = Number($("#level-up-amount").val());
     const useCredits = $("#level-up-use-credits option:selected").val() === "Yes" ? true : false;
-    await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
-        await waitForTransaction(tx_)
-    });
+    
+    if (!characterID || !amount) {
+        await displayErrorMessage("Error: Enter all required fields.")
+    }
+    else {
+        await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
+            await waitForTransaction(tx_)
+        });
+    }
 };
 
 const upgradeEquipment = async() => {
@@ -125,9 +172,15 @@ const upgradeEquipment = async() => {
     const amount = Number($("#upgrade-eq-amount").val());
     const item = Number($("#upgrade-eq-type").val());
     const useCredits = $("#equipment-use-credits option:selected").val() === "Yes" ? true : false;
-    await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
-        await waitForTransaction(tx_)
-    });
+
+    if (!characterID || !amount || !item) {
+        await displayErrorMessage("Error: Enter all required fields.")
+    }
+    else {
+        await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
+            await waitForTransaction(tx_)
+        });
+    }
 };
 
 // Processing txs
@@ -178,12 +231,6 @@ const updateInfo = async() => {
     $("#your-space-capsules").text( (await getSpaceCapsulesOfAddress(_address)) );
 };
 
-const updateSelectOptions = async() => {
-    await loadTransponderSelect();
-    await loadCapsuleSelect();
-    await loadCharacterSelect();
-};
-
 setInterval( async() => {
     await updateInfo();
 }, 5000)
@@ -192,5 +239,5 @@ ethereum.on("accountsChanged", async (accounts_) => { await updateInfo() });
 
 window.onload = async() => {
     await updateInfo();
-    await updateSelectOptions();
+    await loadCharacterSelect();
 };
