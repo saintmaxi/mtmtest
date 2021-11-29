@@ -1,3 +1,5 @@
+// Loading select field options
+
 const loadTransponderSelect = async() => {
     const yourTransponders = await transponders.getTokensOfAddress(await getAddress());
     const sortedTransponders = [...yourTransponders].sort();
@@ -30,6 +32,8 @@ const loadCharacterSelect = async() => {
         $(".character-select").append(`<option value="${id}">${id}</option>`); 
     }
 };
+
+// Tracking + displaying selections in fields w/ multiple values
 
 var selectedForBurning = new Set();
 
