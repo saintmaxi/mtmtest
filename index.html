@@ -179,6 +179,7 @@
                         <option value="0x1CB1A5e65610AEFF2551A50f76a87a7d3fB649C6">Cryptoadz</option>
                         <option value="0xc92cedDfb8dd984A89fb494c376f9A48b999aAFc">Creature World</option>
                         <option value="0x3Fe1a4c1481c8351E91B64D5c398b159dE07cbc5">SupDucks</option>
+                        <option value="0x27d9E4071410d60F9CC9dE645a7f97023567CFA9">Testnet Character</option>
                       </select>
                     </div>
                   </div>
@@ -194,7 +195,6 @@
                   </div>
                 </div>
                 <button onclick="uploadCharacter()">UPLOAD</button>
-
               </div>
             </div>
           </div>
@@ -385,11 +385,23 @@
                 </div>
                 <div class="w-col w-col-4">
                   <div class="inside-text">Equipment Type</div>
-                  <div class="mtm-number-input w-form">
+                  <!-- <div class="mtm-number-input w-form">
                     <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form"><input type="number" class="mtm-number-field w-input" maxlength="256" name="upgrade-eq-type" data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type"></form>
                     <div class="w-form-done"></div>
                     <div class="w-form-fail"></div>
-                  </div>
+                  </div> -->
+                <div class="mtm-number-input w-form">
+                  <select data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type">
+                    <option value="1">Weapon</option>
+                    <option value="2">Chest</option>
+                    <option value="3">Head</option>
+                    <option value="4">Legs</option>
+                    <option value="5">Vehicle</option>
+                    <option value="6">Arms</option>
+                    <option value="7">Artifact</option>
+                    <option value="8">Ring</option>
+                  </select>
+                </div>
                 </div>
                 <div class="w-col w-col-4">
                   <div class="inside-text">Amount to Upgrade</div>
