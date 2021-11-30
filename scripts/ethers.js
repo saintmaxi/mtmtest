@@ -274,6 +274,12 @@ const augmentCharacter = async() => {
             if ((error.message).includes("Unowned")) {
                 await displayErrorMessage(`Error: Cannot burn unowned characters!`)
             }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
             else {
                 console.log(error);
             }
@@ -306,6 +312,12 @@ const augmentCharacterWithMaterials = async() => {
                 if ((error.message).includes("Not owner")) {
                     await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
                 }
+                else if ((error.message).includes("Not enough MES credits")) {
+                    await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+                }
+                else if ((error.message).includes("Not enough MES to")) {
+                    await displayErrorMessage(`Error: Insufficient $MES for action!`);
+                }
                 else {
                     console.log(error);
                 }
@@ -323,9 +335,26 @@ const levelUpBasePoints = async() => {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
-        await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
-            await waitForTransaction(tx_)
-        });
+        try {
+            await charactersController.levelUp(characterID, amount, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_)
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Invalid Level")) {
+                await displayErrorMessage(`Error: Level up cannot exceed max base points (50) for character!`);
+            }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
     }
 };
 
@@ -339,9 +368,26 @@ const upgradeEquipment = async() => {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
-        await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
-            await waitForTransaction(tx_)
-        });
+        try {
+            await charactersController.upgradeEquipment(characterID, amount, item, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_)
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("past upgradability")) {
+                await displayErrorMessage(`Error: Upgrade cannot exceed max level (4) for equipment!`);
+            }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
     }
 };
 
@@ -399,7 +445,10 @@ setInterval( async() => {
     await updateInfo();
 }, 5000)
 
-ethereum.on("accountsChanged", async (accounts_) => { await updateInfo() });
+ethereum.on("accountsChanged", async (accounts_) => { 
+    await updateInfo();
+    location.reload();
+});
 
 window.onload = async() => {
     await updateInfo();
