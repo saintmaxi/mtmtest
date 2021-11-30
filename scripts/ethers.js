@@ -292,7 +292,7 @@ const augmentCharacterWithMaterials = async() => {
     }
     else {
         if (transpondersArray.length !== capsulesArray.length) {
-            await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
+            await displayErrorMessage('Error: Augmenting requires equal number of transponders and capsules.')
         }
         else {
             try {
