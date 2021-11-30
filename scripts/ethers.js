@@ -212,7 +212,7 @@ const beamCharacter = async() => {
             }
         }
         catch (error) {
-            if ((error.message).includes("Unowned")) {
+            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
                 await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
             }
             else {
@@ -240,7 +240,7 @@ const uploadCharacter = async() => {
             });
         }
         catch (error) {
-            if ((error.message).includes("Unowned")) {
+            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token") || (error.message).includes("You don't own this character")) {
                 await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
             }
             else {
@@ -271,7 +271,7 @@ const augmentCharacter = async() => {
             });
         }
         catch (error) {
-            if ((error.message).includes("Unowned")) {
+            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
                 await displayErrorMessage(`Error: Cannot burn unowned characters!`)
             }
             else if ((error.message).includes("Not enough MES credits")) {
@@ -309,7 +309,7 @@ const augmentCharacterWithMaterials = async() => {
                 });
             }
             catch (error) {
-                if ((error.message).includes("Not owner")) {
+                if ((error.message).includes("Not owner") || (error.message).includes("owner query for nonexistent token")) {
                     await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
                 }
                 else if ((error.message).includes("Not enough MES credits")) {
