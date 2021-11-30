@@ -19,7 +19,7 @@
   <link href="images/mtmicon.jpg" rel="shortcut icon" type="image/x-icon">
   <link href="images/mtmicon.jpg" rel="apple-touch-icon">
 </head>
-<body class="body" style="height: 100vh;">
+<body class="body">
   <div class="header-section wf-section">
     <div class="w-container">
       <div class="w-row">
@@ -72,6 +72,7 @@
         </a>
       </div><br id="hide-on-desktop">
   </div>
+  <h1 class="section-head">Beam Your Character</h1>
   <div class="section wf-section">
     <div class="w-container">
       <h3 class="section-head">Your Inventory</h3>
@@ -110,7 +111,105 @@
       </div>
     </div>
   </div>
-  
+  <div class="section wf-section">
+    <div class="inside-container w-container">
+      <div>
+      <button id="tp-to-chars-approval" class="hidden" style="margin-bottom: 3px;" onclick="approveTPToCharacters()">Approve Transponders to Characters</button>
+      <button id="sc-to-chars-approval" class="hidden" onclick="approveSCToCharacters()">Approve Capsules to Characters</button>
+      </div>
+      <div>
+        <div class="w-row">
+          <div class="w-col w-col-6">
+            <div>
+              <h2 class="section-item">MTM Original</h2>
+              <div>
+                <div class="w-row">
+                  <div class="w-col w-col-12">
+                    <div class="inside-text">Transponder ID(s)</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="text" class="mtm-number-field w-input" id="beam-transponder-ids" name="beam-transponder-ids" data-name="beam-transponder-ids" placeholder="Transponder ID(s) ">
+                      </form>
+                    </div>
+                  </div>
+                  </div>
+                <div class="w-row">
+                  <div class="w-col w-col-12">
+                    <div class="inside-text">Space Capsule ID(s)</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="text" class="mtm-number-field w-input" id="beam-capsule-ids" name="beam-capsule-ids" data-name="beam-capsule-ids" placeholder="Capsule ID(s) ">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <button onclick="beamCharacter()">BEAM</button>
+              </div>
+            </div>
+          </div>
+          <div class="column w-col w-col-6">
+            <div>
+              <h2 class="section-item">Upload Your Own</h2>
+              <div>
+                <div class="columns w-row">
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Transponder ID</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-transponder-id" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Transponder ID">
+                      </form>
+                    </div>
+                  </div>
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Space Capsule</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-capsule-id" name="upload-capsule-id" data-name="upload-capsule-id" placeholder="Capsule ID">
+                      </form>
+                    </div>
+                  </div>
+                  </div>
+                <div class="columns w-row">
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Character Type</div>
+                    <div class="mtm-number-input w-form">
+                      <select id="upload-char-type">
+                        <option value="" disabled selected>Type</option>
+                        <option value="0x57a204AA1042f6E66DD7730813f4024114d74f37">CyberKongz</option>
+                        <option value="0xbad6186E92002E312078b5a1dAfd5ddf63d3f731">Anonymice</option>
+                        <option value="0x1A92f7381B9F03921564a437210bB9396471050C">Cool Cats</option>
+                        <option value="0x12d2D1beD91c24f878F37E66bd829Ce7197e4d14">Galactic Apes</option>
+                        <option value="0x0c2E57EFddbA8c768147D1fdF9176a0A6EBd5d83">Kaiju Kingz</option>
+                        <option value="0xF4ee95274741437636e748DdAc70818B4ED7d043">The Doge Pound</option>
+                        <option value="0x3aBEDBA3052845CE3f57818032BFA747CDED3fca">EtherOrcs</option>
+                        <option value="0x5754f44bC96F9F0Fe1a568253452a3F40F5e9F59">CryptoHoots</option>
+                        <option value="0x1CB1A5e65610AEFF2551A50f76a87a7d3fB649C6">Cryptoadz</option>
+                        <option value="0xc92cedDfb8dd984A89fb494c376f9A48b999aAFc">Creature World</option>
+                        <option value="0x3Fe1a4c1481c8351E91B64D5c398b159dE07cbc5">SupDucks</option>
+                        <option value="0x27d9E4071410d60F9CC9dE645a7f97023567CFA9">Testnet Character</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Character ID</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" class="mtm-number-field w-input" maxlength="256" id="upload-character-id" name="upload-char-id" min="0" data-name="upload-character-id" placeholder="Character ID">
+                      </form>
+                      <div class="w-form-done"></div>
+                      <div class="w-form-fail"></div>
+                    </div>
+                  </div>
+                </div>
+                <button onclick="uploadCharacter()">UPLOAD</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
   <div class="footer-section wf-section">
       <br>
       <div class="inside-text">MTM by <a href="https://twitter.com/0xinuarashi" target="_blank" rel="noopener noreferrer">0xInuarashi</a>, Front-End by <a

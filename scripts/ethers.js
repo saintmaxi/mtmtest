@@ -129,7 +129,7 @@ const getTranspondersOfAddress = async(address_) => {
         return "None";
     }
     else {
-        const sortedTransponders = [...yourTransponders].sort();
+        const sortedTransponders = [...yourTransponders].sort((a, b) => a - b);
         let sortedTranspondersJSX = "";
         for (let i = 0; i < sortedTransponders.length; i++) {
             let transponderID = Number(sortedTransponders[i]);
@@ -145,7 +145,7 @@ const getSpaceCapsulesOfAddress = async(address_) => {
         return "None";
     }
     else {
-        const sortedCapsules = [...yourCapsules].sort();
+        const sortedCapsules = [...yourCapsules].sort((a, b) => a - b);
         let sortedCapsulesJSX = "";
         for (let i = 0; i < sortedCapsules.length; i++) {
             let capsuleID = Number(sortedCapsules[i]);
@@ -161,7 +161,7 @@ const getCharactersOfAddress = async(address_) => {
         return "None";
     }
     else {
-        const sortedCharacters = [...yourCharacters].sort();
+        const sortedCharacters = [...yourCharacters].sort((a, b) => a - b);
         let sortedCharactersJSX = "";
         for (let i = 0; i < sortedCharacters.length; i++) {
             let charID = Number(sortedCharacters[i]);
@@ -215,6 +215,9 @@ const beamCharacter = async() => {
             if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
                 await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
             }
+            else if ((error.message).includes("not owner nor approved")) {
+                await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
+            }
             else {
                 console.log(error);
             }
@@ -242,6 +245,9 @@ const uploadCharacter = async() => {
         catch (error) {
             if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token") || (error.message).includes("You don't own this character")) {
                 await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
+            }
+            else if ((error.message).includes("not owner nor approved")) {
+                await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
             }
             else {
                 console.log(error);
@@ -273,6 +279,9 @@ const augmentCharacter = async() => {
         catch (error) {
             if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
                 await displayErrorMessage(`Error: Cannot burn unowned characters!`)
+            }
+            else if ((error.message).includes("not owner nor approved")) {
+                await displayErrorMessage(`Error: Approve Characters to Character Controller!`)
             }
             else if ((error.message).includes("Not enough MES credits")) {
                 await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
@@ -311,6 +320,9 @@ const augmentCharacterWithMaterials = async() => {
             catch (error) {
                 if ((error.message).includes("Not owner") || (error.message).includes("owner query for nonexistent token")) {
                     await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+                }
+                else if ((error.message).includes("not owner nor approved")) {
+                    await displayErrorMessage(`Error: Approve Transponders and Capsules to Character Controller!`)
                 }
                 else if ((error.message).includes("Not enough MES credits")) {
                     await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
@@ -393,7 +405,34 @@ const upgradeEquipment = async() => {
 
 // Processing txs
 
-var pendingTransactions = new Set();
+// After Tx Hook
+const waitForTransaction = async(tx_) => {
+    startLoading(tx_);
+    provider.once(tx_.hash, async (transaction_) => {
+        await endLoading(tx_, transaction_.status);
+    });
+};
+
+// Resuming UI display, refreshing market for pending txs across pages
+var pendingTransactions = localStorage.getItem("MTMpendingTxs");
+
+if (!pendingTransactions) {
+    pendingTransactions = new Set();
+}
+else {
+    pendingTransactions = new Set(Array.from(JSON.parse(pendingTransactions)));
+    pendingTxArray = Array.from(pendingTransactions);
+    pendingTransactions = new Set();
+
+    for (let i =0; i < pendingTxArray.length; i++) {
+        waitForTransaction(pendingTxArray[i]);
+    }
+    localStorage.removeItem("MTMpendingTxs");
+}
+
+function cachePendingTransactions() {
+    localStorage.setItem("MTMpendingTxs", JSON.stringify(Array.from(pendingTransactions)));
+}
 
 function startLoading(tx) {
     let txHash = tx.hash;
@@ -416,14 +455,6 @@ async function endLoading(tx, txStatus) {
         await updateInfo();
     }
 }
-
-// After Tx Hook
-const waitForTransaction = async(tx_) => {
-    startLoading(tx_);
-    provider.once(tx_.hash, async (transaction_) => {
-        await endLoading(tx_, transaction_.status);
-    });
-};
 
 // Workers
 const updateInfo = async() => {
@@ -454,3 +485,7 @@ window.onload = async() => {
     await updateInfo();
     await loadCharacterSelect();
 };
+
+window.onunload = async()=>{
+    cachePendingTransactions();
+}

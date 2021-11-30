@@ -2,7 +2,7 @@
 
 const loadCharacterSelect = async() => {
     const yourCharacters = await characters.walletOfOwner(await getAddress());
-    const sortedCharacters = [...yourCharacters].sort();
+    const sortedCharacters = [...yourCharacters].sort((a, b) => a - b);
     $(".character-select").empty();
     $(".character-select").append(`<option value="" disabled selected>ID</option>`);
     for (let i = 0; i < sortedCharacters.length; i++) {
@@ -58,3 +58,14 @@ const closeDisplay = async() => {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
+
+function hideInventory() {
+    if ($("#inventory").hasClass("hidden")) {
+        $("#inventory").removeClass("hidden");
+        $("#hide-inventory").text("Hide Inventory ↑");
+    }
+    else {
+        $("#inventory").addClass("hidden");
+        $("#hide-inventory").text("Show Inventory ↓");
+    }
+}
