@@ -255,12 +255,14 @@ const augmentCharacter = async() => {
     const charsToBurnInput = $("#augment-burn-chars").val();
     const charsToBurnArray = charsToBurnInput.split(",");
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
-
     if (!characterID) {
         await displayErrorMessage("Error: Select a character to augment.")
     }
     else if (!charsToBurnInput) {
         await displayErrorMessage("Error: Select character(s) to burn.")
+    }
+    else if (charsToBurnArray.includes(String(characterID))) {
+        await displayErrorMessage(`Error: Character ${characterID} cannot be both augmented and burned!`);
     }
     else {
         try {
