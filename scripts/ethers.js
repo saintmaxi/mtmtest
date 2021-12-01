@@ -290,7 +290,7 @@ const augmentCharacter = async() => {
             if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
                 await displayErrorMessage(`Error: Cannot burn unowned characters!`)
             }
-            else if ((error.message).includes("not owner nor approved")) {
+            else if ((error.message).includes("TNCOA")) {
                 await displayErrorMessage(`Error: Approve Characters to Character Controller!`)
             }
             else if ((error.message).includes("Not enough MES credits")) {
