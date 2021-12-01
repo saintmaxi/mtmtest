@@ -93,6 +93,18 @@ body {
   background-color: black;
 }
 
+#your-mes-credits span {
+  color: black;
+  background-color: #00fff2;
+  padding: 4px;
+  margin-left: 4px;
+}
+
+#your-mes-credits span:hover {
+  cursor: pointer;
+  background-color: #9dfaf5;
+}
+
 #displayed-character, #displayed-transponder, #displayed-capsule {
   background-color: black;
   z-index: 9995;

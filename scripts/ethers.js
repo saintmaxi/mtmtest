@@ -183,6 +183,18 @@ const getMESYieldRate = async(address_) => {
     return formatEther( (await MES.getYieldRateOfAddress(address_)) );
 };
 
+const claimMEScredits = async() => {
+    const user = await getAddress();
+    if ((await getMESCredits(user)) == 0) {
+        await displayErrorMessage("Error; No $MES credits to claim!");
+    }
+    else {
+        await MES.claimTokens(user).then( async(tx_) => {
+            await waitForTransaction(tx_);
+        });
+    }
+}
+
 const beamCharacter = async() => {
     const transpondersInput = $("#beam-transponder-ids").val();
     const transpondersArray = transpondersInput.split(",");
@@ -465,7 +477,7 @@ const updateInfo = async() => {
 
     $("#your-yield-rate").html(`${await getMESYieldRate(_address)} <img src="./images/mes.png" width="30px">`);
     $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);
-    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px">`);
+    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px"><span onclick="claimMEScredits()">CLAIM</span>`);
     $("#your-transponders").html( (await getTranspondersOfAddress(_address)) );
     $("#your-space-capsules").html( (await getSpaceCapsulesOfAddress(_address)) );
     $("#your-characters").html( (await getCharactersOfAddress(_address)) );
