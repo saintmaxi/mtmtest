@@ -59,14 +59,29 @@ const updateEquipmentUpgrade = async() => {
     const id = $("#upgrade-char").val();
     const equipmentType = $("#upgrade-eq-type").val();
     $("#upgrade-eq-amount").empty(); 
+    $("#upgrade-eq-amount").append(`<option value="">-</option>`);
 
     if (id && equipmentType) {
         const equipmentLevels = await characterStorage.equipments(id);
         const currentLevel = equipmentLevels[equipmentType-1];
         const levelsLeft = 4 - currentLevel;
-        $("#upgrade-eq-amount").append(`<option value="">-</option>`);
         for (let i = 1; i <= levelsLeft; i++) {
             $("#upgrade-eq-amount").append(`<option value="${i}">${i}</option>`); 
+        }
+    }
+};
+
+const updateLevelUpPoints = async() => {
+    const id = $("#level-up-char").val();
+    $("#level-up-amount").empty(); 
+    $("#level-up-amount").append(`<option value="">-</option>`);
+
+    if (id) {
+        const stats = await characterStorage.characters(id);
+        const currentBasePoints = stats.basePoints_;
+        const pointsLeft = 50 - currentBasePoints;
+        for (let i = 1; i <= pointsLeft; i++) {
+            $("#level-up-amount").append(`<option value="${i}">${i}</option>`); 
         }
     }
 };
