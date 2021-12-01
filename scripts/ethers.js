@@ -71,12 +71,6 @@ const approveSCToCharControl = async() => {
     });
 };
 
-const approveMESToCharControl = async() => {
-    await MES.approve(charactersControllerAddress, maxInt).then ( async (tx_) => {
-        await waitForTransaction(tx_);
-    });
-};
-
 const approveCharsToCharControl = async() => {
     await characters.setApprovalForAll(charactersControllerAddress, true).then ( async (tx_) => {
         await waitForTransaction(tx_);
@@ -108,12 +102,6 @@ const checkApprovals = async() => {
     }
     else {
         $("#sc-to-chars-control-approval").removeClass("hidden");
-    }
-    if ((await MES.allowance(owner, charactersControllerAddress)) >= maxInt) {
-        $("#mes-to-chars-control-approval").addClass("hidden");
-    }
-    else {
-        $("#mes-to-chars-control-approval").removeClass("hidden");
     }
     if (await characters.isApprovedForAll(owner, charactersControllerAddress)) {
         $("#chars-to-chars-control-approval").addClass("hidden");
@@ -242,7 +230,6 @@ const uploadCharacter = async() => {
     const renderType = 1;
     const contractAddress = $("#upload-char-type option:selected").val();
     const uploadID = $("#upload-character-id").val();
-
     if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
         await displayErrorMessage("Error: Enter all required fields.")
     }
@@ -267,7 +254,7 @@ const uploadCharacter = async() => {
 };
 
 const augmentCharacter = async() => {
-    const characterID = Number($("#augment-char").val());
+    const characterID = $("#augment-char").val();
     const charsToBurnInput = $("#augment-burn-chars").val();
     const charsToBurnArray = charsToBurnInput.split(",");
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
@@ -277,7 +264,7 @@ const augmentCharacter = async() => {
     else if (!charsToBurnInput) {
         await displayErrorMessage("Error: Select character(s) to burn.")
     }
-    else if (charsToBurnArray.includes(String(characterID))) {
+    else if (charsToBurnArray.includes(characterID)) {
         await displayErrorMessage(`Error: Character ${characterID} cannot be both augmented and burned!`);
     }
     else {
@@ -307,7 +294,7 @@ const augmentCharacter = async() => {
 };
 
 const augmentCharacterWithMaterials = async() => {
-    const characterID = Number($("#augment-mats-char").val());
+    const characterID = $("#augment-mats-char").val();
     const transpondersInput = $("#augment-transponders").val();
     const transpondersArray = transpondersInput.split(",");
     const capsulesInput = $("#augment-capsules").val();
@@ -349,7 +336,7 @@ const augmentCharacterWithMaterials = async() => {
 };
 
 const levelUpBasePoints = async() => {
-    const characterID = Number($("#level-up-char").val());
+    const characterID = $("#level-up-char").val();
     const amount = Number($("#level-up-amount").val());
     const useCredits = $("#level-up-use-credits option:selected").val() === "Yes" ? true : false;
     
@@ -381,7 +368,7 @@ const levelUpBasePoints = async() => {
 };
 
 const upgradeEquipment = async() => {
-    const characterID = Number($("#upgrade-char").val());
+    const characterID = $("#upgrade-char").val();
     const amount = Number($("#upgrade-eq-amount").val());
     const item = Number($("#upgrade-eq-type").val());
     const useCredits = $("#equipment-use-credits option:selected").val() === "Yes" ? true : false;
