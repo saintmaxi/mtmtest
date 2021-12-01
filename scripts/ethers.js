@@ -200,14 +200,12 @@ const beamCharacter = async() => {
                 const renderType = 1;
                 await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
                     await waitForTransaction(tx_);
-                    await loadCharacterSelect();
                 });
             }
             else if (transpondersArray.length > 1) {
                 const renderTypes = Array(transpondersArray.length).fill(1);
                 await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
                     await waitForTransaction(tx_);
-                    await loadCharacterSelect();
                 });
             }
         }
@@ -273,7 +271,7 @@ const augmentCharacter = async() => {
     else {
         try {
             await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
-                await waitForTransaction(tx_)
+                await waitForTransaction(tx_);
             });
         }
         catch (error) {
@@ -453,6 +451,7 @@ async function endLoading(tx, txStatus) {
     pendingTransactions.delete(tx);
     if (pendingTransactions.size == 0) {
         await updateInfo();
+        await loadCharacterSelect();
     }
 }
 
