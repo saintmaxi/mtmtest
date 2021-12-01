@@ -55,6 +55,22 @@ const closeDisplay = async() => {
     $(`#displayed-character`).remove();
 };
 
+const updateEquipmentUpgrade = async() => {
+    const id = $("#upgrade-char").val();
+    const equipmentType = $("#upgrade-eq-type").val();
+    $("#upgrade-eq-amount").empty();
+
+    if (id && equipmentType) {
+        const equipmentLevels = await characterStorage.equipments(id);
+        const currentLevel = equipmentLevels[equipmentType-1];
+        const levelsLeft = 4 - currentLevel;
+        $("#upgrade-eq-amount").append(`<option value="" disabled selected>-</option>`);
+        for (let i = 1; i <= levelsLeft; i++) {
+            $("#upgrade-eq-amount").append(`<option value="${i}">${i}</option>`); 
+        }
+    }
+};
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
