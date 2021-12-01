@@ -58,13 +58,13 @@ const closeDisplay = async() => {
 const updateEquipmentUpgrade = async() => {
     const id = $("#upgrade-char").val();
     const equipmentType = $("#upgrade-eq-type").val();
-    $("#upgrade-eq-amount").empty();
+    $("#upgrade-eq-amount").empty(); 
 
     if (id && equipmentType) {
         const equipmentLevels = await characterStorage.equipments(id);
         const currentLevel = equipmentLevels[equipmentType-1];
         const levelsLeft = 4 - currentLevel;
-        $("#upgrade-eq-amount").append(`<option value="" disabled selected>-</option>`);
+        $("#upgrade-eq-amount").append(`<option value="">-</option>`);
         for (let i = 1; i <= levelsLeft; i++) {
             $("#upgrade-eq-amount").append(`<option value="${i}">${i}</option>`); 
         }
