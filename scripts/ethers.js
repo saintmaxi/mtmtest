@@ -464,7 +464,7 @@ const updateInfo = async() => {
 
     $("#your-yield-rate").html(`${await getMESYieldRate(_address)} <img src="./images/mes.png" width="30px">`);
     $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);
-    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px"><span onclick="claimMEScredits()">CLAIM</span>`);
+    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px"><div style="height:5px" class="hide-on-desktop"></div><span onclick="claimMEScredits()">CLAIM</span>`);
     $("#your-transponders").html( (await getTranspondersOfAddress(_address)) );
     $("#your-space-capsules").html( (await getSpaceCapsulesOfAddress(_address)) );
     $("#your-characters").html( (await getCharactersOfAddress(_address)) );
