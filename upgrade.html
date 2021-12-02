@@ -177,7 +177,7 @@
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: X</div>
+                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="upgrade-mes-req">X</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
@@ -224,7 +224,7 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Upgrade Level</div>
                   <div class="mtm-number-input w-form">
-                    <select data-name="upgrade-eq-amount" placeholder="Type" id="upgrade-eq-amount">
+                    <select data-name="upgrade-eq-amount" placeholder="Type" id="upgrade-eq-amount" onchange="getEquipmentUpgradeCost()">
                       <option value="" selected disabled>-</option>
                     </select>
                   </div>

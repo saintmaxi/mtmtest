@@ -159,16 +159,18 @@ const updateLevelUpPoints = async() => {
     }
 };
 
+const equipColors = new Map([[0, "white"], [1, "green"], [2, "blue"], [3,"red"], [4, "purple"]]); //update when they tell you
+
 const updateEquipmentLevelDisplay = async(id) => {
     const levels = await getEquipmentLevels(id);
     for (let i = 0; i < 8; i++) {
         let equipmentType = equipmentMap.get(i);
         let level = levels.get(i);
         if (i < 4) {
-            $("#equip-stats-1").append(`<div style="text-align:center">${equipmentType}: Level ${level}</div>`);
+            $("#equip-stats-1").append(`<div style="text-align:center">${equipmentType}:<span style="color:${equipColors.get(level)}"> Level ${level}<span></div>`);
         }
         else {
-            $("#equip-stats-2").append(`<div style="text-align:center">${equipmentType}: Level ${level}</div>`);
+            $("#equip-stats-2").append(`<div style="text-align:center">${equipmentType}:<span style="color:${equipColors.get(level)}"> Level ${level}</span></div>`);
         }
     }
 };
@@ -208,19 +210,22 @@ const updateEquipmentUpgrade = async() => {
     }
 };
 
-// const updateEquipDisplay = async() => {
-//     const equipmentLevels = await characterStorage.equipments(id);
-//     const _baseTier = await charactersController.queryBaseEquipmentTier( (await charactersController.getItemRarity(await characters.characters(tokenId_).spaceCapsuleId_), "WEAPON") );
-// const _upgrades = await charactersStorage.equipments(tokenId_).weaponUpgrades_;
-// const _currentItemLevel = _baseTier + upgrades;
+const equipmentUpgradeCosts = new Map([[0, 50], [1, 250], [2, 750], [3, 1500]]);
 
-// const capsuleID = (await characterStorage.characters(150)).spaceCapsuleId_;
-// const rarity = await charactersController.getItemRarity(capsuleID, "WEAPON");
-// const _baseTier = await charactersController.queryBaseEquipmentTier(rarity);
-// const _upgrades = (await characterStorage.equipments(150)).weaponUpgrades_; // change
-// _baseTier + _upgrades;
+const getEquipmentUpgradeCost = async() => {
+    const id = $("#upgrade-char").val();
+    const equipmentType = $("#upgrade-eq-type").val();
+    const levelsToUpgrade = $("#upgrade-eq-amount").val()
+    const equipmentUpgrades = await characterStorage.equipments(id);
+    const currentUpgrades = equipmentUpgrades[equipmentType-1];
+    const target = currentUpgrades + Number(levelsToUpgrade);
+    let cost = 0;
+    for (i = currentUpgrades; i < target; i++) {
+        cost += equipmentUpgradeCosts.get(i);
+    }
 
-// }
+    $("#upgrade-mes-req").text(cost);
+};
 
 const isolateIMG = async(id, elemID) => {
     const svg = await displayCharacter(id, true);
