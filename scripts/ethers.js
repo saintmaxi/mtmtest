@@ -244,10 +244,10 @@ const beamCharacter = async() => {
     if (!transpondersInput || !capsulesInput) return;
 
     // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll(charactersAddress)) ) {
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         await spaceCapsules.setApprovalForAll(charactersAddress, true);
     }
-    if ( !(await transponders.isApprovedForAll(charactersAddress)) ) {
+    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         await transponders.setApprovalForAll(charactersAddress, true);
     }
 
@@ -292,10 +292,10 @@ const uploadCharacter = async() => {
     const uploadID = $("#upload-character-id").val();
 
     // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll(charactersAddress)) ) {
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         await spaceCapsules.setApprovalForAll(charactersAddress, true);
     }
-    if ( !(await transponders.isApprovedForAll(charactersAddress)) ) {
+    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         await transponders.setApprovalForAll(charactersAddress, true);
     }
 
@@ -328,44 +328,58 @@ const augmentCharacter = async() => {
     const charsToBurnArray = charsToBurnInput.split(",");
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
 
-    // Hi saint this is a really sketchy hotfix
-    if ( !(await characters.isApprovedForAll(charactersControllerAddress)) ) {
-        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true);
+    const _augmentCharacter = async() => {
+        if (!characterID) {
+            await displayErrorMessage("Error: Select a character to augment.")
+        }
+        else if (!charsToBurnInput) {
+            await displayErrorMessage("Error: Select character(s) to burn.")
+        }
+        else if (charsToBurnArray.includes(characterID)) {
+            await displayErrorMessage(`Error: Character ${characterID} cannot be both augmented and burned!`);
+        }
+        else {
+            try {
+                await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
+                    await waitForTransaction(tx_);
+                });
+            }
+            catch (error) {
+                if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
+                    await displayErrorMessage(`Error: Cannot burn unowned characters!`)
+                }
+                else if ((error.message).includes("TNCOA")) {
+                    await displayErrorMessage(`Error: Approve Characters to Character Controller!`)
+                }
+                else if ((error.message).includes("Not enough MES credits")) {
+                    await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+                }
+                else if ((error.message).includes("Not enough MES to")) {
+                    await displayErrorMessage(`Error: Insufficient $MES for action!`);
+                }
+                else {
+                    window.alert(error);
+                    console.log(error);
+                }
+            }
+        }
     }
 
-    if (!characterID) {
-        await displayErrorMessage("Error: Select a character to augment.")
-    }
-    else if (!charsToBurnInput) {
-        await displayErrorMessage("Error: Select character(s) to burn.")
-    }
-    else if (charsToBurnArray.includes(characterID)) {
-        await displayErrorMessage(`Error: Character ${characterID} cannot be both augmented and burned!`);
-    }
-    else {
-        try {
-            await charactersController.augmentCharacter(characterID, charsToBurnArray, useCredits).then( async(tx_) => {
-                await waitForTransaction(tx_);
+    // Hi saint this is the method in ethers to chain TX and let things happen after the TX is confirmed.
+    if ( !(await characters.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("characters not approved: requesting approval!");
+        await characters.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("characters approved! now augmenting");
+                _augmentCharacter(); 
             });
-        }
-        catch (error) {
-            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
-                await displayErrorMessage(`Error: Cannot burn unowned characters!`)
-            }
-            else if ((error.message).includes("TNCOA")) {
-                await displayErrorMessage(`Error: Approve Characters to Character Controller!`)
-            }
-            else if ((error.message).includes("Not enough MES credits")) {
-                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
-            }
-            else if ((error.message).includes("Not enough MES to")) {
-                await displayErrorMessage(`Error: Insufficient $MES for action!`);
-            }
-            else {
-                console.log(error);
-            }
-        }
-    }
+        })
+        .catch( (err_) => { window.alert(err_); });
+    } else {
+        console.log("characters already approved! now augmenting");
+        _augmentCharacter();
+    };
 };
 
 const augmentCharacterWithMaterials = async() => {
@@ -377,10 +391,10 @@ const augmentCharacterWithMaterials = async() => {
     const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
 
     // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll(charactersControllerAddress)) ) {
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
         await spaceCapsules.setApprovalForAll(charactersControllerAddress, true);
     }
-    if ( !(await transponders.isApprovedForAll(charactersControllerAddress)) ) {
+    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
         await transponders.setApprovalForAll(charactersControllerAddress, true);
     }
 
