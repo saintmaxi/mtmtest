@@ -243,6 +243,14 @@ const beamCharacter = async() => {
 
     if (!transpondersInput || !capsulesInput) return;
 
+    // Hi saint this is a really sketchy hotfix
+    if ( !(await spaceCapsules.isApprovedForAll(charactersAddress)) ) {
+        await spaceCapsules.setApprovalForAll(charactersAddress, true);
+    }
+    if ( !(await transponders.isApprovedForAll(charactersAddress)) ) {
+        await transponders.setApprovalForAll(charactersAddress, true);
+    }
+
     if (transpondersArray.length !== capsulesArray.length) {
         await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
     }
@@ -282,6 +290,15 @@ const uploadCharacter = async() => {
     const renderType = 1;
     const contractAddress = $("#upload-char-type option:selected").val();
     const uploadID = $("#upload-character-id").val();
+
+    // Hi saint this is a really sketchy hotfix
+    if ( !(await spaceCapsules.isApprovedForAll(charactersAddress)) ) {
+        await spaceCapsules.setApprovalForAll(charactersAddress, true);
+    }
+    if ( !(await transponders.isApprovedForAll(charactersAddress)) ) {
+        await transponders.setApprovalForAll(charactersAddress, true);
+    }
+
     if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
         await displayErrorMessage("Error: Enter all required fields.")
     }
@@ -310,6 +327,12 @@ const augmentCharacter = async() => {
     const charsToBurnInput = $("#augment-burn-chars").val();
     const charsToBurnArray = charsToBurnInput.split(",");
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
+
+    // Hi saint this is a really sketchy hotfix
+    if ( !(await characters.isApprovedForAll(charactersControllerAddress)) ) {
+        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true);
+    }
+
     if (!characterID) {
         await displayErrorMessage("Error: Select a character to augment.")
     }
@@ -352,6 +375,14 @@ const augmentCharacterWithMaterials = async() => {
     const capsulesInput = $("#augment-capsules").val();
     const capsulesArray = capsulesInput.split(",");
     const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
+
+    // Hi saint this is a really sketchy hotfix
+    if ( !(await spaceCapsules.isApprovedForAll(charactersControllerAddress)) ) {
+        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true);
+    }
+    if ( !(await transponders.isApprovedForAll(charactersControllerAddress)) ) {
+        await transponders.setApprovalForAll(charactersControllerAddress, true);
+    }
 
     if (!characterID || !transpondersInput || !capsulesInput) {
         await displayErrorMessage("Error: Enter all required fields.")
