@@ -20,6 +20,15 @@ const displayErrorMessage = async(message, timed=true) => {
     }
 };
 
+const displayStatusMessage = async(message, timed=true) => {
+    let fakeJSX = `<div id="status-popup"><p>${message}</p></div>`;
+    $("body").append(fakeJSX);
+    if (timed) {
+        await sleep(2500);
+        $("#status-popup").remove();
+    }
+};
+
 const displayTransponder = async(id) => {
     console.log('displaying transponder ', id)
     const uri = await transponders.tokenURI(id);

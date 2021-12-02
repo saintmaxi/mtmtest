@@ -129,40 +129,6 @@ const approveCharsToCharControl = async() => {
     });
 };
 
-const checkApprovals = async() => {
-    const owner = await getAddress();
-    if (await transponders.isApprovedForAll(owner, charactersAddress)) {
-        $("#tp-to-chars-approval").addClass("hidden");
-    }
-    else {
-        $("#tp-to-chars-approval").removeClass("hidden");
-    }
-    if (await transponders.isApprovedForAll(owner, charactersControllerAddress)) {
-        $("#tp-to-chars-control-approval").addClass("hidden");
-    }
-    else {
-        $("#tp-to-chars-control-approval").removeClass("hidden");
-    }
-    if (await spaceCapsules.isApprovedForAll(owner, charactersAddress)) {
-        $("#sc-to-chars-approval").addClass("hidden");
-    }
-    else {
-        $("#sc-to-chars-approval").removeClass("hidden");
-    }
-    if (await spaceCapsules.isApprovedForAll(owner, charactersControllerAddress)) {
-        $("#sc-to-chars-control-approval").addClass("hidden");
-    }
-    else {
-        $("#sc-to-chars-control-approval").removeClass("hidden");
-    }
-    if (await characters.isApprovedForAll(owner, charactersControllerAddress)) {
-        $("#chars-to-chars-control-approval").addClass("hidden");
-    }
-    else {
-        $("#chars-to-chars-control-approval").removeClass("hidden");
-    }
-};
-
 const getTranspondersOfAddress = async(address_) => {
     const yourTransponders = await transponders.getTokensOfAddress(address_);
     if (yourTransponders.length == 0) {
@@ -241,7 +207,10 @@ const beamCharacter = async() => {
     const capsulesInput = $("#beam-capsule-ids").val();
     const capsulesArray = capsulesInput.split(",");
 
-    if (!transpondersInput || !capsulesInput) return;
+    if (!transpondersInput || !capsulesInput) {
+        displayErrorMessage("Error: Enter all required fields.")    
+        return;
+    }
 
     const _beamCharacter = async() => {
         if (transpondersArray.length !== capsulesArray.length) {
@@ -269,6 +238,9 @@ const beamCharacter = async() => {
                 else if ((error.message).includes("not owner nor approved")) {
                     await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
                 }
+                else if ((error.message).includes("INVALID_ARGUMENT")) {
+                    await displayErrorMessage(`Error: Invalid input! Ensure IDs are comma-separated with no spaces and no commas at the end!`)
+                }
                 else {
                     console.log(error);
                 }
@@ -279,19 +251,23 @@ const beamCharacter = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        console.log("space capsules not approved: requesting approval!");
+        displayErrorMessage(`Space Capsules not approved to Beaming Device. Requesting approval...`);
+        await sleep(1800)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
-
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("space capsules approved! checking transponders approval!");
+                displayStatusMessage(`Space Capsules approved to Beaming Device!`);
+                await sleep(1800)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-                    console.log("transponders not approved: requesting approval!");
+                    displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+                    await sleep(1800)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
-
+                        await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
-                            console.log("transponders approved! now augmenting with mats");
+                            displayStatusMessage(`Transponders approved to Beaming Device! Beaming...`);
+                            await sleep(1800)
                             _beamCharacter(); 
                         });
                     })
@@ -300,17 +276,19 @@ const beamCharacter = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        console.log("transponders not approved: requesting approval!");
+        displayErrorMessage("Transponders not approved to Beaming Device. Requesting approval...");
+        await sleep(1800)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("transponders approved! now augmenting with mats");
+                displayStatusMessage(`Transponders approved to Beaming Device! Beaming...`);
+                await sleep(1800)
                 _beamCharacter(); 
             });
         })
     }
     else {
-        console.log("transponders and capsules approved! now augmenting with mats");
         _beamCharacter(); 
     };
 };
@@ -340,6 +318,9 @@ const uploadCharacter = async() => {
                 else if ((error.message).includes("not owner nor approved")) {
                     await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
                 }
+                else if ((error.message).includes("This character has already been uploaded!")) {
+                    await displayErrorMessage(`Error: This character has already been uploaded!`)
+                }
                 else {
                     console.log(error);
                 }
@@ -350,19 +331,23 @@ const uploadCharacter = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        console.log("space capsules not approved: requesting approval!");
+        displayErrorMessage(`Space Capsules not approved to Beaming Device. Requesting approval...`);
+        await sleep(1800)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
-
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("space capsules approved! checking transponders approval!");
+                displayStatusMessage(`Space Capsules approved to Beaming Device!`);
+                await sleep(1800)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-                    console.log("transponders not approved: requesting approval!");
+                    displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+                    await sleep(1800)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
-
+                        await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
-                            console.log("transponders approved! now augmenting with mats");
+                            displayStatusMessage(`Transponders approved to Beaming Device! Initiating upload...`);
+                            await sleep(1800)
                             _uploadCharacter(); 
                         });
                     })
@@ -371,17 +356,19 @@ const uploadCharacter = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        console.log("transponders not approved: requesting approval!");
+        displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+        await sleep(1800)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("transponders approved! now augmenting with mats");
+                displayStatusMessage(`Transponders approved to Beaming Device! Initiating upload...`);
+                await sleep(1800)
                 _uploadCharacter(); 
             });
         })
     }
     else {
-        console.log("transponders and capsules approved! now augmenting with mats");
         _uploadCharacter(); 
     };
 };
@@ -421,8 +408,10 @@ const augmentCharacter = async() => {
                 else if ((error.message).includes("Not enough MES to")) {
                     await displayErrorMessage(`Error: Insufficient $MES for action!`);
                 }
+                else if ((error.message).includes("INVALID_ARGUMENT")) {
+                    await displayErrorMessage(`Error: Invalid input! Ensure IDs are comma-separated with no spaces and no commas at the end!`)
+                }
                 else {
-                    window.alert(error);
                     console.log(error);
                 }
             }
@@ -431,17 +420,19 @@ const augmentCharacter = async() => {
 
     // Hi saint this is the method in ethers to chain TX and let things happen after the TX is confirmed.
     if ( !(await characters.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        console.log("characters not approved: requesting approval!");
+        displayErrorMessage(`Characters not approved to Augmenter. Requesting approval...`);
+        await sleep(1800)
         await characters.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("characters approved! now augmenting");
+                displayStatusMessage(`Characters approved to Augmenter! Augmenting...`);
+                await sleep(1800)
                 _augmentCharacter(); 
             });
         })
-        .catch( (err_) => { window.alert(err_); });
+        .catch( (err_) => {console.log(err_); });
     } else {
-        console.log("characters already approved! now augmenting");
         _augmentCharacter();
     };
 };
@@ -491,19 +482,23 @@ const augmentCharacterWithMaterials = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        console.log("space capsules not approved: requesting approval!");
+        displayErrorMessage(`Space Capsules not approved to Augmenter. Requesting approval...`);
+        await sleep(1800)
         await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
-
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("space capsules approved! checking transponders approval!");
+                displayStatusMessage(`Space Capsules approved to Augmenter!`);
+                await sleep(1800)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-                    console.log("transponders not approved: requesting approval!");
+                    displayErrorMessage(`Transponders not approved to Augmenter. Requesting approval...`);
+                    await sleep(1800)
                     await transponders.setApprovalForAll(charactersControllerAddress, true)
                     .then( async(tx_) => { 
-
+                        await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
-                            console.log("transponders approved! now augmenting with mats");
+                            displayStatusMessage(`Transponders approved to Augmenter! Augmenting with materials...`);
+                            await sleep(1800)
                             _augmentCharacterWithMaterials(); 
                         });
                     })
@@ -512,17 +507,19 @@ const augmentCharacterWithMaterials = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        console.log("transponders not approved: requesting approval!");
+        displayErrorMessage(`Transponders not approved to Augmenter. Requesting approval...`);
+        await sleep(1800)
         await transponders.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
+            await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
-                console.log("transponders approved! now augmenting with mats");
+                displayStatusMessage(`Transponders approved to Augmenter! Augmenting with materials...`);
+                await sleep(1800)
                 _augmentCharacterWithMaterials(); 
             });
         })
     }
     else {
-        console.log("transponders and capsules approved! now augmenting with mats");
         _augmentCharacterWithMaterials(); 
     };
 };
@@ -648,7 +645,6 @@ async function endLoading(tx, txStatus) {
 
 // Workers
 const updateInfo = async() => {
-    await checkApprovals();
     const _address = !(await getAddress()) ? "Connect Wallet!" : (await getAddress());
     $("#account").text(`${_address.substr(0,9)}...`);
     
