@@ -93,16 +93,16 @@ const updateEquipmentUpgrade = async() => {
         $("#upgrade-equip-img").empty();
         $("#upgrade-equip-img").append(await isolateIMG(id, 'upgrade-equip-svg'));
         let charIMG = document.getElementById("upgrade-equip-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 900);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
 
         $("#equip-stats-1").empty();
         $("#equip-stats-2").empty();
         for (let i = 0; i < 8; i++) {
             if (i < 4) {
-                $("#equip-stats-1").append(`<span>${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</span>`);
+                $("#equip-stats-1").append(`<div style="text-align:center">${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</div>`);
             }
             else {
-                $("#equip-stats-2").append(`<span>${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</span>`);
+                $("#equip-stats-2").append(`<div style="text-align:center">${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</div>`);
             }
         }
         
@@ -126,7 +126,7 @@ const updateLevelUpPoints = async() => {
         $("#level-up-char-img").empty();
         $("#level-up-char-img").append(await isolateIMG(id, 'level-up-svg'));
         let charIMG = document.getElementById("level-up-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 900);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
 
         const stats = await characterStorage.characters(id);
         const currentBasePoints = stats.basePoints_;
