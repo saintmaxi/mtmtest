@@ -552,6 +552,11 @@ fill:red;
     width:80%;
     margin-top: 10px;
   }
+
+  .your-char {
+    width: 100%;
+    margin: 2px;
+  }
 }
 
 @media screen and (max-width: 479px) {
