@@ -278,16 +278,16 @@ const beamCharacter = async() => {
 
 
     // tx chaining i think this should work
-    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         console.log("space capsules not approved: requesting approval!");
-        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
+        await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
 
             provider.once(tx_.hash, async(tx__) => {
                 console.log("space capsules approved! checking transponders approval!");
-                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
                     console.log("transponders not approved: requesting approval!");
-                    await transponders.setApprovalForAll(charactersControllerAddress, true)
+                    await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
 
                         provider.once(tx_.hash, async(tx__) => {
@@ -299,9 +299,9 @@ const beamCharacter = async() => {
             });
         })
     } 
-    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         console.log("transponders not approved: requesting approval!");
-        await transponders.setApprovalForAll(charactersControllerAddress, true)
+        await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             provider.once(tx_.hash, async(tx__) => {
                 console.log("transponders approved! now augmenting with mats");
@@ -349,16 +349,16 @@ const uploadCharacter = async() => {
 
 
     // tx chaining i think this should work
-    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         console.log("space capsules not approved: requesting approval!");
-        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
+        await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
 
             provider.once(tx_.hash, async(tx__) => {
                 console.log("space capsules approved! checking transponders approval!");
-                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
                     console.log("transponders not approved: requesting approval!");
-                    await transponders.setApprovalForAll(charactersControllerAddress, true)
+                    await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
 
                         provider.once(tx_.hash, async(tx__) => {
@@ -370,9 +370,9 @@ const uploadCharacter = async() => {
             });
         })
     } 
-    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         console.log("transponders not approved: requesting approval!");
-        await transponders.setApprovalForAll(charactersControllerAddress, true)
+        await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             provider.once(tx_.hash, async(tx__) => {
                 console.log("transponders approved! now augmenting with mats");
