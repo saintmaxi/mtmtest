@@ -126,7 +126,7 @@
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div id="level-up-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: X</div>
+                  <div id="level-up-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="level-up-mes-req">X</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
@@ -152,7 +152,7 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">Amount of Base Points</div>
                   <div class="mtm-number-input w-form">
-                    <select data-name="level-up-amount" placeholder="Type" id="level-up-amount">
+                    <select data-name="level-up-amount" placeholder="Type" id="level-up-amount" onchange="getLevelUpCost()">
                       <option value="" selected disabled>-</option>
                     </select>
                   </div>

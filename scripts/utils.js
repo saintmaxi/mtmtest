@@ -215,7 +215,7 @@ const equipmentUpgradeCosts = new Map([[0, 50], [1, 250], [2, 750], [3, 1500]]);
 const getEquipmentUpgradeCost = async() => {
     const id = $("#upgrade-char").val();
     const equipmentType = $("#upgrade-eq-type").val();
-    const levelsToUpgrade = $("#upgrade-eq-amount").val()
+    const levelsToUpgrade = $("#upgrade-eq-amount").val();
     const equipmentUpgrades = await characterStorage.equipments(id);
     const currentUpgrades = equipmentUpgrades[equipmentType-1];
     const target = currentUpgrades + Number(levelsToUpgrade);
@@ -226,6 +226,22 @@ const getEquipmentUpgradeCost = async() => {
 
     $("#upgrade-mes-req").text(cost);
 };
+
+const levelUpCosts = new Map([[0, 1], [1, 2], [2,5], [3, 10], [4, 20], [5, 30], [6, 50], [7, 70], [8, 100], [9, 150]]);
+const getLevelUpCost = async() => {
+    const id = $("#level-up-char").val();
+    const levelUpAmount = $("#level-up-amount").val();
+    const stats = await characterStorage.characters(id);
+    const currentBasePoints = stats.basePoints_;
+    const target = currentBasePoints + Number(levelUpAmount);
+    let cost = 0;
+    for (i = currentBasePoints; i < target; i++) {
+        cost += levelUpCosts.get(Math.floor(i/5));
+    }
+
+    $("#level-up-mes-req").text(cost);
+};
+
 
 const isolateIMG = async(id, elemID) => {
     const svg = await displayCharacter(id, true);
