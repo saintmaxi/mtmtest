@@ -243,45 +243,76 @@ const beamCharacter = async() => {
 
     if (!transpondersInput || !capsulesInput) return;
 
-    // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        await spaceCapsules.setApprovalForAll(charactersAddress, true);
-    }
-    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        await transponders.setApprovalForAll(charactersAddress, true);
+    const _beamCharacter = async() => {
+        if (transpondersArray.length !== capsulesArray.length) {
+            await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
+        }
+        else {
+            try {
+                if (transpondersArray.length == 1) {
+                    const renderType = 1;
+                    await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
+                        await waitForTransaction(tx_);
+                    });
+                }
+                else if (transpondersArray.length > 1) {
+                    const renderTypes = Array(transpondersArray.length).fill(1);
+                    await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
+                        await waitForTransaction(tx_);
+                    });
+                }
+            }
+            catch (error) {
+                if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
+                    await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+                }
+                else if ((error.message).includes("not owner nor approved")) {
+                    await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
+                }
+                else {
+                    console.log(error);
+                }
+            }
+        }
     }
 
-    if (transpondersArray.length !== capsulesArray.length) {
-        await displayErrorMessage('Error: Beaming requires equal number of transponders and capsules.')
+
+    // tx chaining i think this should work
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("space capsules not approved: requesting approval!");
+        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("space capsules approved! checking transponders approval!");
+                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+                    console.log("transponders not approved: requesting approval!");
+                    await transponders.setApprovalForAll(charactersControllerAddress, true)
+                    .then( async(tx_) => { 
+
+                        provider.once(tx_.hash, async(tx__) => {
+                            console.log("transponders approved! now augmenting with mats");
+                            _beamCharacter(); 
+                        });
+                    })
+                }
+            });
+        })
+    } 
+    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("transponders not approved: requesting approval!");
+        await transponders.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("transponders approved! now augmenting with mats");
+                _beamCharacter(); 
+            });
+        })
     }
     else {
-        try {
-            if (transpondersArray.length == 1) {
-                const renderType = 1;
-                await characters.beamCharacter(transpondersArray[0], capsulesArray[0], renderType).then( async(tx_) => {
-                    await waitForTransaction(tx_);
-                });
-            }
-            else if (transpondersArray.length > 1) {
-                const renderTypes = Array(transpondersArray.length).fill(1);
-                await characters.multiBeamCharacter(transpondersArray, capsulesArray, renderTypes).then( async(tx_) => {
-                    await waitForTransaction(tx_);
-                });
-            }
-        }
-        catch (error) {
-            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token")) {
-                await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
-            }
-            else if ((error.message).includes("not owner nor approved")) {
-                await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
-            }
-            else {
-                console.log(error);
-            }
-        }
-        
-    }
+        console.log("transponders and capsules approved! now augmenting with mats");
+        _beamCharacter(); 
+    };
 };
 
 const uploadCharacter = async() => {
@@ -291,35 +322,68 @@ const uploadCharacter = async() => {
     const contractAddress = $("#upload-char-type option:selected").val();
     const uploadID = $("#upload-character-id").val();
 
-    // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        await spaceCapsules.setApprovalForAll(charactersAddress, true);
-    }
-    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        await transponders.setApprovalForAll(charactersAddress, true);
+
+    const _uploadCharacter = async() => {
+        if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
+            await displayErrorMessage("Error: Enter all required fields.")
+        }
+        else {
+            try {
+                await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
+                    await waitForTransaction(tx_);
+                });
+            }
+            catch (error) {
+                if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token") || (error.message).includes("You don't own this character")) {
+                    await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
+                }
+                else if ((error.message).includes("not owner nor approved")) {
+                    await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
+                }
+                else {
+                    console.log(error);
+                }
+            }
+        }
     }
 
-    if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
-        await displayErrorMessage("Error: Enter all required fields.")
+
+    // tx chaining i think this should work
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("space capsules not approved: requesting approval!");
+        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("space capsules approved! checking transponders approval!");
+                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+                    console.log("transponders not approved: requesting approval!");
+                    await transponders.setApprovalForAll(charactersControllerAddress, true)
+                    .then( async(tx_) => { 
+
+                        provider.once(tx_.hash, async(tx__) => {
+                            console.log("transponders approved! now augmenting with mats");
+                            _uploadCharacter(); 
+                        });
+                    })
+                }
+            });
+        })
+    } 
+    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("transponders not approved: requesting approval!");
+        await transponders.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("transponders approved! now augmenting with mats");
+                _uploadCharacter(); 
+            });
+        })
     }
     else {
-        try {
-            await characters.uploadCharacter(transponderID, capsuleID, renderType, contractAddress, uploadID).then( async(tx_) => {
-                await waitForTransaction(tx_);
-            });
-        }
-        catch (error) {
-            if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token") || (error.message).includes("You don't own this character")) {
-                await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
-            }
-            else if ((error.message).includes("not owner nor approved")) {
-                await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
-            }
-            else {
-                console.log(error);
-            }
-        }
-    }
+        console.log("transponders and capsules approved! now augmenting with mats");
+        _uploadCharacter(); 
+    };
 };
 
 const augmentCharacter = async() => {
@@ -390,46 +454,77 @@ const augmentCharacterWithMaterials = async() => {
     const capsulesArray = capsulesInput.split(",");
     const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
 
-    // Hi saint this is a really sketchy hotfix
-    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true);
-    }
-    if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        await transponders.setApprovalForAll(charactersControllerAddress, true);
-    }
-
-    if (!characterID || !transpondersInput || !capsulesInput) {
-        await displayErrorMessage("Error: Enter all required fields.")
-    }
-    else {
-        if (transpondersArray.length !== capsulesArray.length) {
-            await displayErrorMessage('Error: Augmenting requires equal number of transponders and capsules.')
+    const _augmentCharacterWithMaterials = async() => {
+        if (!characterID || !transpondersInput || !capsulesInput) {
+            await displayErrorMessage("Error: Enter all required fields.")
         }
         else {
-            try {
-                await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
-                    await waitForTransaction(tx_)
-                });
+            if (transpondersArray.length !== capsulesArray.length) {
+                await displayErrorMessage('Error: Augmenting requires equal number of transponders and capsules.')
             }
-            catch (error) {
-                if ((error.message).includes("Not owner") || (error.message).includes("owner query for nonexistent token")) {
-                    await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+            else {
+                try {
+                    await charactersController.augmentCharacterWithMats(characterID, transpondersArray, capsulesArray, useCredits).then( async(tx_) => {
+                        await waitForTransaction(tx_)
+                    });
                 }
-                else if ((error.message).includes("not owner nor approved")) {
-                    await displayErrorMessage(`Error: Approve Transponders and Capsules to Character Controller!`)
-                }
-                else if ((error.message).includes("Not enough MES credits")) {
-                    await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
-                }
-                else if ((error.message).includes("Not enough MES to")) {
-                    await displayErrorMessage(`Error: Insufficient $MES for action!`);
-                }
-                else {
-                    console.log(error);
+                catch (error) {
+                    if ((error.message).includes("Not owner") || (error.message).includes("owner query for nonexistent token")) {
+                        await displayErrorMessage(`Error: You must own the specified transponders and capsules!`)
+                    }
+                    else if ((error.message).includes("not owner nor approved")) {
+                        await displayErrorMessage(`Error: Approve Transponders and Capsules to Character Controller!`)
+                    }
+                    else if ((error.message).includes("Not enough MES credits")) {
+                        await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+                    }
+                    else if ((error.message).includes("Not enough MES to")) {
+                        await displayErrorMessage(`Error: Insufficient $MES for action!`);
+                    }
+                    else {
+                        console.log(error);
+                    }
                 }
             }
         }
+    };
+
+    // tx chaining i think this should work
+    if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("space capsules not approved: requesting approval!");
+        await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("space capsules approved! checking transponders approval!");
+                if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+                    console.log("transponders not approved: requesting approval!");
+                    await transponders.setApprovalForAll(charactersControllerAddress, true)
+                    .then( async(tx_) => { 
+
+                        provider.once(tx_.hash, async(tx__) => {
+                            console.log("transponders approved! now augmenting with mats");
+                            _augmentCharacterWithMaterials(); 
+                        });
+                    })
+                }
+            });
+        })
+    } 
+    else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
+        console.log("transponders not approved: requesting approval!");
+        await transponders.setApprovalForAll(charactersControllerAddress, true)
+        .then( async(tx_) => { 
+            provider.once(tx_.hash, async(tx__) => {
+                console.log("transponders approved! now augmenting with mats");
+                _augmentCharacterWithMaterials(); 
+            });
+        })
     }
+    else {
+        console.log("transponders and capsules approved! now augmenting with mats");
+        _augmentCharacterWithMaterials(); 
+    };
 };
 
 const levelUpBasePoints = async() => {
