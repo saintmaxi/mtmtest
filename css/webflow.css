@@ -559,6 +559,11 @@ textarea.w-select {
 .w-col-2 {
   width: 16.66666667%;
 }
+
+.w-col-13 {
+  width: 20%;
+}
+
 .w-col-3 {
   width: 25%;
 }
