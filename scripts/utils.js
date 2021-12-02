@@ -250,7 +250,6 @@ const isolateIMG = async(id, elemID) => {
     const headerStart = svg.indexOf('<text');
     const headerEnd = svg.indexOf('/text') + 5;
     const header = svg.substring(headerStart, headerEnd);
-    console.log(header)
 
     // Assemble
     const imgToDisplay = svgOpen + style + img + header + "</svg>";
