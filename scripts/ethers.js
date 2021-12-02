@@ -161,19 +161,29 @@ const getSpaceCapsulesOfAddress = async(address_) => {
     }
 };
 
-const getCharactersOfAddress = async(address_) => {
+const getCharactersOfAddress = async(address_, returnList=false) => {
     const yourCharacters = await characters.walletOfOwner(address_);
     if (yourCharacters.length == 0) {
-        return "None";
+        if (returnList) {
+            return [];
+        }
+        else {
+            return "None";
+        }
     }
     else {
         const sortedCharacters = [...yourCharacters].sort((a, b) => a - b);
-        let sortedCharactersJSX = "";
-        for (let i = 0; i < sortedCharacters.length; i++) {
-            let charID = Number(sortedCharacters[i]);
-            sortedCharactersJSX += `<span class="clickable" onclick="displayCharacter(${charID})">${charID} </span>`
+        if (returnList) {
+            return sortedCharacters;
         }
-        return sortedCharactersJSX;
+        else {
+            let sortedCharactersJSX = "";
+            for (let i = 0; i < sortedCharacters.length; i++) {
+                let charID = Number(sortedCharacters[i]);
+                sortedCharactersJSX += `<span class="clickable" onclick="displayCharacter(${charID})">${charID} </span>`
+            }
+            return sortedCharactersJSX;
+        }
     }
 };
 
