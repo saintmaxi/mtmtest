@@ -52,10 +52,9 @@ const displayCharacter = async(id) => {
     console.log('displaying char ', id)
     await closeDisplay();
     const uri = await characters.tokenURI(id);
-    const svgStart = uri.indexOf('<svg');
-    const svgEnd = uri.indexOf('/svg>') + 5;
-    const svg = uri.substring(svgStart, svgEnd);
-    $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+    const decodedUri = JSON.parse(atob(uri.replace("data:application/json;base64,", "")))
+    const image = atob(decodedUri.image.replace("data:image/svg+xml;base64,", ""));
+    $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${image}</div>`);
 };
 
 const closeDisplay = async() => {
