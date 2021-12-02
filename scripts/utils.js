@@ -30,7 +30,6 @@ const displayStatusMessage = async(message, timed=true) => {
 };
 
 const displayTransponder = async(id) => {
-    console.log('displaying transponder ', id)
     const uri = await transponders.tokenURI(id);
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
@@ -39,7 +38,6 @@ const displayTransponder = async(id) => {
 };
 
 const displayCapsule = async(id) => {
-    console.log('displaying capsule ', id)
     await closeDisplay();
     const uri = await spaceCapsules.tokenURI(id);
     const svgStart = uri.indexOf('<svg');
@@ -49,12 +47,24 @@ const displayCapsule = async(id) => {
 };
 
 const displayCharacter = async(id) => {
-    console.log('displaying char ', id)
     await closeDisplay();
     const uri = await characters.tokenURI(id);
     const decodedUri = JSON.parse(atob(uri.replace("data:application/json;base64,", "")))
     const image = atob(decodedUri.image.replace("data:image/svg+xml;base64,", ""));
     $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${image}</div>`);
+};
+
+const populateMyCharacters = async() => {
+    const ownedChars = await getCharactersOfAddress((await getAddress()), true);
+    for (let i = 0; i < ownedChars.length; i++) {
+        id = ownedChars[i];
+        elemID = `char-${id}`;
+        svg = await isolateIMG(id, elemID);
+        mesYield = formatEther(await charactersController.getCharacterYieldRate(id));
+        $("#characters-block").append(`<div class="your-char" onclick='displayCharacter(${id})'>${svg}<h4>${mesYield} <img src="./images/mes.png" width="30px"> /Day</h4></div>`)
+        let charIMG = document.getElementById(elemID);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+    }
 };
 
 const closeDisplay = async() => {
