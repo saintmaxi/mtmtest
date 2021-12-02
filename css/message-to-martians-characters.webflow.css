@@ -320,7 +320,7 @@ box-shadow: 0px 0px 105px 2px rgba(0,255,242,0.9);
   height: initial;
 }
 
-#level-up-svg, #upgrade-equip-svg, .your-char svg{
+#augment-w-char-svg, #augment-w-mats-svg, #level-up-svg, #upgrade-equip-svg, .your-char svg{
   height: 40vh;
   width: 100%;
 } 
@@ -393,10 +393,13 @@ fill:red;
   text-align: left;
 }
 
-/* #level-up-char-img path, #level-up-char-img image {
-  height: 100%;
-  width: 100%;
-} */
+#augment-w-char-img image, #augment-w-mats-img image, #level-up-char-img image, #upgrade-equip-img image {
+  cursor: pointer;
+}
+
+.stats-loading {
+  text-align: center;
+}
 
 /*Animation*/
 

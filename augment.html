@@ -121,6 +121,8 @@
         <div class="w-col w-col-6">
           <div>
             <h2 class="section-item">Augment with Character</h2>
+            <div id="augment-w-char-img"></div>
+            <div id="augment-w-char-current-augments"></div>
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
@@ -142,7 +144,7 @@
                 <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-char">
+                    <select class="character-select mtm-number-field" id="augment-char" onchange="updateAugment()">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
@@ -165,6 +167,8 @@
         <div class="w-col w-col-6">
           <div>
             <h2 class="section-item">Augment with Materials</h2>
+            <div id="augment-w-mats-img"></div>
+            <div id="augment-w-mats-current-augments"></div>
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
@@ -186,7 +190,7 @@
                 <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-mats-char">
+                    <select class="character-select mtm-number-field" id="augment-mats-char" onchange="updateAugmentWithMats()">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>

@@ -79,41 +79,59 @@ const closeDisplay = async() => {
 };
 
 
+const equipClasses = ["WEAPON", "CHEST", "HEAD", "LEGS", "VEHICLE", "ARMS", "ARTIFACT", "RING"];
+
+const getEquipmentLevels = async(id) => {
+    const capsuleID = (await characterStorage.characters(id)).spaceCapsuleId_;
+
+    let levels = new Map();
+    for (let i = 0; i < equipClasses.length; i++) {
+        let equipClass = equipClasses[i];
+        let rarity = await charactersController.getItemRarity(capsuleID, equipClass);
+        let _baseTier = await charactersController.queryBaseEquipmentTier(rarity);
+        let _upgrades = (await characterStorage.equipments(id))[`${equipClass.toLowerCase()}Upgrades_`];
+        let currentLevel = _baseTier + _upgrades;
+        levels.set(i, currentLevel);
+        levels.set(`${equipClass.toLowerCase()}Lvl`, currentLevel);
+    }
+
+    return levels;
+};
+
+
 const equipmentMap = new Map([[0, "Weapon"], [1, "Chest"], [2, "Head"], [3, "Legs"], 
                             [4, "Vehicle"], [5, "Arms"], [6, "Artifact"], [7, "Ring"]]);
 
-const updateEquipmentUpgrade = async() => {
-    const id = $("#upgrade-char").val();
-    const equipmentType = $("#upgrade-eq-type").val();
-    $("#upgrade-eq-amount").empty(); 
-    $("#upgrade-eq-amount").append(`<option value="">-</option>`);
-    const equipmentLevels = await characterStorage.equipments(id);
+
+const updateAugment = async() => {
+    const id = $("#augment-char").val();
 
     if (id) {
-        $("#upgrade-equip-img").empty();
-        $("#upgrade-equip-img").append(await isolateIMG(id, 'upgrade-equip-svg'));
-        let charIMG = document.getElementById("upgrade-equip-svg");
+        $("#augment-w-char-img").empty();
+        $("#augment-w-char-img").append(await isolateIMG(id, 'augment-w-char-svg'));
+        $("#augment-w-char-img"). attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("augment-w-char-svg");
         charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
 
-        $("#equip-stats-1").empty();
-        $("#equip-stats-2").empty();
-        for (let i = 0; i < 8; i++) {
-            if (i < 4) {
-                $("#equip-stats-1").append(`<div style="text-align:center">${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</div>`);
-            }
-            else {
-                $("#equip-stats-2").append(`<div style="text-align:center">${equipmentMap.get(i)}: Level ${equipmentLevels[i]}</div>`);
-            }
-        }
-        
+        const currentAugments = (await characterStorage.characters(id)).augments_;
+        $("#augment-w-char-current-augments").empty();
+        $("#augment-w-char-current-augments").append(`<h3>Current Augments: ${currentAugments}</h3>`);
     }
+};
 
-    if (id && equipmentType) {
-        const currentLevel = equipmentLevels[equipmentType-1];
-        const levelsLeft = 4 - currentLevel;
-        for (let i = 1; i <= levelsLeft; i++) {
-            $("#upgrade-eq-amount").append(`<option value="${i}">${i}</option>`); 
-        }
+const updateAugmentWithMats = async() => {
+    const id = $("#augment-mats-char").val();
+
+    if (id) {
+        $("#augment-w-mats-img").empty();
+        $("#augment-w-mats-img").append(await isolateIMG(id, 'augment-w-mats-svg'));
+        $("#augment-w-mats-img"). attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("augment-w-mats-svg");
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+
+        const currentAugments = (await characterStorage.characters(id)).augments_;
+        $("#augment-w-mats-current-augments").empty();
+        $("#augment-w-mats-current-augments").append(`<h3>Current Augments: ${currentAugments}</h3>`);
     }
 };
 
@@ -125,6 +143,7 @@ const updateLevelUpPoints = async() => {
     if (id) {
         $("#level-up-char-img").empty();
         $("#level-up-char-img").append(await isolateIMG(id, 'level-up-svg'));
+        $("#level-up-char-img"). attr("onclick",`displayCharacter(${id})`);
         let charIMG = document.getElementById("level-up-svg");
         charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
 
@@ -139,6 +158,69 @@ const updateLevelUpPoints = async() => {
         }
     }
 };
+
+const updateEquipmentLevelDisplay = async(id) => {
+    const levels = await getEquipmentLevels(id);
+    for (let i = 0; i < 8; i++) {
+        let equipmentType = equipmentMap.get(i);
+        let level = levels.get(i);
+        if (i < 4) {
+            $("#equip-stats-1").append(`<div style="text-align:center">${equipmentType}: Level ${level}</div>`);
+        }
+        else {
+            $("#equip-stats-2").append(`<div style="text-align:center">${equipmentType}: Level ${level}</div>`);
+        }
+    }
+};
+
+var lastId = -1;
+
+const updateEquipmentUpgrade = async() => {
+    const id = $("#upgrade-char").val();
+    const equipmentType = $("#upgrade-eq-type").val();
+    $("#upgrade-eq-amount").empty(); 
+    $("#upgrade-eq-amount").append(`<option value="">-</option>`);
+    const equipmentUpgrades = await characterStorage.equipments(id);
+
+    if (id) {
+        if (id !== lastId) {
+            $("#equip-stats-1").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
+            $("#equip-stats-2").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
+            lastId = id;
+            $("#upgrade-equip-img").empty();
+            $("#upgrade-equip-img").append(await isolateIMG(id, 'upgrade-equip-svg'));
+            $("#upgrade-equip-img"). attr("onclick",`displayCharacter(${id})`);
+            let charIMG = document.getElementById("upgrade-equip-svg");
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        
+            await updateEquipmentLevelDisplay(id);
+
+            $(".stats-loading").remove();
+        }
+    }
+
+    if (id && equipmentType) {
+        const currentUpgrades = equipmentUpgrades[equipmentType-1];
+        const upgradesLeft = 4 - currentUpgrades;
+        for (let i = 1; i <= upgradesLeft; i++) {
+            $("#upgrade-eq-amount").append(`<option value="${i}">${i}</option>`); 
+        }
+    }
+};
+
+// const updateEquipDisplay = async() => {
+//     const equipmentLevels = await characterStorage.equipments(id);
+//     const _baseTier = await charactersController.queryBaseEquipmentTier( (await charactersController.getItemRarity(await characters.characters(tokenId_).spaceCapsuleId_), "WEAPON") );
+// const _upgrades = await charactersStorage.equipments(tokenId_).weaponUpgrades_;
+// const _currentItemLevel = _baseTier + upgrades;
+
+// const capsuleID = (await characterStorage.characters(150)).spaceCapsuleId_;
+// const rarity = await charactersController.getItemRarity(capsuleID, "WEAPON");
+// const _baseTier = await charactersController.queryBaseEquipmentTier(rarity);
+// const _upgrades = (await characterStorage.equipments(150)).weaponUpgrades_; // change
+// _baseTier + _upgrades;
+
+// }
 
 const isolateIMG = async(id, elemID) => {
     const svg = await displayCharacter(id, true);
