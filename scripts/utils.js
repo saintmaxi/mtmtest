@@ -88,13 +88,19 @@ const getEquipmentLevels = async(id) => {
     for (let i = 0; i < equipClasses.length; i++) {
         let equipClass = equipClasses[i];
         let rarity = await charactersController.getItemRarity(capsuleID, equipClass);
+        console.log({rarity});
         let _baseTier = await charactersController.queryBaseEquipmentTier(rarity);
-        let _upgrades = (await characterStorage.equipments(id))[`${equipClass.toLowerCase()}Upgrades_`];
+        console.log({_baseTier});
+        let _equipClassProxy = equipClass === "WEAPONS" ? "WEAPON" : equipClass === "ARTIFACTS" ? "ARTIFACT" : equipClass === "RINGS" ? "RING" : equipClass;
+        let _upgrades = (await characterStorage.equipments(id))[`${_equipClassProxy.toLowerCase()}Upgrades_`];
+        console.log({_upgrades});
         let currentLevel = _baseTier + _upgrades;
+        console.log({currentLevel});
         levels.set(i, currentLevel);
         levels.set(`${equipClass.toLowerCase()}Lvl`, currentLevel);
     }
 
+    console.log(levels);
     return levels;
 };
 
