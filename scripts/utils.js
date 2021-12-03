@@ -117,7 +117,7 @@ const updateAugment = async() => {
         $("#augment-w-char-img").append(await isolateIMG(id, 'augment-w-char-svg'));
         $("#augment-w-char-img"). attr("onclick",`displayCharacter(${id})`);
         let charIMG = document.getElementById("augment-w-char-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 975);
 
         const currentAugments = (await characterStorage.characters(id)).augments_;
         $("#augment-w-char-current-augments").empty();
