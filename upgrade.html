@@ -126,7 +126,7 @@
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div id="level-up-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="level-up-mes-req">X</span></div>
+                  <div id="level-up-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="level-up-mes-req">-</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
@@ -144,7 +144,7 @@
                 <div class="w-col w-col-6">
                   <div class="inside-text">Character to Level Up</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="level-up-char" onchange="updateLevelUpPoints()">
+                    <select class="character-select mtm-number-field" id="level-up-char" onchange="updateLevelUpPoints();$('#level-up-mes-req').text('-');">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
@@ -177,7 +177,7 @@
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="upgrade-mes-req">X</span></div>
+                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="upgrade-mes-req">-</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
@@ -195,7 +195,7 @@
                 <div class="w-col w-col-4">
                   <div class="inside-text">Character to Upgrade</div>
                   <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="upgrade-char" onchange="updateEquipmentUpgrade()">
+                    <select class="character-select mtm-number-field" id="upgrade-char" onchange="updateEquipmentUpgrade();$('#upgrade-mes-req').text('-');">
                       <option value="" disabled selected>ID</option>
                     </select>
                   </div>
@@ -208,7 +208,7 @@
                     <div class="w-form-fail"></div>
                   </div> -->
                 <div class="mtm-number-input w-form">
-                  <select data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type" onchange="updateEquipmentUpgrade()">
+                  <select data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type" onchange="updateEquipmentUpgrade();$('#upgrade-mes-req').text('-');">
                     <option value="" disabled selected>Type</option>
                     <option value="1">Weapon</option>
                     <option value="2">Chest</option>
