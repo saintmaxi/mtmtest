@@ -670,7 +670,7 @@ fill:red;
 @media screen and (min-width: 1500px) {
   .your-char svg {
     height: 450px;
-    margin-bottom: -40px;
+    margin-bottom: -10px;
   }
 
 .your-char {
