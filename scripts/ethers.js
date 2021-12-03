@@ -730,7 +730,7 @@ ethereum.on("accountsChanged", async (accounts_) => {
 window.onload = async() => {
     await updateInfo();
     await loadCharacterSelect();
-    if (window.location.pathname == "/my-characters.html") {
+    if (window.location.pathname == "/my-characters.html" || window.location.pathname == "/mtmtest/my-characters.html") {
         await populateMyCharacters();
     }
 };
