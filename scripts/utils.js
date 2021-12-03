@@ -14,18 +14,22 @@ const loadCharacterSelect = async() => {
 const displayErrorMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="error-popup"><p>${message}</p></div>`;
     $("body").append(fakeJSX);
+    $("body").append("<div id='block-screen'></div>");
     if (timed) {
         await sleep(2500);
         $("#error-popup").remove();
+        $("#block-screen").remove();
     }
 };
 
 const displayStatusMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="status-popup"><p>${message}</p></div>`;
+    $("body").append("<div id='block-screen'></div>");
     $("body").append(fakeJSX);
     if (timed) {
         await sleep(2500);
         $("#status-popup").remove();
+        $("#block-screen").remove();
     }
 };
 
@@ -87,6 +91,8 @@ const populateMyCharacters = async() => {
 };
 
 const closeDisplay = async() => {
+    $("#error-popup").remove();
+    $("#status-popup").remove();
     $("#block-screen").remove();
     $(`#displayed-transponder`).remove();
     $(`#displayed-capsule`).remove(); 
