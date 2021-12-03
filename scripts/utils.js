@@ -165,8 +165,7 @@ const updateLevelUpPoints = async() => {
     }
 };
 
-const equipColors = new Map([[0, "white"], [1, "green"], [2, "blue"], [3,"red"], [4, "purple"]]); //update when they tell you
-
+const equipColors = new Map([[0, "white"], [1, "#00FF00"], [2, "#FFFF00"], [3, "#FF9E3D"], [4, "#FF00D6"], [5, "#B026FF"], [6, "#F72119"]]);
 const updateEquipmentLevelDisplay = async(id) => {
     const levels = await getEquipmentLevels(id);
     for (let i = 0; i < 8; i++) {
