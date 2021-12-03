@@ -128,6 +128,7 @@
                 <div class="w-row">
                   <div class="w-col w-col-12">
                     <div class="inside-text">Transponder ID(s)</div>
+                    <div id="invalid-chars-og-tp"></div>
                     <div class="mtm-number-input w-form">
                       <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
                         <input type="text" class="mtm-number-field w-input" id="beam-transponder-ids" name="beam-transponder-ids" data-name="beam-transponder-ids" placeholder="Ex: 1,2,3... (NO SPACES)">
@@ -138,6 +139,7 @@
                 <div class="w-row">
                   <div class="w-col w-col-12">
                     <div class="inside-text">Space Capsule ID(s)</div>
+                    <div id="invalid-chars-og-sc"></div>
                     <div class="mtm-number-input w-form">
                       <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
                         <input type="text" class="mtm-number-field w-input" id="beam-capsule-ids" name="beam-capsule-ids" data-name="beam-capsule-ids" placeholder="Ex: 1,2,3... (NO SPACES)">
@@ -224,7 +226,8 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
   <!-- Ethers -->
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-  <script src="./scripts/utils.js"></script>     
+  <script src="./scripts/utils.js"></script> 
+  <script src="./scripts/beamHelper.js"></script>     
   <!-- Ethers Implementation -->
   <script src="./scripts/ethers.js"></script>
 </body>

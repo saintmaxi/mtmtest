@@ -210,21 +210,40 @@ const updateEquipmentUpgrade = async() => {
     }
 };
 
-const equipmentUpgradeCosts = new Map([[0, 50], [1, 250], [2, 750], [3, 1500]]);
+const augmentCosts = new Map([[0, 0], [1, 1], [2, 2], [3, 5], [4, 10], [5, 15], [6, 25], [7, 50], [8, 100], [9, 250]]);
 
-const getEquipmentUpgradeCost = async() => {
-    const id = $("#upgrade-char").val();
-    const equipmentType = $("#upgrade-eq-type").val();
-    const levelsToUpgrade = $("#upgrade-eq-amount").val();
-    const equipmentUpgrades = await characterStorage.equipments(id);
-    const currentUpgrades = equipmentUpgrades[equipmentType-1];
-    const target = currentUpgrades + Number(levelsToUpgrade);
+const getAugmentCost = async(desiredAugments) => {
+    const id = $("#augment-char").val();
+    const stats = await characterStorage.characters(id);
+    const currentAugments = stats.augments_;
+    const target = currentAugments + Number(desiredAugments);
     let cost = 0;
-    for (i = currentUpgrades; i < target; i++) {
-        cost += equipmentUpgradeCosts.get(i);
+    for (i = currentAugments; i < target; i++) {
+        cost += augmentCosts.get(i);
     }
+    if (Number.isNaN(cost)) {
+       $("#augment-mes-cost").text("-");
+    }
+    else {
+        $("#augment-mes-cost").text(cost);
+    }
+};
 
-    $("#upgrade-mes-req").text(cost);
+const getAugmentWithMatsCost = async(desiredAugments) => {
+    const id = $("#augment-mats-char").val();
+    const stats = await characterStorage.characters(id);
+    const currentAugments = stats.augments_;
+    const target = currentAugments + Number(desiredAugments);
+    let cost = 0;
+    for (i = currentAugments; i < target; i++) {
+        cost += augmentCosts.get(i);
+    }
+    if (Number.isNaN(cost)) {
+       $("#augment-mats-mes-cost").text("-");
+    }
+    else {
+        $("#augment-mats-mes-cost").text(cost);
+    }
 };
 
 const levelUpCosts = new Map([[0, 1], [1, 2], [2,5], [3, 10], [4, 20], [5, 30], [6, 50], [7, 70], [8, 100], [9, 150]]);
@@ -242,6 +261,21 @@ const getLevelUpCost = async() => {
     $("#level-up-mes-req").text(cost);
 };
 
+const equipmentUpgradeCosts = new Map([[0, 50], [1, 250], [2, 750], [3, 1500]]);
+const getEquipmentUpgradeCost = async() => {
+    const id = $("#upgrade-char").val();
+    const equipmentType = $("#upgrade-eq-type").val();
+    const levelsToUpgrade = $("#upgrade-eq-amount").val();
+    const equipmentUpgrades = await characterStorage.equipments(id);
+    const currentUpgrades = equipmentUpgrades[equipmentType-1];
+    const target = currentUpgrades + Number(levelsToUpgrade);
+    let cost = 0;
+    for (i = currentUpgrades; i < target; i++) {
+        cost += equipmentUpgradeCosts.get(i);
+    }
+
+    $("#upgrade-mes-req").text(cost);
+};
 
 const isolateIMG = async(id, elemID) => {
     const svg = await displayCharacter(id, true);
