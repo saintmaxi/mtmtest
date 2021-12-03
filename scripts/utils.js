@@ -68,7 +68,12 @@ const populateMyCharacters = async() => {
         mesYield = formatEther(await charactersController.getCharacterYieldRate(id));
         $("#characters-block").append(`<div class="your-char" onclick='displayCharacter(${id})'>${svg}<h3>${mesYield} <img src="./images/mes.png" width="30px"> /Day</h3></div>`)
         let charIMG = document.getElementById(elemID);
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        if ($( window ).width() <= 767) {
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 800);
+        }
+        else {
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 550);
+        }
     }
 };
 
