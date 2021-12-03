@@ -668,8 +668,13 @@ fill:red;
 }
 
 @media screen and (min-width: 1500px) {
+  .your-char svg {
+    height: 450px;
+    margin-bottom: -40px;
+  }
+
 .your-char {
-  width: 16%;
+  width: 25%;
 }
 }
 
