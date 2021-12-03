@@ -699,10 +699,16 @@ async function endLoading(tx, txStatus) {
 
 // Workers
 const updateInfo = async() => {
-    const _address = !(await getAddress()) ? "Connect Wallet!" : (await getAddress());
-    $("#account").text(`${_address.substr(0,9)}...`);
-    
-    if (_address === "Connect Wallet!") return;
+    const _address = !(await getAddress()) ? "CONNECT WALLET!" : (await getAddress());    
+    if (_address === "CONNECT WALLET!") {
+        return;
+    }
+    else {
+        $("#account").text(`${_address.substr(0,9)}...`);
+        $("#mobile-account").text(`${_address.substr(0,9)}...`);
+        $("#account").addClass("connected-account");
+        $("#mobile-account").addClass("connected-account");
+    }
 
     $("#your-yield-rate").html(`${await getMESYieldRate(_address)} <img src="./images/mes.png" width="30px">`);
     $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);

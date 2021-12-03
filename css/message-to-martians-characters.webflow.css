@@ -35,6 +35,24 @@ body {
   font-family: Minecraft, sans-serif;
 }
 
+body{ 
+  min-height: 100vh; 
+  margin: 0; 
+  
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+#header-section{ 
+  min-height:50px;
+  background:lightcyan; 
+}
+
+#footer-section{ 
+  min-height:50px; 
+  background:PapayaWhip; 
+}
+
 .grid {
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -53,6 +71,32 @@ body {
 .navbar-text {
   color: #00f6ff;
   text-align: center;
+}
+
+#account, #mobile-account {
+  color: black;
+  width: 10%;
+}
+
+#account {
+  position: absolute;
+  display: inline;
+  text-align: center;
+  top: 9px;
+  right: 7px;
+}
+
+.connected-account {
+  background-color: #00FF00;
+  cursor: default;
+}
+
+.connected-account:hover {
+  cursor: default !important;
+  background-color: #00FF00;
+  -webkit-box-shadow:initial;
+  -moz-box-shadow: initial;
+  box-shadow: initial;
 }
 
 .section-head, h3, h4 {
@@ -185,7 +229,7 @@ svg:nth-child(2) {
   display: inline;
   text-align: center;
   top: 5px;
-  right: 5px;
+  left: 5px;
 }
 
 #toolbar a {
@@ -205,6 +249,10 @@ svg:nth-child(2) {
 
 .hide-on-desktop {
   display: none;
+}
+
+.hide-on-mobile {
+  display: block;
 }
 
 .mes-selector {
@@ -321,7 +369,7 @@ box-shadow: 0px 0px 105px 2px rgba(0,255,242,0.9);
 }
 
 #augment-w-char-svg, #augment-w-mats-svg, #level-up-svg, #upgrade-equip-svg, .your-char svg{
-  height: 40vh;
+  height: 290px;
   width: 100%;
 } 
 
@@ -353,15 +401,15 @@ box-shadow: 0px 0px 105px 2px rgba(0,255,242,0.9);
 }
 
 .your-char {
-    width: 24%;
+    width: 25%;
     font-size: 1.3vw;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin-right: -40px;
-    margin-left: -40px;
-    margin-top: -40px;
+    /* margin-right: -40px;
+    margin-left: -40px; */
+    margin-top: -10px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -462,6 +510,10 @@ fill:red;
 }
 
 @media screen and (max-width: 767px) {
+  #equip-stats {
+    width: 66%;
+  }
+
   .columns {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -500,6 +552,10 @@ fill:red;
 
   .hide-on-desktop {
     display: block;
+  }
+
+  #account {
+    display: none;
   }
 
   #directory {
@@ -560,7 +616,7 @@ fill:red;
     width: 32%;
   }
 
-  #account {
+  #mobile-account {
     width:80%;
     margin-top: 10px;
   }
@@ -568,6 +624,10 @@ fill:red;
   .your-char {
     width: 100%;
     margin: 2px;
+  }
+
+  #upgrade-button-div {
+    width: 100% !important;
   }
 }
 
@@ -605,6 +665,12 @@ fill:red;
     -ms-grid-column: 1;
     -ms-grid-column-span: 2;
   }
+}
+
+@media screen and (min-width: 1500px) {
+.your-char {
+  width: 16%;
+}
 }
 
 @font-face {

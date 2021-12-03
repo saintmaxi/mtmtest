@@ -69,10 +69,16 @@ const populateMyCharacters = async() => {
         $("#characters-block").append(`<div class="your-char" onclick='displayCharacter(${id})'>${svg}<h3>${mesYield} <img src="./images/mes.png" width="30px"> /Day</h3></div>`)
         let charIMG = document.getElementById(elemID);
         if ($( window ).width() <= 767) {
-            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 800);
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
+        }
+        else if ($( window ).width() > 1700 && $( window ).width() < 2300) {
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 900);
+        }
+        else if ($( window ).width() >= 2300) {
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
         }
         else {
-            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 550);
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 700);
         }
     }
 };
@@ -122,7 +128,7 @@ const updateAugment = async() => {
         $("#augment-w-char-img").append(await isolateIMG(id, 'augment-w-char-svg'));
         $("#augment-w-char-img"). attr("onclick",`displayCharacter(${id})`);
         let charIMG = document.getElementById("augment-w-char-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
 
         const currentAugments = (await characterStorage.characters(id)).augments_;
         $("#augment-w-char-current-augments").empty();
@@ -138,7 +144,7 @@ const updateAugmentWithMats = async() => {
         $("#augment-w-mats-img").append(await isolateIMG(id, 'augment-w-mats-svg'));
         $("#augment-w-mats-img"). attr("onclick",`displayCharacter(${id})`);
         let charIMG = document.getElementById("augment-w-mats-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
 
         const currentAugments = (await characterStorage.characters(id)).augments_;
         $("#augment-w-mats-current-augments").empty();
@@ -156,7 +162,7 @@ const updateLevelUpPoints = async() => {
         $("#level-up-char-img").append(await isolateIMG(id, 'level-up-svg'));
         $("#level-up-char-img"). attr("onclick",`displayCharacter(${id})`);
         let charIMG = document.getElementById("level-up-svg");
-        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
 
         const stats = await characterStorage.characters(id);
         const currentBasePoints = stats.basePoints_;
@@ -203,7 +209,7 @@ const updateEquipmentUpgrade = async() => {
             $("#upgrade-equip-img").append(await isolateIMG(id, 'upgrade-equip-svg'));
             $("#upgrade-equip-img"). attr("onclick",`displayCharacter(${id})`);
             let charIMG = document.getElementById("upgrade-equip-svg");
-            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 950);
+            charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
         
             await updateEquipmentLevelDisplay(id);
 
