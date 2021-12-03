@@ -34,6 +34,7 @@ const displayTransponder = async(id) => {
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
+    $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
     $("body").append(`<div id="displayed-transponder"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
 };
 
@@ -43,6 +44,7 @@ const displayCapsule = async(id) => {
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
+    $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
     $("body").append(`<div id="displayed-capsule"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
 };
 
@@ -55,6 +57,7 @@ const displayCharacter = async(id, returnSVG=false) => {
         return image;
     }
     else {
+        $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
         $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${image}</div>`);
     }
 };
@@ -84,6 +87,7 @@ const populateMyCharacters = async() => {
 };
 
 const closeDisplay = async() => {
+    $("#block-screen").remove();
     $(`#displayed-transponder`).remove();
     $(`#displayed-capsule`).remove(); 
     $(`#displayed-character`).remove();
