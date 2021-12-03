@@ -85,7 +85,7 @@ const populateMyCharacters = async() => {
 
 const closeDisplay = async() => {
     $(`#displayed-transponder`).remove();
-    $(`#displayed-capsule`).remove();
+    $(`#displayed-capsule`).remove(); 
     $(`#displayed-character`).remove();
 };
 
@@ -99,19 +99,14 @@ const getEquipmentLevels = async(id) => {
     for (let i = 0; i < equipClasses.length; i++) {
         let equipClass = equipClasses[i];
         let rarity = await charactersController.getItemRarity(capsuleID, equipClass);
-        console.log({rarity});
         let _baseTier = await charactersController.queryBaseEquipmentTier(rarity);
-        console.log({_baseTier});
         let _equipClassProxy = equipClass === "WEAPONS" ? "WEAPON" : equipClass === "ARTIFACTS" ? "ARTIFACT" : equipClass === "RINGS" ? "RING" : equipClass;
         let _upgrades = (await characterStorage.equipments(id))[`${_equipClassProxy.toLowerCase()}Upgrades_`];
-        console.log({_upgrades});
         let currentLevel = _baseTier + _upgrades;
-        console.log({currentLevel});
         levels.set(i, currentLevel);
         levels.set(`${equipClass.toLowerCase()}Lvl`, currentLevel);
     }
 
-    console.log(levels);
     return levels;
 };
 
@@ -179,6 +174,8 @@ const updateLevelUpPoints = async() => {
 const equipColors = new Map([[0, "white"], [1, "#00FF00"], [2, "#FFFF00"], [3, "#FF9E3D"], [4, "#FF00D6"], [5, "#B026FF"], [6, "#F72119"]]);
 const updateEquipmentLevelDisplay = async(id) => {
     const levels = await getEquipmentLevels(id);
+    if (id !== $("#upgrade-char").val()) return;
+
     for (let i = 0; i < 8; i++) {
         let equipmentType = equipmentMap.get(i);
         let level = levels.get(i);
