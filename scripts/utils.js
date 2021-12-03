@@ -79,7 +79,7 @@ const closeDisplay = async() => {
 };
 
 
-const equipClasses = ["WEAPON", "CHEST", "HEAD", "LEGS", "VEHICLE", "ARMS", "ARTIFACT", "RING"];
+const equipClasses = ["WEAPONS", "CHEST", "HEAD", "LEGS", "VEHICLE", "ARMS", "ARTIFACTS", "RINGS"];
 
 const getEquipmentLevels = async(id) => {
     const capsuleID = (await characterStorage.characters(id)).spaceCapsuleId_;
