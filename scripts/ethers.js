@@ -602,6 +602,8 @@ const levelUpBasePoints = async() => {
     }
 };
 
+var loadingEquipLevelDisplay = false
+
 const upgradeEquipment = async() => {
     const characterID = $("#upgrade-char").val();
     const amount = Number($("#upgrade-eq-amount").val());
@@ -619,7 +621,11 @@ const upgradeEquipment = async() => {
                     if ($("#upgrade-char").val() == characterID || !($("#upgrade-char").val())) {
                         $("#equip-stats-1").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
                         $("#equip-stats-2").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);            
-                        await updateEquipmentLevelDisplay(characterID);
+                        if (!loadingEquipLevelDisplay) {
+                            loadingEquipLevelDisplay = true;
+                            await updateEquipmentLevelDisplay(characterID);
+                            loadingEquipLevelDisplay = false;
+                        }
                         $(".stats-loading").remove();
                     }
                 });                
