@@ -183,7 +183,7 @@ body{
   height: 50vh;
 }
 
-#displayed-character svg, #displayed-transponder svg {
+#displayed-character svg, #displayed-transponder svg, #displayed-capsule svg {
   height: 100%;
   width:100%;
 }
