@@ -329,6 +329,9 @@ const uploadCharacter = async() => {
                 else if ((error.message).includes("This character has already been uploaded!")) {
                     await displayErrorMessage(`Error: This character has already been uploaded!`)
                 }
+                else if ((error.message).includes("Invalid Race!")) {
+                    await displayErrorMessage(`Error: This character type is not supported!`)
+                }
                 else {
                     console.log(error);
                 }
