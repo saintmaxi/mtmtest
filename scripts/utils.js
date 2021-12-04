@@ -16,7 +16,7 @@ const displayErrorMessage = async(message, timed=true) => {
     $("body").append(fakeJSX);
     $("body").append("<div id='block-screen'></div>");
     if (timed) {
-        await sleep(2700);
+        await sleep(3100);
         $("#error-popup").remove();
         $("#block-screen").remove();
     }
@@ -27,7 +27,7 @@ const displayStatusMessage = async(message, timed=true) => {
     $("body").append("<div id='block-screen'></div>");
     $("body").append(fakeJSX);
     if (timed) {
-        await sleep(2700);
+        await sleep(3100);
         $("#status-popup").remove();
         $("#block-screen").remove();
     }

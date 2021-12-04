@@ -260,22 +260,22 @@ const beamCharacter = async() => {
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         displayErrorMessage(`Space Capsules must be approved to Beaming Device. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Space Capsules approved to Beaming Device!`);
-                await sleep(2500)
+                await sleep(3000)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
                     displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
-                    await sleep(2500)
+                    await sleep(3000)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
                         await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
                             displayStatusMessage(`Transponders approved to Beaming Device! Beaming...`);
-                            await sleep(2500)
+                            await sleep(3000)
                             _beamCharacter(); 
                         });
                     })
@@ -285,13 +285,13 @@ const beamCharacter = async() => {
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         displayErrorMessage("Transponders must be approved to Beaming Device. Requesting approval...");
-        await sleep(2500)
+        await sleep(3000)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Transponders approved to Beaming Device! Beaming...`);
-                await sleep(2500)
+                await sleep(3000)
                 _beamCharacter(); 
             });
         })
@@ -343,22 +343,22 @@ const uploadCharacter = async() => {
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         displayErrorMessage(`Space Capsules must be approved to Beaming Device. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Space Capsules approved to Beaming Device!`);
-                await sleep(2500)
+                await sleep(3000)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
                     displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
-                    await sleep(2500)
+                    await sleep(3000)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
                         await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
                             displayStatusMessage(`Transponders approved to Beaming Device! Initiating upload...`);
-                            await sleep(2500)
+                            await sleep(3000)
                             _uploadCharacter(); 
                         });
                     })
@@ -368,13 +368,13 @@ const uploadCharacter = async() => {
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
         displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Transponders approved to Beaming Device! Initiating upload...`);
-                await sleep(2500)
+                await sleep(3000)
                 _uploadCharacter(); 
             });
         })
@@ -383,6 +383,8 @@ const uploadCharacter = async() => {
         _uploadCharacter(); 
     };
 };
+
+var loadingAugmentDisplay = false;
 
 const augmentCharacter = async() => {
     const characterID = $("#augment-char").val();
@@ -408,7 +410,11 @@ const augmentCharacter = async() => {
                         if ($("#augment-char").val() == characterID || !($("#augment-char").val())) {
                             $("#augment-w-char-img").empty();
                             $("#augment-w-char-current-augments").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
-                            await updateAugment();
+                            if (!loadingAugmentDisplay) {
+                                loadingAugmentDisplay = true;
+                                await updateAugment();
+                                loadingAugmentDisplay = false;
+                            }
                             $(".stats-loading").remove();
                         }
                     });
@@ -443,13 +449,13 @@ const augmentCharacter = async() => {
     // Hi saint this is the method in ethers to chain TX and let things happen after the TX is confirmed.
     if ( !(await characters.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
         displayErrorMessage(`Characters must be approved to Augmenter. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await characters.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Characters approved to Augmenter! Augmenting...`);
-                await sleep(2500)
+                await sleep(3000)
                 _augmentCharacter(); 
             });
         })
@@ -458,6 +464,8 @@ const augmentCharacter = async() => {
         _augmentCharacter();
     };
 };
+
+var loadingAugmentWithMatsDisplay = false;
 
 const augmentCharacterWithMaterials = async() => {
     const characterID = $("#augment-mats-char").val();
@@ -483,7 +491,11 @@ const augmentCharacterWithMaterials = async() => {
                             if ($("#augment-mats-char").val() == characterID || !($("#augment-mats-char").val())) {
                                 $("#augment-w-mats-img").empty();
                                 $("#augment-w-mats-current-augments").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
-                                await updateAugmentWithMats();
+                                if (!loadingAugmentWithMatsDisplay) {
+                                    loadingAugmentWithMatsDisplay = true;
+                                    await updateAugmentWithMats();
+                                    loadingAugmentWithMatsDisplay = false;
+                                }
                                 $(".stats-loading").remove();
                             }
                         });            
@@ -516,22 +528,22 @@ const augmentCharacterWithMaterials = async() => {
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
         displayErrorMessage(`Space Capsules must be approved to Augmenter. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Space Capsules approved to Augmenter!`);
-                await sleep(2500)
+                await sleep(3000)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
                     displayErrorMessage(`Transponders must be approved to Augmenter. Requesting approval...`);
-                    await sleep(2500)
+                    await sleep(3000)
                     await transponders.setApprovalForAll(charactersControllerAddress, true)
                     .then( async(tx_) => { 
                         await waitForTransaction(tx_);
                         provider.once(tx_.hash, async(tx__) => {
                             displayStatusMessage(`Transponders approved to Augmenter! Augmenting with materials...`);
-                            await sleep(2500)
+                            await sleep(3000)
                             _augmentCharacterWithMaterials(); 
                         });
                     })
@@ -541,13 +553,13 @@ const augmentCharacterWithMaterials = async() => {
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
         displayErrorMessage(`Transponders must be approved to Augmenter. Requesting approval...`);
-        await sleep(2500)
+        await sleep(3000)
         await transponders.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
             await waitForTransaction(tx_);
             provider.once(tx_.hash, async(tx__) => {
                 displayStatusMessage(`Transponders approved to Augmenter! Augmenting with materials...`);
-                await sleep(2500)
+                await sleep(3000)
                 _augmentCharacterWithMaterials(); 
             });
         })
@@ -605,7 +617,7 @@ const levelUpBasePoints = async() => {
     }
 };
 
-var loadingEquipLevelDisplay = false
+var loadingEquipLevelDisplay = false;
 
 const upgradeEquipment = async() => {
     const characterID = $("#upgrade-char").val();
