@@ -259,7 +259,7 @@ const beamCharacter = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        displayErrorMessage(`Space Capsules not approved to Beaming Device. Requesting approval...`);
+        displayErrorMessage(`Space Capsules must be approved to Beaming Device. Requesting approval...`);
         await sleep(2500)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
@@ -268,7 +268,7 @@ const beamCharacter = async() => {
                 displayStatusMessage(`Space Capsules approved to Beaming Device!`);
                 await sleep(2500)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-                    displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+                    displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
                     await sleep(2500)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
@@ -284,7 +284,7 @@ const beamCharacter = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        displayErrorMessage("Transponders not approved to Beaming Device. Requesting approval...");
+        displayErrorMessage("Transponders must be approved to Beaming Device. Requesting approval...");
         await sleep(2500)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
@@ -342,7 +342,7 @@ const uploadCharacter = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        displayErrorMessage(`Space Capsules not approved to Beaming Device. Requesting approval...`);
+        displayErrorMessage(`Space Capsules must be approved to Beaming Device. Requesting approval...`);
         await sleep(2500)
         await spaceCapsules.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
@@ -351,7 +351,7 @@ const uploadCharacter = async() => {
                 displayStatusMessage(`Space Capsules approved to Beaming Device!`);
                 await sleep(2500)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-                    displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+                    displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
                     await sleep(2500)
                     await transponders.setApprovalForAll(charactersAddress, true)
                     .then( async(tx_) => { 
@@ -367,7 +367,7 @@ const uploadCharacter = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersAddress)) ) {
-        displayErrorMessage(`Transponders not approved to Beaming Device. Requesting approval...`);
+        displayErrorMessage(`Transponders must be approved to Beaming Device. Requesting approval...`);
         await sleep(2500)
         await transponders.setApprovalForAll(charactersAddress, true)
         .then( async(tx_) => { 
@@ -442,7 +442,7 @@ const augmentCharacter = async() => {
 
     // Hi saint this is the method in ethers to chain TX and let things happen after the TX is confirmed.
     if ( !(await characters.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        displayErrorMessage(`Characters not approved to Augmenter. Requesting approval...`);
+        displayErrorMessage(`Characters must be approved to Augmenter. Requesting approval...`);
         await sleep(2500)
         await characters.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
@@ -515,7 +515,7 @@ const augmentCharacterWithMaterials = async() => {
 
     // tx chaining i think this should work
     if ( !(await spaceCapsules.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        displayErrorMessage(`Space Capsules not approved to Augmenter. Requesting approval...`);
+        displayErrorMessage(`Space Capsules must be approved to Augmenter. Requesting approval...`);
         await sleep(2500)
         await spaceCapsules.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
@@ -524,7 +524,7 @@ const augmentCharacterWithMaterials = async() => {
                 displayStatusMessage(`Space Capsules approved to Augmenter!`);
                 await sleep(2500)
                 if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-                    displayErrorMessage(`Transponders not approved to Augmenter. Requesting approval...`);
+                    displayErrorMessage(`Transponders must be approved to Augmenter. Requesting approval...`);
                     await sleep(2500)
                     await transponders.setApprovalForAll(charactersControllerAddress, true)
                     .then( async(tx_) => { 
@@ -540,7 +540,7 @@ const augmentCharacterWithMaterials = async() => {
         })
     } 
     else if ( !(await transponders.isApprovedForAll((await getAddress()), charactersControllerAddress)) ) {
-        displayErrorMessage(`Transponders not approved to Augmenter. Requesting approval...`);
+        displayErrorMessage(`Transponders must be approved to Augmenter. Requesting approval...`);
         await sleep(2500)
         await transponders.setApprovalForAll(charactersControllerAddress, true)
         .then( async(tx_) => { 
