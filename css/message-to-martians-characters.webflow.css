@@ -562,6 +562,10 @@ fill:red;
     display: block;
   }
 
+  .hide-on-mobile {
+    display: none;
+  }
+
   #account {
     display: none;
   }
