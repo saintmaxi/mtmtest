@@ -14,22 +14,22 @@ const loadCharacterSelect = async() => {
 const displayErrorMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="error-popup"><p>${message}</p></div>`;
     $("body").append(fakeJSX);
-    $("body").append("<div id='block-screen'></div>");
+    $("body").append("<div id='block-screen-error'></div>");
     if (timed) {
         await sleep(3100);
         $("#error-popup").remove();
-        $("#block-screen").remove();
+        $("#block-screen-error").remove();
     }
 };
 
 const displayStatusMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="status-popup"><p>${message}</p></div>`;
-    $("body").append("<div id='block-screen'></div>");
+    $("body").append("<div id='block-screen-status'></div>");
     $("body").append(fakeJSX);
     if (timed) {
         await sleep(3100);
         $("#status-popup").remove();
-        $("#block-screen").remove();
+        $("#block-screen-status").remove();
     }
 };
 
