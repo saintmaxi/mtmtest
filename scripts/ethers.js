@@ -37,6 +37,8 @@ return `[ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor"
 
 const etherscanBase = `https://etherscan.io/tx/`;
 
+const openseaBase = `https://api.opensea.io/api/v1/asset/${charactersAddress}`;
+
 /*********************************************************************************/
 /***********************************DEV CONFIG************************************/
 /*********************************************************************************/
@@ -419,6 +421,8 @@ const augmentCharacter = async() => {
                             }
                             $(".stats-loading").remove();
                         }
+                        const url = `${openseaBase}/${characterID}/?force_update=true`;
+                        await fetch(url);
                     });
                 });
             }
@@ -500,6 +504,8 @@ const augmentCharacterWithMaterials = async() => {
                                 }
                                 $(".stats-loading").remove();
                             }
+                            const url = `${openseaBase}/${characterID}/?force_update=true`;
+                            await fetch(url);
                         });            
                     });
                 }
@@ -598,6 +604,8 @@ const levelUpBasePoints = async() => {
                             $("#level-up-amount").append(`<option value="${i}">${i}</option>`); 
                         }
                     }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
                 });            
             });
         }
@@ -645,6 +653,8 @@ const upgradeEquipment = async() => {
                         }
                         $(".stats-loading").remove();
                     }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
                 });                
             });
         }
