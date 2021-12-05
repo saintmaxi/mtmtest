@@ -210,6 +210,10 @@ svg:nth-child(2) {
   z-index: 9996;
 }
 
+#close:hover {
+  cursor: pointer;
+}
+
 .mtm-number-input {
   margin-top: 5px;
   padding-right: 20px;
