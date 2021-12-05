@@ -214,6 +214,24 @@ svg:nth-child(2) {
   cursor: pointer;
 }
 
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blinking {
+  animation: blinker 1.6s linear infinite;
+}
+
+.success {
+  background-color: rgb(49, 219, 49) !important;
+}
+
+.failure {
+  background-color: #F72119 !important;
+}
+
 .mtm-number-input {
   margin-top: 5px;
   padding-right: 20px;
