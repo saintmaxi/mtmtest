@@ -125,53 +125,6 @@
       <div class="w-row">
         <div class="w-col w-col-6">
           <div>
-            <h2 class="section-item">Augment with Character</h2>
-            <div id="augment-w-char-img"></div>
-            <div id="augment-w-char-current-augments"></div>
-            <div>
-              <div class="mes-selector w-row">
-                <div class="w-col w-col-6">
-                  <div id="augment-wc-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="augment-mes-cost">-</span></div>
-                </div>
-                <div class="w-col w-col-3">
-                  <div class="inside-text">Use Credits:</div>
-                </div>
-                <div class="w-col w-col-2">
-                  <div class="inside-text">
-                    <select id="augment-wc-use-credits">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="w-row">
-                <div class="w-col w-col-12">
-                  <div class="inside-text">Character to Augment</div>
-                  <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-char" onchange="updateAugment();getAugmentCost($('#augment-burn-chars').val().split(',').length);">
-                      <option value="" disabled selected>ID</option>
-                    </select>
-                  </div>
-                </div>
-                </div>
-                <div class="w-row">
-                <div class="w-col w-col-12">
-                  <div class="inside-text">Character(s) to BURN</div>
-                  <div id="invalid-chars-burn"></div>
-                  <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-burn-chars" name="augment-burn-chars" data-name="augment-burn-chars" placeholder="Ex: 1,2,3... (NO SPACES)">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button onclick="augmentCharacter()">AUGMENT</button>
-          </div>
-        </div>
-        <div class="w-col w-col-6">
-          <div>
             <h2 class="section-item">Augment with Materials</h2>
             <div id="augment-w-mats-img"></div>
             <div id="augment-w-mats-current-augments"></div>
@@ -225,6 +178,53 @@
             <button onclick="augmentCharacterWithMaterials()">AUGMENT</button>
 
             </div>
+          </div>
+        </div>
+        <div class="w-col w-col-6">
+          <div>
+            <h2 class="section-item">Augment with Character</h2>
+            <div id="augment-w-char-img"></div>
+            <div id="augment-w-char-current-augments"></div>
+            <div>
+              <div class="mes-selector w-row">
+                <div class="w-col w-col-6">
+                  <div id="augment-wc-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="augment-mes-cost">-</span></div>
+                </div>
+                <div class="w-col w-col-3">
+                  <div class="inside-text">Use Credits:</div>
+                </div>
+                <div class="w-col w-col-2">
+                  <div class="inside-text">
+                    <select id="augment-wc-use-credits">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="w-row">
+                <div class="w-col w-col-12">
+                  <div class="inside-text">Character to Augment</div>
+                  <div class="mtm-number-input w-form">
+                    <select class="character-select mtm-number-field" id="augment-char" onchange="updateAugment();getAugmentCost($('#augment-burn-chars').val().split(',').length);">
+                      <option value="" disabled selected>ID</option>
+                    </select>
+                  </div>
+                </div>
+                </div>
+                <div class="w-row">
+                <div class="w-col w-col-12">
+                  <div class="inside-text">Character(s) to BURN</div>
+                  <div id="invalid-chars-burn"></div>
+                  <div class="mtm-number-input w-form">
+                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                      <input type="text" class="mtm-number-field w-input" id="augment-burn-chars" name="augment-burn-chars" data-name="augment-burn-chars" placeholder="Ex: 1,2,3... (NO SPACES)">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button onclick="augmentCharacter()">AUGMENT</button>
           </div>
         </div>
       </div>
