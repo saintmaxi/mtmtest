@@ -14,7 +14,8 @@ const loadCharacterSelect = async() => {
 const displayErrorMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="error-popup"><p>${message}</p></div>`;
     $("body").append(fakeJSX);
-    $("body").append("<div id='block-screen-error'></div>");
+    let height = $(document).height();
+    $("body").append(`<div id='block-screen-error' style="height:${height}px"></div>`);
     if (timed) {
         await sleep(3100);
         $("#error-popup").remove();
@@ -24,7 +25,8 @@ const displayErrorMessage = async(message, timed=true) => {
 
 const displayStatusMessage = async(message, timed=true) => {
     let fakeJSX = `<div id="status-popup"><p>${message}</p></div>`;
-    $("body").append("<div id='block-screen-status'></div>");
+    let height = $(document).height();
+    $("body").append(`<div id='block-screen-status' style="height:${height}px"></div>`);
     $("body").append(fakeJSX);
     if (timed) {
         await sleep(3100);
@@ -38,7 +40,8 @@ const displayTransponder = async(id) => {
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
-    $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
+    let height = $(document).height();
+    $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
     $("body").append(`<div id="displayed-transponder"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
 };
 
@@ -48,7 +51,8 @@ const displayCapsule = async(id) => {
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
-    $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
+    let height = $(document).height();
+    $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
     $("body").append(`<div id="displayed-capsule"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
 };
 
@@ -61,7 +65,8 @@ const displayCharacter = async(id, returnSVG=false) => {
         return image;
     }
     else {
-        $("body").append("<div id='block-screen' onclick='closeDisplay()'></div>");
+        let height = $(document).height();
+        $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
         $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${image}</div>`);
     }
 };
