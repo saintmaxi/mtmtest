@@ -222,7 +222,7 @@ const equipmentMap = new Map([[0, "Weapon"], [1, "Chest"], [2, "Head"], [3, "Leg
 const updateAugment = async() => {
     const id = selectedForAction.get('augmentWCharCharacter');
 
-    if (id) {
+    if (id !== null) {
         $("#augment-w-char-img").empty();
         $("#augment-w-char-img").append(await isolateIMG(id, 'augment-w-char-svg'));
         $("#augment-w-char-img"). attr("onclick",`displayCharacter(${id})`);
@@ -238,7 +238,7 @@ const updateAugment = async() => {
 const updateAugmentWithMats = async() => {
     const id = selectedForAction.get('augmentWMatsCharacter');
 
-    if (id) {
+    if (id !== null) {
         $("#augment-w-mats-img").empty();
         $("#augment-w-mats-img").append(await isolateIMG(id, 'augment-w-mats-svg'));
         $("#augment-w-mats-img"). attr("onclick",`displayCharacter(${id})`);
@@ -256,7 +256,7 @@ const updateLevelUpPoints = async() => {
     $("#level-up-amount").empty(); 
     $("#level-up-amount").append(`<option value="">-</option>`);
 
-    if (id) {
+    if (id !== null) {
         $("#level-up-char-img").empty();
         $("#level-up-char-img").append(await isolateIMG(id, 'level-up-svg'));
         $("#level-up-char-img"). attr("onclick",`displayCharacter(${id})`);
@@ -303,7 +303,7 @@ const updateEquipmentUpgrade = async() => {
 
     let equipmentUpgrades;
 
-    if (id) {
+    if (id !== null) {
         equipmentUpgrades = await characterStorage.equipments(id);
         if (id !== lastId) {
             $("#equip-stats-1").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
@@ -321,7 +321,7 @@ const updateEquipmentUpgrade = async() => {
         }
     }
 
-    if (id && equipmentType) {
+    if (id !== null && equipmentType) {
 
         const currentUpgrades = equipmentUpgrades[equipmentType-1];
         const upgradesLeft = 4 - currentUpgrades;
