@@ -247,7 +247,7 @@ body{
   background-color: black;
 }
 
-#selected-capsules-big, #selected-transponders-big, #selected-characters-big {
+#bottom-div {
   width: 100%;
   position: sticky;
   bottom: 0;
@@ -255,6 +255,16 @@ body{
   border-top: solid 1px white;
   font-size: 2vw;
   padding: 20px;
+}
+
+#selected-capsules-big, #selected-transponders-big, #selected-characters-big {
+  width: 100%;
+}
+
+#confirm {
+  width: 20%;
+  margin: 5px;
+  color: black;
 }
 
 #block-screen, #block-screen-error, #block-screen-status {
@@ -266,6 +276,10 @@ body{
 
 .active svg{
   border-color: #00fff2;
+}
+
+.active h2 {
+  color: #00fff2;
 }
 
 #block-screen-error, #block-screen-status {
@@ -667,6 +681,10 @@ fill:red;
     border-top: solid 1px white;
     font-size: 3vh;
     padding: 20px;
+  }
+
+  #confirm {
+    width: 100%;
   }
 
   .transponder-div svg text {

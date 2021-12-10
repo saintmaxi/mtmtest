@@ -348,7 +348,7 @@ const uploadCharacter = async() => {
 
 
     const _uploadCharacter = async() => {
-        if (!transponderID || !capsuleID || !contractAddress || !uploadID) {
+        if (transponderID == null || capsuleID == null || !contractAddress || uploadID == '') {
             await displayErrorMessage("Error: Enter all required fields.")
         }
         else {
@@ -434,7 +434,7 @@ const augmentCharacter = async() => {
     const useCredits = $("#augment-wc-use-credits option:selected").val() === "Yes" ? true : false;
 
     const _augmentCharacter = async() => {
-        if (!characterID) {
+        if (characterID == null) {
             await displayErrorMessage("Error: Select a character to augment.")
         }
         else if (charsToBurnArray.length == 0) {
@@ -521,7 +521,7 @@ const augmentCharacterWithMaterials = async() => {
     const useCredits = $("#augment-wm-use-credits option:selected").val() === "Yes" ? true : false;
 
     const _augmentCharacterWithMaterials = async() => {
-        if (!characterID || capsulesArray.length == 0|| transpondersArray.length == 0) {
+        if (characterID == null || capsulesArray.length == 0|| transpondersArray.length == 0) {
             await displayErrorMessage("Error: Enter all required fields.")
         }
         else {
@@ -628,7 +628,7 @@ const levelUpBasePoints = async() => {
     const amount = Number($("#level-up-amount").val());
     const useCredits = $("#level-up-use-credits option:selected").val() === "Yes" ? true : false;
     
-    if (!characterID || !amount) {
+    if (characterID == null || !amount) {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
@@ -683,7 +683,7 @@ const upgradeEquipment = async() => {
     const item = Number($("#upgrade-eq-type").val());
     const useCredits = $("#equipment-use-credits option:selected").val() === "Yes" ? true : false;
 
-    if (!characterID || !amount || !item) {
+    if (characterID == null|| !amount || !item) {
         await displayErrorMessage("Error: Enter all required fields.")
     }
     else {
