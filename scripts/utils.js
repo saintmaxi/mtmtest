@@ -63,10 +63,8 @@ const displayStatusMessage = async(message, timed=true) => {
 };
 
 const displayTransponder = async(id, returnSVG=false) => {
-    const uri = await transponders.tokenURI(id);
-    const svgStart = uri.indexOf('<svg');
-    const svgEnd = uri.indexOf('/svg>') + 5;
-    const svg = uri.substring(svgStart, svgEnd);
+    await closeDisplay();
+    const svg = transponderSVGs.get(id);
     if (returnSVG) {
         return svg;
     }
@@ -79,10 +77,7 @@ const displayTransponder = async(id, returnSVG=false) => {
 
 const displayCapsule = async(id, returnSVG=false) => {
     await closeDisplay();
-    const uri = await spaceCapsules.tokenURI(id);
-    const svgStart = uri.indexOf('<svg');
-    const svgEnd = uri.indexOf('/svg>') + 5;
-    const svg = uri.substring(svgStart, svgEnd);
+    const svg = capsuleSVGs.get(id);
     if (returnSVG) {
         return svg;
     }
