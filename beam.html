@@ -137,25 +137,18 @@
                 <div class="w-row">
                   <div class="w-col w-col-12">
                     <div class="inside-text">Transponder ID(s)</div>
-                    <div id="invalid-chars-og-tp"></div>
-                    <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="text" class="mtm-number-field w-input" id="beam-transponder-ids" name="beam-transponder-ids" data-name="beam-transponder-ids" placeholder="Ex: 1,2,3... (NO SPACES)">
-                      </form>
-                    </div>
+                    <div class="inside-text selected-transponders-beamTransponders">Selected: None</div>
+                    <button onclick="displaySelect('transponder', 'beamTransponders')">SELECT TRANSPONDERS</button>
                   </div>
                   </div>
                 <div class="w-row">
                   <div class="w-col w-col-12">
                     <div class="inside-text">Space Capsule ID(s)</div>
-                    <div id="invalid-chars-og-sc"></div>
-                    <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="text" class="mtm-number-field w-input" id="beam-capsule-ids" name="beam-capsule-ids" data-name="beam-capsule-ids" placeholder="Ex: 1,2,3... (NO SPACES)">
-                      </form>
-                    </div>
+                    <div class="inside-text selected-capsules-beamCapsules">Selected: None</div>
+                    <button onclick="displaySelect('capsule', 'beamCapsules')">SELECT CAPSULES</button>
                   </div>
                 </div>
+                <br>
                 <button onclick="beamCharacter()">BEAM</button>
               </div>
             </div>
@@ -167,21 +160,15 @@
                 <div class="columns w-row">
                   <div class="w-col w-col-6">
                     <div class="inside-text">Transponder ID</div>
-                    <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-transponder-id" name="upload-transponder-id" data-name="upload-transponder-id" placeholder="Transponder ID">
-                      </form>
-                    </div>
+                    <div class="inside-text selected-transponders-uploadTransponder">Selected: None</div>
+                    <button onclick="displaySelect('transponder', 'uploadTransponder')">SELECT TRANSPONDER</button>
                   </div>
                   <div class="w-col w-col-6">
                     <div class="inside-text">Space Capsule</div>
-                    <div class="mtm-number-input w-form">
-                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                        <input type="number" min="0" class="mtm-number-field w-input" id="upload-capsule-id" name="upload-capsule-id" data-name="upload-capsule-id" placeholder="Capsule ID">
-                      </form>
-                    </div>
+                    <div class="inside-text selected-capsules-uploadCapsule">Selected: None</div>
+                    <button onclick="displaySelect('capsule', 'uploadCapsule')">SELECT CAPSULE</button>
                   </div>
-                  </div>
+                  </div><br>
                 <div class="columns w-row">
                   <div class="w-col w-col-6">
                     <div class="inside-text">Tribute Type</div>

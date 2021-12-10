@@ -1,5 +1,32 @@
 // Loading select field options
 
+var capsuleSVGs = new Map();
+var transponderSVGs = new Map();
+var charSVGs = new Map();
+
+const loadTransponderImage = async(id) => {
+    const uri = await transponders.tokenURI(id);
+    const svgStart = uri.indexOf('<svg');
+    const svgEnd = uri.indexOf('/svg>') + 5;
+    const svg = uri.substring(svgStart, svgEnd);
+    transponderSVGs.set(id, svg);
+};
+
+const loadCapsuleImage = async(id) => {
+    const uri = await spaceCapsules.tokenURI(id);
+    const svgStart = uri.indexOf('<svg');
+    const svgEnd = uri.indexOf('/svg>') + 5;
+    const svg = uri.substring(svgStart, svgEnd);
+    capsuleSVGs.set(id, svg);
+};
+
+const loadCharacterImage = async(id) => {
+    const uri = await characters.tokenURI(id);
+    const decodedUri = JSON.parse(atob(uri.replace("data:application/json;base64,", "")))
+    const svg = atob(decodedUri.image.replace("data:image/svg+xml;base64,", ""));
+    charSVGs.set(id, svg);
+};
+
 const loadCharacterSelect = async() => {
     const yourCharacters = await characters.walletOfOwner(await getAddress());
     const sortedCharacters = [...yourCharacters].sort((a, b) => a - b);
@@ -35,25 +62,35 @@ const displayStatusMessage = async(message, timed=true) => {
     }
 };
 
-const displayTransponder = async(id) => {
+const displayTransponder = async(id, returnSVG=false) => {
     const uri = await transponders.tokenURI(id);
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
-    let height = $(document).height();
-    $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
-    $("body").append(`<div id="displayed-transponder"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+    if (returnSVG) {
+        return svg;
+    }
+    else {
+        let height = $(document).height();
+        $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
+        $("body").append(`<div id="displayed-transponder"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+    }
 };
 
-const displayCapsule = async(id) => {
+const displayCapsule = async(id, returnSVG=false) => {
     await closeDisplay();
     const uri = await spaceCapsules.tokenURI(id);
     const svgStart = uri.indexOf('<svg');
     const svgEnd = uri.indexOf('/svg>') + 5;
     const svg = uri.substring(svgStart, svgEnd);
-    let height = $(document).height();
-    $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
-    $("body").append(`<div id="displayed-capsule"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+    if (returnSVG) {
+        return svg;
+    }
+    else {
+        let height = $(document).height();
+        $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
+        $("body").append(`<div id="displayed-capsule"><span id="close" onclick='closeDisplay()'>x</span>${svg}</div>`);
+    }
 };
 
 const displayCharacter = async(id, returnSVG=false) => {
@@ -70,6 +107,55 @@ const displayCharacter = async(id, returnSVG=false) => {
         $("body").append(`<div id="displayed-character"><span id="close" onclick='closeDisplay()'>x</span>${image}</div>`);
     }
 };
+
+const assetToSVGMaps = new Map([['transponder', transponderSVGs], ['capsule', capsuleSVGs], ['character', charSVGs]]);
+
+var selectedForAction = new Map([['beamTransponders', new Set()], ['beamCapsules', new Set()], 
+                                ['uploadTransponder', null], ['uploadCapsule', null], 
+                                ['augmentTransponders', new Set()], ['augmentCapsules', new Set()],
+                                ['augmentWMatsCharacter', null], ['augmentWCharCharacter', null],
+                                ['augmentWCharBurnedChars', new Set()], ['equipCharacter', null], ['levelUpCharacter', null]]);
+
+const oneSelectionMax = new Set(['uploadCapsule', 'uploadTransponder', 'augmentWMatsCharacter', 'augmentWCharCharacter', 'equipCharacter', 'levelUpCharacter'])
+
+async function selectForAction(id, asset, action) {
+    if (oneSelectionMax.has(action)) { //add all the character single ones as well to this and selectedforaction
+        if (id == selectedForAction.get(action)) {
+            selectedForAction.set(action, null);
+            $(`#${asset}-${id}`).removeClass("active");
+        }
+        else {
+            selectedForAction.set(action, id);
+            $(`.${asset}-div`).removeClass("active");
+            $(`#${asset}-${id}`).addClass("active");
+        }
+        if (selectedForAction.get(action) == null) {
+            $(`.selected-${asset}s-${action}`).text("Selected: None");
+        }
+        else {
+            $(`.selected-${asset}s-${action}`).text('Selected: ' + id);
+        }
+    }
+    else {
+        if (!selectedForAction.get(action).has(id)) {
+            selectedForAction.get(action).add(id);
+            $(`#${asset}-${id}`).addClass("active");
+        }
+        else {
+            selectedForAction.get(action).delete(id);
+            $(`#${asset}-${id}`).removeClass("active");
+        }
+        if (selectedForAction.get(action).size == 0) {
+            $(`.selected-${asset}s-${action}`).text("Selected: None");
+        }
+        else {
+            let selectedString = `${Array.from(selectedForAction.get(action)).sort((a, b) => a - b).join(' ')}`;
+            $(`.selected-${asset}s-${action}`).text('Selected: ' + selectedString);
+        }
+    }
+    const displayFunction = actionToDisplayUpdate.get(action);
+    displayFunction();
+}
 
 const populateMyCharacters = async() => {
     const ownedChars = await getCharactersOfAddress((await getAddress()), true);
@@ -102,6 +188,9 @@ const closeDisplay = async() => {
     $(`#displayed-transponder`).remove();
     $(`#displayed-capsule`).remove(); 
     $(`#displayed-character`).remove();
+    $(`#capsule-select`).remove();
+    $(`#transponder-select`).remove();
+    $(`#character-select`).remove();
 };
 
 
@@ -131,7 +220,7 @@ const equipmentMap = new Map([[0, "Weapon"], [1, "Chest"], [2, "Head"], [3, "Leg
 
 
 const updateAugment = async() => {
-    const id = $("#augment-char").val();
+    const id = selectedForAction.get('augmentWCharCharacter');
 
     if (id) {
         $("#augment-w-char-img").empty();
@@ -147,7 +236,7 @@ const updateAugment = async() => {
 };
 
 const updateAugmentWithMats = async() => {
-    const id = $("#augment-mats-char").val();
+    const id = selectedForAction.get('augmentWMatsCharacter');
 
     if (id) {
         $("#augment-w-mats-img").empty();
@@ -163,7 +252,7 @@ const updateAugmentWithMats = async() => {
 };
 
 const updateLevelUpPoints = async() => {
-    const id = $("#level-up-char").val();
+    const id = selectedForAction.get('levelUpCharacter');
     $("#level-up-amount").empty(); 
     $("#level-up-amount").append(`<option value="">-</option>`);
 
@@ -187,9 +276,10 @@ const updateLevelUpPoints = async() => {
 };
 
 const equipColors = new Map([[0, "white"], [1, "#00FF00"], [2, "#FFFF00"], [3, "#FF9E3D"], [4, "#FF00D6"], [5, "#B026FF"], [6, "#F72119"]]);
+
 const updateEquipmentLevelDisplay = async(id) => {
     const levels = await getEquipmentLevels(id);
-    if (id !== $("#upgrade-char").val()) return;
+    if (id !== selectedForAction.get('equipCharacter')) return;
 
     for (let i = 0; i < 8; i++) {
         let equipmentType = equipmentMap.get(i);
@@ -206,13 +296,15 @@ const updateEquipmentLevelDisplay = async(id) => {
 var lastId = -1;
 
 const updateEquipmentUpgrade = async() => {
-    const id = $("#upgrade-char").val();
+    const id = selectedForAction.get('equipCharacter');
     const equipmentType = $("#upgrade-eq-type").val();
     $("#upgrade-eq-amount").empty(); 
     $("#upgrade-eq-amount").append(`<option value="">-</option>`);
-    const equipmentUpgrades = await characterStorage.equipments(id);
+
+    let equipmentUpgrades;
 
     if (id) {
+        equipmentUpgrades = await characterStorage.equipments(id);
         if (id !== lastId) {
             $("#equip-stats-1").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
             $("#equip-stats-2").html(`<span class="stats-loading"><h1><span class="one">.</span><span class="two">.</span><span class="three">.</span></h1></span>`);
@@ -230,6 +322,7 @@ const updateEquipmentUpgrade = async() => {
     }
 
     if (id && equipmentType) {
+
         const currentUpgrades = equipmentUpgrades[equipmentType-1];
         const upgradesLeft = 4 - currentUpgrades;
         for (let i = 1; i <= upgradesLeft; i++) {
@@ -241,7 +334,7 @@ const updateEquipmentUpgrade = async() => {
 const augmentCosts = new Map([[0, 0], [1, 1], [2, 2], [3, 5], [4, 10], [5, 15], [6, 25], [7, 50], [8, 100], [9, 250]]);
 
 const getAugmentCost = async(desiredAugments) => {
-    const id = $("#augment-char").val();
+    const id = selectedForAction.get('augmentWCharCharacter');
     const stats = await characterStorage.characters(id);
     const currentAugments = stats.augments_;
     const target = currentAugments + Number(desiredAugments);
@@ -258,7 +351,7 @@ const getAugmentCost = async(desiredAugments) => {
 };
 
 const getAugmentWithMatsCost = async(desiredAugments) => {
-    const id = $("#augment-mats-char").val();
+    const id = selectedForAction.get('augmentWMatsCharacter');
     const stats = await characterStorage.characters(id);
     const currentAugments = stats.augments_;
     const target = currentAugments + Number(desiredAugments);
@@ -276,7 +369,7 @@ const getAugmentWithMatsCost = async(desiredAugments) => {
 
 const levelUpCosts = new Map([[0, 1], [1, 2], [2,5], [3, 10], [4, 20], [5, 30], [6, 50], [7, 70], [8, 100], [9, 150]]);
 const getLevelUpCost = async() => {
-    const id = $("#level-up-char").val();
+    const id = selectedForAction.get('levelUpCharacter');
     const levelUpAmount = $("#level-up-amount").val();
     const stats = await characterStorage.characters(id);
     const currentBasePoints = stats.basePoints_;
@@ -291,7 +384,7 @@ const getLevelUpCost = async() => {
 
 const equipmentUpgradeCosts = new Map([[0, 50], [1, 250], [2, 750], [3, 1500]]);
 const getEquipmentUpgradeCost = async() => {
-    const id = $("#upgrade-char").val();
+    const id = selectedForAction.get('equipCharacter')
     const equipmentType = $("#upgrade-eq-type").val();
     const levelsToUpgrade = $("#upgrade-eq-amount").val();
     const equipmentUpgrades = await characterStorage.equipments(id);
@@ -334,6 +427,59 @@ const isolateIMG = async(id, elemID) => {
 
     return imgToDisplay
 }
+
+const actionToDisplayUpdate = new Map([ ['augmentWMatsCharacter', updateAugmentWithMats], ['augmentWCharCharacter', updateAugment],
+                                        ['levelUpCharacter', updateLevelUpPoints], ['equipCharacter', updateEquipmentUpgrade]]);
+
+const displaySelect = async(asset, action) => {
+    const currentlySelected = selectedForAction.get(action);
+    let single = !(currentlySelected instanceof Set);
+    let assetIDs = assetToOwnedAssets.get(asset);
+    if (assetIDs.length == 0) {
+        await displayErrorMessage(`You do not have any ${asset}s!`);
+    }
+    else {
+        let svgMap = assetToSVGMaps.get(asset);
+        let assetsJSX = "";
+        for (let i = 0; i < assetIDs.length; i++) {
+            id = Number(assetIDs[i]);
+            svg = svgMap.get(id);
+            active = "";
+            if (single) {
+                if (id == currentlySelected) {
+                    active = "active";
+                }
+            }
+            else if (currentlySelected.has(id)) {
+                active = "active";
+            }
+            assetsJSX += `<div class='${asset}-div ${active}' id="${asset}-${id}" onclick="selectForAction(${id}, '${asset}', '${action}')">${svg}</div>`
+        }
+    
+        let fakeJSX = `<div id="${asset}-select"><div id="close-div"><span id="close" onclick='closeDisplay()'>x</span></div>${assetsJSX}<div class="selected-${asset}s-${action}" id="selected-${asset}s-big">Selected: None</div></div>`;
+        let height = $(document).height();
+        $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
+        $("body").append(fakeJSX);
+        
+        if (single) {
+            if (currentlySelected == null) {
+                $(`.selected-${asset}s-${action}`).text("Selected: None");
+            }
+            else {
+                $( `.selected-${asset}s-${action}`).text('Selected: ' + currentlySelected);
+            }
+        }
+        else {
+            if (currentlySelected.size == 0) {
+                $(`.selected-${asset}s-${action}`).text("Selected: None");
+            }
+            else {
+                let selectedString = `${Array.from(currentlySelected).sort((a, b) => a - b).join(' ')}`;
+                $( `.selected-${asset}s-${action}`).text('Selected: ' + selectedString);
+            }
+        }
+    }
+};
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

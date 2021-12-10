@@ -152,13 +152,10 @@
               <div class="w-row">
                 <div class="w-col w-col-6">
                   <div class="inside-text">Character to Level Up</div>
-                  <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="level-up-char" onchange="updateLevelUpPoints();$('#level-up-mes-req').text('-');">
-                      <option value="" disabled selected>ID</option>
-                    </select>
-                  </div>
+                  <div class="inside-text selected-characters-levelUpCharacter">Selected: None</div>
+                  <button onclick="displaySelect('character', 'levelUpCharacter')">SELECT CHARACTER</button>
                 </div>
-                <div class="w-col w-col-6">
+                <div class="w-col w-col-6"><br>
                   <div class="inside-text">Amount of Base Points</div>
                   <div class="mtm-number-input w-form">
                     <select data-name="level-up-amount" placeholder="Type" id="level-up-amount" onchange="getLevelUpCost()">
@@ -167,7 +164,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div><br>
             <button onclick="levelUpBasePoints()">LEVEL UP</button>
           </div>
         </div>
@@ -203,13 +200,10 @@
               <div class="w-row">
                 <div class="w-col w-col-4">
                   <div class="inside-text">Character to Upgrade</div>
-                  <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="upgrade-char" onchange="updateEquipmentUpgrade();$('#upgrade-mes-req').text('-');">
-                      <option value="" disabled selected>ID</option>
-                    </select>
-                  </div>
+                  <div class="inside-text selected-characters-equipCharacter">Selected: None</div>
+                  <button onclick="displaySelect('character', 'equipCharacter')">SELECT CHARACTER</button>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-4"><br>
                   <div class="inside-text">Equipment Type</div>
                 <div class="mtm-number-input w-form">
                   <select data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type" onchange="updateEquipmentUpgrade();$('#upgrade-mes-req').text('-');">
@@ -225,7 +219,7 @@
                   </select>
                 </div>
                 </div>
-                <div class="w-col w-col-4">
+                <div class="w-col w-col-4"><br>
                   <div class="inside-text">Upgrade Level</div>
                   <div class="mtm-number-input w-form">
                     <select data-name="upgrade-eq-amount" placeholder="Type" id="upgrade-eq-amount" onchange="getEquipmentUpgradeCost()">
@@ -234,7 +228,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div><br>
             <button onclick="upgradeEquipment()">UPGRADE</button>
           </div>
         </div>

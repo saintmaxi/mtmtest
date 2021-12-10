@@ -152,33 +152,23 @@
               <div class="w-row">
                 <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
-                  <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-mats-char" onchange="updateAugmentWithMats();getAugmentWithMatsCost($('#augment-transponders').val().split(',').length);">
-                      <option value="" disabled selected>ID</option>
-                    </select>
-                  </div>
+                  <div class="inside-text selected-characters-augmentWMatsCharacter">Selected: None</div>
+                  <button onclick="displaySelect('character', 'augmentWMatsCharacter')">SELECT CHARACTER</button>
                 </div>
-                </div>
+                </div><br>
               <div class="w-row">
                 <div class="w-col w-col-6">
                   <div class="inside-text">Transponder ID(s)</div>
-                  <div id="invalid-tp-burn"></div>
-                  <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-transponders" name="augment-transponders" data-name="augment-transponders" placeholder="Ex: 1,2,3... (NO SPACES)">
-                    </form>
-                  </div>
+                  <div class="inside-text selected-transponders-augmentTransponders">Selected: None</div>
+                  <button onclick="displaySelect('transponder', 'augmentTransponders')">SELECT TRANSPONDERS</button>
                 </div>
                 <div class="w-col w-col-6">
                   <div class="inside-text">Space Capsule ID(s)</div>
-                  <div id="invalid-sc-burn"></div>
-                  <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-capsules" name="augment-capsules" data-name="augment-capsules" placeholder="Ex: 1,2,3... (NO SPACES)">
-                    </form>
-                  </div>
+                  <div class="inside-text selected-capsules-augmentCapsules">Selected: None</div>
+                  <button onclick="displaySelect('capsule', 'augmentCapsules')">SELECT CAPSULES</button>
                 </div>
               </div>
+              <br>
             <button onclick="augmentCharacterWithMaterials()">AUGMENT</button>
 
             </div>
@@ -209,25 +199,18 @@
               <div class="w-row">
                 <div class="w-col w-col-12">
                   <div class="inside-text">Character to Augment</div>
-                  <div class="mtm-number-input w-form">
-                    <select class="character-select mtm-number-field" id="augment-char" onchange="updateAugment();getAugmentCost($('#augment-burn-chars').val().split(',').length);">
-                      <option value="" disabled selected>ID</option>
-                    </select>
-                  </div>
+                  <div class="inside-text selected-characters-augmentWCharCharacter">Selected: None</div>
+                  <button onclick="displaySelect('character', 'augmentWCharCharacter')">SELECT CHARACTER</button>
                 </div>
-                </div>
+                </div><br>
                 <div class="w-row">
                 <div class="w-col w-col-12">
                   <div class="inside-text">Character(s) to BURN</div>
-                  <div id="invalid-chars-burn"></div>
-                  <div class="mtm-number-input w-form">
-                    <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
-                      <input type="text" class="mtm-number-field w-input" id="augment-burn-chars" name="augment-burn-chars" data-name="augment-burn-chars" placeholder="Ex: 1,2,3... (NO SPACES)">
-                    </form>
-                  </div>
+                  <div class="inside-text selected-characters-augmentWCharBurnedChars">Selected: None</div>
+                  <button onclick="displaySelect('character', 'augmentWCharBurnedChars')">SELECT CHARACTERS</button>
                 </div>
               </div>
-            </div>
+            </div><br>
             <button onclick="augmentCharacter()">AUGMENT</button>
           </div>
         </div>

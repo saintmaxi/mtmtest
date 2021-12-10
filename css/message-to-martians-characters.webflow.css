@@ -45,12 +45,10 @@ body{
 
 #header-section{ 
   min-height:50px;
-  background:lightcyan; 
 }
 
 #footer-section{ 
   min-height:50px; 
-  background:PapayaWhip; 
 }
 
 .grid {
@@ -170,6 +168,95 @@ body{
   box-shadow: 0px 0px 105px 1px rgba(0,255,242,0.9), 0 0 5000px 5000px rgba(0,0,0,0.88);
 }
 
+#capsule-select, #transponder-select, #character-select {
+  background-color: black;
+  background-image: url("../images/stars.png");
+  background-position:0 0;
+  background-size:500px;
+  z-index: 9995;
+  color:white;
+  position:fixed;
+  top:5vh;
+  left: 50%;
+  padding-top: 20px;
+  padding-bottom: 0px;
+  transform: translate(-50%, 0);
+  width: 90vw;
+  height: 85vh;
+  -webkit-box-shadow:0px 0px 105px 1px rgba(0,255,242,0.9);
+  -moz-box-shadow: 0px 0px 105px 1px rgba(0,255,242,0.9);
+  box-shadow: 0px 0px 105px 1px rgba(0,255,242,0.9), 0 0 5000px 5000px rgba(0,0,0,0.88);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+#capsule-select #close, #transponder-select #close, #character-select #close {
+  padding: 1.1vw;
+}
+
+.capsule-div, .transponder-div, .character-div {
+  cursor: pointer !important;
+  width: 30% !important;
+  margin: .5%;
+}
+
+.capsule-div:hover, .transponder-div:hover, .character-div:hover {
+  cursor: pointer !important;
+}
+
+.capsule-div svg, .transponder-div svg, .character-div svg {
+  border: solid 5px white;
+  width: 100%;
+  height: 100%;
+}
+
+.transponder-div svg text {
+  font-size: 2vw;
+}
+
+.capsule-div svg:hover, .transponder-div svg:hover, .character-div svg:hover {
+  cursor: pointer !important;
+  -webkit-box-shadow:0px 0px 105px 1px rgba(0,255,242,0.9);
+  -moz-box-shadow: 0px 0px 105px 1px rgba(0,255,242,0.9);
+  box-shadow: 0px 0px 105px 1px rgba(0,255,242,0.9);
+}
+
+#close-div {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  background-color: black;
+}
+
+#selected-capsules-big, #selected-transponders-big, #selected-characters-big {
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  background-color: black;
+  border-top: solid 1px white;
+  font-size: 2vw;
+  padding: 20px;
+}
+
 #block-screen, #block-screen-error, #block-screen-status {
   z-index: 9990;
   width: 100vw;
@@ -177,8 +264,11 @@ body{
   position: absolute;
 }
 
+.active svg{
+  border-color: #00fff2;
+}
 
-#block-screen, #block-screen-error, #block-screen-status {
+#block-screen-error, #block-screen-status {
   z-index: 9998;
 }
 
@@ -562,6 +652,25 @@ fill:red;
 @media screen and (max-width: 767px) {
   #equip-stats {
     width: 66%;
+  }
+
+  .capsule-div, .transponder-div, .character-div {
+    width: 90% !important;
+    margin-top: 2.5%;
+  }
+
+  #selected-capsules-big, #selected-transponders-big, #selected-characters-big {
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    background-color: black;
+    border-top: solid 1px white;
+    font-size: 3vh;
+    padding: 20px;
+  }
+
+  .transponder-div svg text {
+    font-size: 3vh;
   }
 
   .columns {
