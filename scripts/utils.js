@@ -456,7 +456,7 @@ const displaySelect = async(asset, action) => {
             assetsJSX += `<div class='${asset}-div ${active}' id="${asset}-${id}" onclick="selectForAction(${id}, '${asset}', '${action}')">${svg}<h2>${id}</h2></div>`
         }
     
-        let fakeJSX = `<div id="${asset}-select"><div id="close-div"><span id="close" onclick='closeDisplay()'>x</span></div>${assetsJSX}<div id='bottom-div'><div class="selected-${asset}s-${action}" id="selected-${asset}s-big">Selected: None</div><button id='confirm' onclick="closeDisplay()">CONFIRM</button></div></div>`;
+        let fakeJSX = `<div id="${asset}-select"><div id="close-div"><span id="close" onclick='closeDisplay()'>x</span></div>${assetsJSX}<div id='bottom-div'><div class="selected-${asset}s-${action}" id="selected-${asset}s-big">Selected: None</div><br class="hide-on-mobile"><button id='confirm' onclick="closeDisplay()">CONFIRM</button></div></div>`;
         let height = $(document).height();
         $("body").append(`<div id='block-screen' style="height:${height}px" onclick='closeDisplay()'></div>`);
         $("body").append(fakeJSX);
