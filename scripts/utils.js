@@ -439,6 +439,10 @@ const displaySelect = async(asset, action) => {
         for (let i = 0; i < assetIDs.length; i++) {
             id = Number(assetIDs[i]);
             svg = svgMap.get(id);
+            if (!svg) {
+                await displayStatusMessage(`Still loading ${asset}s! Please wait a moment and try again...`)
+                return;
+            }
             active = "";
             if (single) {
                 if (id == currentlySelected) {

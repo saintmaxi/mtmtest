@@ -73,6 +73,7 @@ const openseaBase = `https://api.opensea.io/api/v1/asset/${charactersAddress}`;
 
 // const etherscanBase = `https://rinkeby.etherscan.io/tx/`;
 
+// const openseaBase = `https://api.opensea.io/api/v1/asset/${charactersAddress}`;
 
 /*********************************END CONFIG************************************/
 
