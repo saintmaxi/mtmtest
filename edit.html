@@ -40,7 +40,7 @@
         <div class="w-col w-col-2">
           <a href="augment.html"><button onclick="cachePendingTransactions()">AUGMENT</button></a>
         </div>
-        <div class="w-col w-col-2">
+        <div id="upgrade-button-div" class="w-col w-col-2">
           <a href="upgrade.html"><button onclick="cachePendingTransactions()">UPGRADE</button></a>
         </div>
         <div class="w-col w-col-2">
@@ -87,7 +87,7 @@
       </div><br class="hide-on-desktop">
   </div>
   <main>
-  <h1 class="section-head">Upgrade Character</h1>
+  <h1 class="section-head">Edit Character</h1>
   <div class="section wf-section">
     <div class="w-container">
       <h3 class="section-head">Your Inventory</h3>
@@ -132,20 +132,19 @@
       <div class="w-row">
         <div class="w-col w-col-6">
           <div>
-            <h2 class="section-item">Level Up Base Points</h2>
-            <div id="level-up-char-img"></div>
-            <div id="level-up-char-stats"></div>
+            <h2 class="section-item">Change Biography</h2>
+            <div id="change-bio-img"></div>
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div id="level-up-mes-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="level-up-mes-req">-</span></div>
+                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span>20</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-2">
                   <div class="inside-text">
-                    <select id="level-up-use-credits">
+                    <select id="change-bio-use-credits">
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
@@ -153,47 +152,36 @@
                 </div>
               </div>
               <div class="w-row">
-                <div class="w-col w-col-6">
-                  <div class="inside-text">Character to Level Up</div>
-                  <div class="inside-text selected-characters-levelUpCharacter">Selected: None</div>
-                  <button onclick="displaySelect('character', 'levelUpCharacter')">SELECT CHARACTER</button>
+                <div class="w-col w-col-12">
+                  <div class="inside-text">Character to Edit</div>
+                  <div class="inside-text selected-characters-changeBio">Selected: None</div>
+                  <button onclick="displaySelect('character', 'changeBio')">SELECT CHARACTER</button>
                 </div>
-                <div class="w-col w-col-6"><br>
-                  <div class="inside-text">Amount of Base Points</div>
-                  <div class="mtm-number-input w-form">
-                    <select data-name="level-up-amount" placeholder="Type" id="level-up-amount" onchange="getLevelUpCost()">
-                      <option value="" selected disabled>-</option>
-                    </select>
-                  </div>
-                </div>
+                </div><br>
+              <div class="w-row">
+                <textarea id='change-bio-input' placeholder="&#10;Keep blank to reset"></textarea>
               </div>
-            </div><br>
-            <button onclick="levelUpBasePoints()">LEVEL UP</button>
+              <br>
+            <button onclick="changeCharacterBio()">CHANGE BIOGRAPHY</button>
+
+            </div>
           </div>
         </div>
         <div class="w-col w-col-6">
           <div>
-            <h2 class="section-item">Upgrade Equipment</h2>
-            <div id="upgrade-equip-img"></div>
-            <div class="w-row" id="equip-stats">
-              <div class="w-col w-col-6">
-                <div class="inside-text" id="equip-stats-1"></div>
-              </div>
-              <div class="w-col w-col-6">
-                <div class="inside-text" id="equip-stats-2"></div>
-              </div>
-            </div>
+            <h2 class="section-item">Change Name</h2>
+            <div id="change-name-img"></div>
             <div>
               <div class="mes-selector w-row">
                 <div class="w-col w-col-6">
-                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span id="upgrade-mes-req">-</span></div>
+                  <div class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span>5</span></div>
                 </div>
                 <div class="w-col w-col-3">
                   <div class="inside-text">Use Credits:</div>
                 </div>
                 <div class="w-col w-col-2">
                   <div class="inside-text">
-                    <select id="equipment-use-credits">
+                    <select id="change-name-use-credits">
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
@@ -201,44 +189,136 @@
                 </div>
               </div>
               <div class="w-row">
-                <div class="w-col w-col-4">
-                  <div class="inside-text">Character to Upgrade</div>
-                  <div class="inside-text selected-characters-equipCharacter">Selected: None</div>
-                  <button onclick="displaySelect('character', 'equipCharacter')">SELECT CHARACTER</button>
+                <div class="w-col w-col-12">
+                  <div class="inside-text">Character to Edit</div>
+                  <div class="inside-text selected-characters-changeName">Selected: None</div>
+                  <button onclick="displaySelect('character', 'changeName')">SELECT CHARACTER</button>
                 </div>
-                <div class="w-col w-col-4"><br>
-                  <div class="inside-text">Equipment Type</div>
-                <div class="mtm-number-input w-form">
-                  <select data-name="upgrade-eq-type" placeholder="Type" id="upgrade-eq-type" onchange="updateEquipmentUpgrade();$('#upgrade-mes-req').text('-');">
-                    <option value="" disabled selected>Type</option>
-                    <option value="1">Weapon</option>
-                    <option value="2">Chest</option>
-                    <option value="3">Head</option>
-                    <option value="4">Legs</option>
-                    <option value="5">Vehicle</option>
-                    <option value="6">Arms</option>
-                    <option value="7">Artifact</option>
-                    <option value="8">Ring</option>
-                  </select>
-                </div>
-                </div>
-                <div class="w-col w-col-4"><br>
-                  <div class="inside-text">Upgrade Level</div>
-                  <div class="mtm-number-input w-form">
-                    <select data-name="upgrade-eq-amount" placeholder="Type" id="upgrade-eq-amount" onchange="getEquipmentUpgradeCost()">
-                      <option value="" selected disabled>-</option>
-                    </select>
-                  </div>
+                </div><br>
+                <div class="w-row">
+                <div class="w-col w-col-12">
+                  <input class='edit-input' id='change-name-input' placeholder="Keep blank to reset">
                 </div>
               </div>
             </div><br>
-            <button onclick="upgradeEquipment()">UPGRADE</button>
+            <button onclick="changeCharacterName()">CHANGE NAME</button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <br>
+  <div class="section wf-section">
+    <div class="inside-container w-container">
+      <br>
+      <div class="w-row">
+        <div class="w-col w-col-6">
+          <div>
+            <h2 class="section-item">Reroll Race</h2>
+            <div id="reroll-race-img"></div>
+            <div>
+              <div class="mes-selector w-row">
+                <div class="w-col w-col-6">
+                  <div id="reroll-race-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span>10</span></div>
+                </div>
+                <div class="w-col w-col-3">
+                  <div class="inside-text">Use Credits:</div>
+                </div>
+                <div class="w-col w-col-2">
+                  <div class="inside-text">
+                    <select id="reroll-race-use-credits">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="w-row">
+                <div class="w-col w-col-12">
+                  <div class="inside-text">Character to Edit</div>
+                  <div class="inside-text selected-characters-rerollRace">Selected: None</div>
+                  <button onclick="displaySelect('character', 'rerollRace')">SELECT CHARACTER</button>
+                </div>
+                </div><br>
+            <button onclick="rerollCharacterRace()">REROLL RACE</button>
+
+            </div>
+          </div>
+        </div>
+        <div class="column w-col w-col-6">
+            <div>
+              <h2 class="section-item">Upload Race</h2>
+              <div id="upload-race-img"></div>
+            <div>
+              <div class="mes-selector w-row">
+                <div class="w-col w-col-6">
+                  <div id="upload-race-price" class="inside-text"><img src="./images/mes.png" width="30px"> Required: <span>50</span></div>
+                </div>
+                <div class="w-col w-col-3">
+                  <div class="inside-text">Use Credits:</div>
+                </div>
+                <div class="w-col w-col-2">
+                  <div class="inside-text">
+                    <select id="upload-race-use-credits">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="columns w-row">
+                    <div class="w-col w-col-12">
+                        <div class="inside-text">Character to Edit</div>
+                        <div class="inside-text selected-characters-uploadRace">Selected: None</div>
+                        <button onclick="displaySelect('character', 'uploadRace')">SELECT CHARACTER</button>
+                    </div>
+                  </div><br>
+                <div class="columns w-row">
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Race to Upload</div>
+                    <div class="mtm-number-input w-form">
+                      <select id="upload-race-type">
+                        <option value="" disabled selected>Type</option>
+                        <option value="0x57a204AA1042f6E66DD7730813f4024114d74f37">CyberKongz</option>
+                        <option value="0xbad6186E92002E312078b5a1dAfd5ddf63d3f731">Anonymice</option>
+                        <option value="0x15cc16bfe6fac624247490aa29b6d632be549f00">Anonymice Baby</option>
+                        <option value="0x3aBEDBA3052845CE3f57818032BFA747CDED3fca">EtherOrcs</option>
+                        <option value="0x5754f44bC96F9F0Fe1a568253452a3F40F5e9F59">CryptoHoots</option>
+
+                        <option value="0x1A92f7381B9F03921564a437210bB9396471050C">Cool Cats</option>
+                        <option value="0x0c2E57EFddbA8c768147D1fdF9176a0A6EBd5d83">Kaiju Kingz</option>
+                        <option value="0x1CB1A5e65610AEFF2551A50f76a87a7d3fB649C6">Cryptoadz</option>
+
+                        <option value="0x12d2D1beD91c24f878F37E66bd829Ce7197e4d14">Galactic Apes</option>
+                        <option value="0xF4ee95274741437636e748DdAc70818B4ED7d043">The Doge Pound</option>
+                        <option value="0xc92cedDfb8dd984A89fb494c376f9A48b999aAFc">Creature World</option>
+                        <option value="0x3Fe1a4c1481c8351E91B64D5c398b159dE07cbc5">SupDucks</option>
+                        <option value="0x4bb33f6e69fd62cf3abbcc6f1f43b94a5d572c2b">Bears Deluxe</option>
+                        <!-- <option value="0xe96f4b17ec2ad20d8887e8af628e03dab62e17ff">Testnet Character</option>
+                        <option value="0x42d863Ee2c920dbd6686091cb4d342c8793A7D68">Testnet Character 2</option>
+                        <option value="0x59ed1E48e5fe6668e5755c1807fDC9cf23722530">Testnet Character 3</option> -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="w-col w-col-6">
+                    <div class="inside-text">Upload ID</div>
+                    <div class="mtm-number-input w-form">
+                      <form id="wf-form-MTM-Form" name="wf-form-MTM-Form" data-name="MTM Form">
+                        <input type="number" class="mtm-number-field w-input" maxlength="256" id="upload-race-id" name="upload-race-id" min="0" data-name="upload-race-id" placeholder="Upload ID">
+                      </form>
+                      <div class="w-form-done"></div>
+                      <div class="w-form-fail"></div>
+                    </div>
+                  </div>
+                </div>
+                <button onclick="uploadCharacterRace()">UPLOAD RACE</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 </main>
   <div class="footer-section wf-section">
       <br>
@@ -252,7 +332,7 @@
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
   <!-- Ethers -->
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-  <script src="./scripts/utils.js"></script>     
+  <script src="./scripts/utils.js"></script>    
   <!-- Ethers Implementation -->
   <script src="./scripts/ethers.js"></script>
 </body>

@@ -21,44 +21,47 @@
 </head>
 <body class="body">
   <div class="header-section wf-section">
-    <div class="w-container">
+    <div>
       <div class="w-row">
         <div class="w-col w-col-12">
           <h1 class="section-head">MESSAGE TO MARTIANS</h1>
         </div>
       </div>
       <div class="w-row" id="directory">
-        <div class="w-col w-col-13">
+        <div class="w-col w-col-2">
           <a href="index.html"><button onclick="cachePendingTransactions()">HOME</button></a>
         </div>
-        <div class="w-col w-col-13">
+        <div class="w-col w-col-2">
           <a href="my-characters.html"><button onclick="cachePendingTransactions()">MY CHARACTERS</button></a>
         </div>
-        <div class="w-col w-col-13">
+        <div class="w-col w-col-2">
           <a href="beam.html"><button onclick="cachePendingTransactions()">BEAM</button></a>
         </div>
-        <div class="w-col w-col-13">
+        <div class="w-col w-col-2">
           <a href="augment.html"><button onclick="cachePendingTransactions()">AUGMENT</button></a>
         </div>
-        <div id="upgrade-button-div" class="w-col w-col-13">
+        <div class="w-col w-col-2">
           <a href="upgrade.html"><button onclick="cachePendingTransactions()">UPGRADE</button></a>
         </div>
+        <div class="w-col w-col-2">
+          <a href="edit.html"><button onclick="cachePendingTransactions()">EDIT</button></a>
+        </div>
       </div><br>
-      <div class="w-row">
-        <div class="w-col w-col-4 navbar-container">
+      <div class="w-row" id="mes-ui-info" style="display: flex;justify-content: center">
+        <div class="w-col navbar-container">
           <div class="navbar-text">Daily Yield:</div>
           <div id="your-yield-rate" class="navbar-text">- <img src="./images/mes.png" width="30px"></div>
         </div>
-        <div class="w-col w-col-4 navbar-container">
+        <div class="w-col navbar-container">
           <div class="navbar-text">Balance:</div>
           <div class="navbar-text" id="your-mes">- <img src="./images/mes.png" width="30px"></div>
         </div>
-        <div class="w-col w-col-4 navbar-container">
+        <div class="w-col navbar-container">
           <div class="navbar-text">Credits:</div>
           <div id="your-mes-credits" class="navbar-text">- <img src="./images/mes.png" width="30px"></div>
         </div>
-        <div class="w-col w-col-2">
-            <button id="mobile-account" href="#" class="clickable hide-on-desktop" onclick=connect()>CONNECT WALLET</button>
+        <div class="w-col w-col-2 hide-on-desktop">
+          <button id="mobile-account" href="#" class="clickable" onclick=connect()>CONNECT WALLET</button>
         </div>
       </div>
     </div>

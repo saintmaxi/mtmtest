@@ -109,9 +109,12 @@ var selectedForAction = new Map([['beamTransponders', new Set()], ['beamCapsules
                                 ['uploadTransponder', null], ['uploadCapsule', null], 
                                 ['augmentTransponders', new Set()], ['augmentCapsules', new Set()],
                                 ['augmentWMatsCharacter', null], ['augmentWCharCharacter', null],
-                                ['augmentWCharBurnedChars', new Set()], ['equipCharacter', null], ['levelUpCharacter', null]]);
+                                ['augmentWCharBurnedChars', new Set()], ['equipCharacter', null], ['levelUpCharacter', null],
+                                ['changeBio', null], ['changeName', null],
+                                ['rerollRace', null], ['uploadRace', null]]);
 
-const oneSelectionMax = new Set(['uploadCapsule', 'uploadTransponder', 'augmentWMatsCharacter', 'augmentWCharCharacter', 'equipCharacter', 'levelUpCharacter'])
+const oneSelectionMax = new Set(['uploadCapsule', 'uploadTransponder', 'augmentWMatsCharacter', 'augmentWCharCharacter', 'equipCharacter', 
+                                    'levelUpCharacter', 'changeBio', 'changeName', 'rerollRace', 'uploadRace'])
 
 async function selectForAction(id, asset, action) {
     if (oneSelectionMax.has(action)) { //add all the character single ones as well to this and selectedforaction
@@ -326,6 +329,50 @@ const updateEquipmentUpgrade = async() => {
     }
 };
 
+const updateCharBioImage = async() => {
+    const id = selectedForAction.get('changeBio');
+    if (id !== null) {
+        $("#change-bio-img").empty();
+        $("#change-bio-img").append(await isolateIMG(id, 'change-bio-svg'));
+        $("#change-bio-img").attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("change-bio-svg");
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
+    }
+};
+
+const updateCharNameImage = async() => {
+    const id = selectedForAction.get('changeName');
+    if (id !== null) {
+        $("#change-name-img").empty();
+        $("#change-name-img").append(await isolateIMG(id, 'change-name-svg'));
+        $("#change-name-img").attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("change-name-svg");
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
+    }
+};
+
+const updateRerollRaceImage = async() => {
+    const id = selectedForAction.get('rerollRace');
+    if (id !== null) {
+        $("#reroll-race-img").empty();
+        $("#reroll-race-img").append(await isolateIMG(id, 'reroll-race-svg'));
+        $("#reroll-race-img").attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("reroll-race-svg");
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
+    }
+};
+
+const updateUploadRaceImage = async() => {
+    const id = selectedForAction.get('uploadRace');
+    if (id !== null) {
+        $("#upload-race-img").empty();
+        $("#upload-race-img").append(await isolateIMG(id, 'upload-race-svg'));
+        $("#upload-race-img").attr("onclick",`displayCharacter(${id})`);
+        let charIMG = document.getElementById("upload-race-svg");
+        charIMG.setAttribute('viewBox', '0 0 ' + 1200 + ' ' + 830);
+    }
+};
+
 const augmentCosts = new Map([[0, 0], [1, 1], [2, 2], [3, 5], [4, 10], [5, 15], [6, 25], [7, 50], [8, 100], [9, 250]]);
 
 const getAugmentCost = async(desiredAugments) => {
@@ -424,7 +471,9 @@ const isolateIMG = async(id, elemID) => {
 }
 
 const actionToDisplayUpdate = new Map([ ['augmentWMatsCharacter', updateAugmentWithMats], ['augmentWCharCharacter', updateAugment],
-                                        ['levelUpCharacter', updateLevelUpPoints], ['equipCharacter', updateEquipmentUpgrade]]);
+                                        ['levelUpCharacter', updateLevelUpPoints], ['equipCharacter', updateEquipmentUpgrade],
+                                        ['changeBio', updateCharBioImage ], ['changeName', updateCharNameImage],
+                                        ['rerollRace', updateRerollRaceImage], ['uploadRace', updateUploadRaceImage]]);
 
 const displaySelect = async(asset, action) => {
     const currentlySelected = selectedForAction.get(action);

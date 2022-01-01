@@ -727,6 +727,178 @@ const upgradeEquipment = async() => {
     }
 };
 
+const changeCharacterBio = async() => {
+    const characterID = selectedForAction.get('changeBio');
+    const bio = $("#change-bio-input").val();
+    const useCredits = $("#change-bio-use-credits option:selected").val() === "Yes" ? true : false;
+    
+    if (characterID == null) {
+        await displayErrorMessage("Error: Select a character.")
+    }
+    else {
+        try {
+            await charactersController.changeBio(characterID, bio, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                provider.once(tx_.hash, async(tx__) => {
+                    if (selectedForAction.get('changeBio') == characterID || !(selectedForAction.get('changeBio'))) {
+                        await updateCharBioImage();
+                        selectedForAction.set('changeBio', null);
+                        $("selected-characters-changeBio").text("Selected: None");
+                        $("#change-bio-input").val('');
+                    }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
+                });            
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("unallowed characters")) {
+                await displayErrorMessage(`Error: Biography contains forbidden characters!`);
+            }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
+    }
+};
+
+const changeCharacterName = async() => {
+    const characterID = selectedForAction.get('changeName');
+    const name = $("#change-name-input").val();
+    const useCredits = $("#change-name-use-credits option:selected").val() === "Yes" ? true : false;
+    
+    if (characterID == null) {
+        await displayErrorMessage("Error: Select a character.")
+    }
+    else {
+        try {
+            await charactersController.changeName(characterID, name, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                provider.once(tx_.hash, async(tx__) => {
+                    if (selectedForAction.get('changeName') == characterID || !(selectedForAction.get('changeName'))) {
+                        await updateCharNameImage();
+                        selectedForAction.set('changeName', null);
+                        $("selected-characters-changeName").text("Selected: None");
+                        $("#change-name-input").val('');
+                    }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
+                });            
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("unallowed characters")) {
+                await displayErrorMessage(`Error: Biography contains forbidden characters!`);
+            }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
+    }
+};
+
+const rerollCharacterRace = async() => {
+    const characterID = selectedForAction.get('rerollRace');
+    const useCredits = $("#change-name-use-credits option:selected").val() === "Yes" ? true : false;
+    
+    if (characterID == null) {
+        await displayErrorMessage("Error: Select a character.")
+    }
+    else {
+        try {
+            await charactersController.rerollRace(characterID, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                provider.once(tx_.hash, async(tx__) => {
+                    if (selectedForAction.get('rerollRace') == characterID || !(selectedForAction.get('rerollRace'))) {
+                        await updateRerollRaceImage();
+                        selectedForAction.set('rerollRace', null);
+                        $("selected-characters-rerollRace").text("Selected: None");
+                    }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
+                });            
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
+    }
+};
+
+const uploadCharacterRace = async() => {
+    const characterID = selectedForAction.get('uploadRace');
+    const contractAddress = $("#upload-race-type option:selected").val();
+    const uploadID = $("#upload-race-id").val();
+    const useCredits = $("#upload-race-use-credits option:selected").val() === "Yes" ? true : false;
+    
+    if (characterID == null || !contractAddress || uploadID == '') {
+        await displayErrorMessage("Error: Enter all required fields.")
+        console.log(characterID, contractAddress, uploadID)
+    }
+    else {
+        try {
+            await charactersController.uploadRace(characterID, contractAddress, uploadID, useCredits).then( async(tx_) => {
+                await waitForTransaction(tx_);
+                provider.once(tx_.hash, async(tx__) => {
+                    if (selectedForAction.get('uploadRace') == characterID || !(selectedForAction.get('uploadRace'))) {
+                        await updateUploadRaceImage();
+                        selectedForAction.set('uploadRace', null);
+                        $("selected-characters-uploadRace").text("Selected: None");
+                    }
+                    const url = `${openseaBase}/${characterID}/?force_update=true`;
+                    await fetch(url);
+                });            
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("Character type is not uploadable")) {
+                await displayErrorMessage(`Error: Character type is not uploadable!!`);
+            }
+            else if ((error.message).includes("Unowned") || (error.message).includes("owner query for nonexistent token") || (error.message).includes("You don't own this character")) {
+                await displayErrorMessage(`Error: You must own the specified transponder, capsule, and character!`)
+            }
+            else if ((error.message).includes("not owner nor approved")) {
+                await displayErrorMessage(`Error: Approve Transponders and Capsules to Characters!`)
+            }
+            else if ((error.message).includes("This character has already been uploaded!")) {
+                await displayErrorMessage(`Error: This character has already been uploaded!`)
+            }
+            else if ((error.message).includes("Not enough MES credits")) {
+                await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+            }
+            else if ((error.message).includes("Not enough MES to")) {
+                await displayErrorMessage(`Error: Insufficient $MES for action!`);
+            }
+            else {
+                console.log(error);
+            }
+        }
+    }
+};
+
 // Processing txs
 
 // After Tx Hook
