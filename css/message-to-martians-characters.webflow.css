@@ -75,6 +75,12 @@ body{
   width: 20%;
 }
 
+.section-description {
+  width: 75%;
+  margin-right: 12.5%;
+  margin-left: 12.5%;
+}
+
 #account, #mobile-account {
   color: black;
   background-color: #F72119;
@@ -712,6 +718,13 @@ fill:red;
 }
 
 @media screen and (max-width: 767px) {
+
+  .section-description {
+    width: 94%;
+    margin-right: 3%;
+    margin-left: 3%;
+  }
+
   #equip-stats {
     width: 66%;
   }
