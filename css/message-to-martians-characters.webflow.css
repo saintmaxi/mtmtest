@@ -455,6 +455,15 @@ svg:nth-child(2) {
   height:40px;
 }
 
+#looksrare {
+  position: absolute;
+  cursor: pointer;
+  top: 3px;
+  margin-left: 60px;
+  width:40px;
+  height:40px;
+}
+
 .hide-on-desktop {
   display: none;
 }
@@ -784,7 +793,7 @@ fill:red;
   #twitter {
     position: absolute;
     top: 1px;
-    right: 38px;;
+    right: 34px;;
     width:6.3vw;
     height:6.3vw;
     margin-left: 8px;
@@ -793,7 +802,15 @@ fill:red;
   #opensea {
     position: absolute;
     top: 1px;
-    right: 74px;;
+    right: 64px;;
+    width:6.1vw;
+    height:6.1vw;
+  }
+
+  #looksrare {
+    position: absolute;
+    top: 1px;
+    right: 94px;;
     width:6.1vw;
     height:6.1vw;
   }
