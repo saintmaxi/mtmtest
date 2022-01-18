@@ -277,10 +277,22 @@ const migrateMEScredits = async() => {
         await displayErrorMessage("You are already migrated!");
     }
     else {
-        const user = [await getAddress()];
-        await MES.migrateRewards(user).then( async(tx_) => {
-            await waitForTransaction(tx_);
-        });
+        try {
+            const user = [await getAddress()];
+            await MES.migrateRewards(user).then( async(tx_) => {
+                await waitForTransaction(tx_);
+            });
+        }
+        catch (error) {
+            if ((error.message).includes("You have already migrated")) {
+                await displayErrorMessage("Error: You have already migrated!")
+            }
+            else {
+                await displayErrorMessage("An unexpected error occurred. See alert message for more info...")
+                window.alert(error);
+                console.log(error);
+            }
+        }
     }
 }
 
