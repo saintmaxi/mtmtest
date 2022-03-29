@@ -1047,11 +1047,11 @@ const updateInfo = async() => {
         $("#account").addClass("connected-account");
         $("#mobile-account").addClass("connected-account");
     }
-    await checkIfMigrated();
+    let hasMigrated = await checkIfMigrated();
     $("#your-yield-rate").html(`${await getMESYieldRate(_address)} <img src="./images/mes.png" width="30px">`);
     $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);
     let button;
-    if (migrated) {
+    if (hasMigrated) {
         button = `<span id="claim-mes-button" onclick="claimMEScredits()">CLAIM</span>`;
     }
     else {
@@ -1068,9 +1068,11 @@ const checkIfMigrated = async() => {
     let hasMigrated = (await MES.addressToYield(userAddress)).lastUpdatedTime_ > 0;
     if (hasMigrated) {
         migrated = true;
+        return true;
     }
     else {
         migrated = false;
+        return false;
     }
 }
 
