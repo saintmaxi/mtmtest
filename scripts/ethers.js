@@ -1065,10 +1065,9 @@ const updateInfo = async() => {
 
 const checkIfMigrated = async() => {
     let userAddress = await getAddress();
-    let newMESyield = await MES.getYieldRateOfAddress(userAddress);
-    if (newMESyield > 0) {
+    let hasMigrated = (await MES.addressToYield(userAddress)).lastUpdatedTime_ > 0;
+    if (hasMigrated) {
         migrated = true;
-
     }
     else {
         migrated = false;
